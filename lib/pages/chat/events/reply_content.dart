@@ -1,9 +1,9 @@
-import 'package:extera_next/config/setting_keys.dart';
 import 'package:flutter/material.dart';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:matrix/matrix.dart';
 
+import 'package:extera_next/config/setting_keys.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/utils/matrix_sdk_extensions/matrix_locals.dart';
 import '../../../config/app_config.dart';
 
@@ -36,7 +36,8 @@ class ReplyContent extends StatelessWidget {
     final displayEvent = timeline != null
         ? replyEvent.getDisplayEvent(timeline)
         : replyEvent;
-    final fontSize = AppSettings.fontSizeFactor.value * AppSettings.messageFontSize.value;
+    final fontSize =
+        AppSettings.fontSizeFactor.value * AppSettings.messageFontSize.value;
 
     final color = theme.brightness == Brightness.dark
         ? (noBubble

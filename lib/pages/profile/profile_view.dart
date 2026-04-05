@@ -1,3 +1,10 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:go_router/go_router.dart';
+import 'package:matrix/matrix.dart';
+
 import 'package:extera_next/config/app_config.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/chat_list/chat_list_item.dart';
@@ -13,11 +20,6 @@ import 'package:extera_next/widgets/matrix.dart';
 import 'package:extera_next/widgets/mxc_image.dart';
 import 'package:extera_next/widgets/mxc_image_viewer.dart';
 import 'package:extera_next/widgets/presence_builder.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_linkify/flutter_linkify.dart';
-import 'package:go_router/go_router.dart';
-import 'package:matrix/matrix.dart';
 
 class ProfileView extends StatelessWidget {
   final ProfileController controller;
@@ -331,7 +333,7 @@ class ProfileView extends StatelessWidget {
                 ],
               ),
             ),
-            
+
             Padding(
               padding: const .symmetric(horizontal: 8),
               child: Column(

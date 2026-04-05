@@ -1,21 +1,13 @@
 import 'dart:async';
 
-import 'package:extera_next/pages/bootstrap/bootstrap_dialog.dart';
-import 'package:extera_next/pages/chat_privacy/chat_privacy.dart';
-import 'package:extera_next/pages/chat_thread/thread.dart';
-import 'package:extera_next/pages/chat_threads/chat_threads.dart';
-import 'package:extera_next/pages/chat_widgets/chat_widgets.dart';
-import 'package:extera_next/pages/intro/intro_page.dart';
-import 'package:extera_next/pages/notifications/notifications.dart';
-import 'package:extera_next/pages/profile/profile.dart';
-import 'package:extera_next/pages/settings_ringtone/settings_ringtone.dart';
-import 'package:extera_next/pages/sign_in/sign_in_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
+import 'package:matrix/matrix.dart';
 
 import 'package:extera_next/config/themes.dart';
 import 'package:extera_next/pages/archive/archive.dart';
+import 'package:extera_next/pages/bootstrap/bootstrap_dialog.dart';
 import 'package:extera_next/pages/chat/chat.dart';
 import 'package:extera_next/pages/chat_access_settings/chat_access_settings_controller.dart';
 import 'package:extera_next/pages/chat_details/chat_details.dart';
@@ -23,12 +15,19 @@ import 'package:extera_next/pages/chat_encryption_settings/chat_encryption_setti
 import 'package:extera_next/pages/chat_list/chat_list.dart';
 import 'package:extera_next/pages/chat_members/chat_members.dart';
 import 'package:extera_next/pages/chat_permissions_settings/chat_permissions_settings.dart';
+import 'package:extera_next/pages/chat_privacy/chat_privacy.dart';
 import 'package:extera_next/pages/chat_search/chat_search_page.dart';
+import 'package:extera_next/pages/chat_thread/thread.dart';
+import 'package:extera_next/pages/chat_threads/chat_threads.dart';
+import 'package:extera_next/pages/chat_widgets/chat_widgets.dart';
 import 'package:extera_next/pages/device_settings/device_settings.dart';
+import 'package:extera_next/pages/intro/intro_page.dart';
 import 'package:extera_next/pages/invitation_selection/invitation_selection.dart';
 import 'package:extera_next/pages/login/login.dart';
 import 'package:extera_next/pages/new_group/new_group.dart';
 import 'package:extera_next/pages/new_private_chat/new_private_chat.dart';
+import 'package:extera_next/pages/notifications/notifications.dart';
+import 'package:extera_next/pages/profile/profile.dart';
 import 'package:extera_next/pages/settings/settings.dart';
 import 'package:extera_next/pages/settings_3pid/settings_3pid.dart';
 import 'package:extera_next/pages/settings_chat/settings_chat.dart';
@@ -39,15 +38,16 @@ import 'package:extera_next/pages/settings_ignore_list/settings_ignore_list.dart
 import 'package:extera_next/pages/settings_multiple_emotes/settings_multiple_emotes.dart';
 import 'package:extera_next/pages/settings_notifications/settings_notifications.dart';
 import 'package:extera_next/pages/settings_password/settings_password.dart';
+import 'package:extera_next/pages/settings_ringtone/settings_ringtone.dart';
 import 'package:extera_next/pages/settings_security/settings_security.dart';
 import 'package:extera_next/pages/settings_style/settings_style.dart';
+import 'package:extera_next/pages/sign_in/sign_in_page.dart';
 import 'package:extera_next/widgets/config_viewer.dart';
 import 'package:extera_next/widgets/layouts/empty_page.dart';
 import 'package:extera_next/widgets/layouts/two_column_layout.dart';
 import 'package:extera_next/widgets/log_view.dart';
 import 'package:extera_next/widgets/matrix.dart';
 import 'package:extera_next/widgets/share_scaffold_dialog.dart';
-import 'package:matrix/matrix.dart';
 
 abstract class AppRoutes {
   static FutureOr<String?> loggedInRedirect(

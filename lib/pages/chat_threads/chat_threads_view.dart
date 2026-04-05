@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+
+import 'package:matrix/matrix.dart';
+
 import 'package:extera_next/config/app_config.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/chat_threads/chat_threads.dart';
@@ -5,8 +9,6 @@ import 'package:extera_next/utils/date_time_extension.dart';
 import 'package:extera_next/utils/matrix_sdk_extensions/matrix_locals.dart';
 import 'package:extera_next/widgets/avatar.dart';
 import 'package:extera_next/widgets/layouts/max_width_body.dart';
-import 'package:flutter/material.dart';
-import 'package:matrix/matrix.dart';
 
 class ChatThreadsView extends StatelessWidget {
   final ChatThreadsController controller;
@@ -54,7 +56,9 @@ class ChatThreadsView extends StatelessWidget {
         itemCount: controller.threads.length,
         itemBuilder: (context, index) {
           final thread = controller.threads[index];
-          final th = controller.threadsMap?.values.firstWhere((t) => t.rootEvent.eventId == thread.eventId);
+          final th = controller.threadsMap?.values.firstWhere(
+            (t) => t.rootEvent.eventId == thread.eventId,
+          );
           return _ThreadListItem(
             thread: thread,
             room: room,

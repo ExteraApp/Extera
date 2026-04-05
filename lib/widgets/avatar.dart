@@ -1,8 +1,8 @@
-import 'package:extera_next/config/setting_keys.dart';
 import 'package:flutter/material.dart';
 
 import 'package:matrix/matrix.dart';
 
+import 'package:extera_next/config/setting_keys.dart';
 import 'package:extera_next/utils/string_color.dart';
 import 'package:extera_next/widgets/mxc_image.dart';
 import 'package:extera_next/widgets/presence_builder.dart';
@@ -41,15 +41,18 @@ class Avatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 1. Calculate expensive or logic-heavy primitives once
-    final borderRadius = this.borderRadius ??
-        BorderRadius.circular((size / 2) * AppSettings.avatarBorderRadius.value);
-        
+    final borderRadius =
+        this.borderRadius ??
+        BorderRadius.circular(
+          (size / 2) * AppSettings.avatarBorderRadius.value,
+        );
+
     // 2. Wrap the layout in a Stack
     final container = Stack(
       children: [
         // 3. Optimization: RepaintBoundary
-        // This isolates the heavy image painting. Even if 'Avatar' is rebuilt 
-        // 2500 times, the GPU will reuse the texture of this child 
+        // This isolates the heavy image painting. Even if 'Avatar' is rebuilt
+        // 2500 times, the GPU will reuse the texture of this child
         // as long as the widget parameters here don't change visually.
         RepaintBoundary(
           child: _AvatarVisuals(
@@ -63,7 +66,7 @@ class Avatar extends StatelessWidget {
             textColor: textColor,
           ),
         ),
-        
+
         // Presence is dynamic and sits on top
         if (presenceUserId != null)
           _AvatarPresence(
@@ -75,13 +78,10 @@ class Avatar extends StatelessWidget {
     );
 
     if (onTap == null) return container;
-    
+
     return MouseRegion(
       cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-        onTap: onTap,
-        child: container,
-      ),
+      child: GestureDetector(onTap: onTap, child: container),
     );
   }
 }
@@ -111,9 +111,10 @@ class _AvatarVisuals extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     // Efficient fallback logic
-    final hasNoPic = mxContent == null ||
+    final hasNoPic =
+        mxContent == null ||
         mxContent!.path.isEmpty ||
         mxContent.toString() == 'null';
 
@@ -121,7 +122,9 @@ class _AvatarVisuals extends StatelessWidget {
       width: size,
       height: size,
       child: Material(
-        color: theme.brightness == Brightness.light ? Colors.white : Colors.black,
+        color: theme.brightness == Brightness.light
+            ? Colors.white
+            : Colors.black,
         shape: RoundedRectangleBorder(
           borderRadius: borderRadius,
           side: border ?? BorderSide.none,
@@ -131,7 +134,7 @@ class _AvatarVisuals extends StatelessWidget {
           client: client,
           borderRadius: borderRadius,
           // Optimization: Use Object key directly, avoid .toString() allocation
-          key: ValueKey(mxContent), 
+          key: ValueKey(mxContent),
           cacheKey: '${mxContent}_$size',
           uri: mxContent,
           fit: BoxFit.cover,
@@ -157,7 +160,7 @@ class _AvatarVisuals extends StatelessWidget {
     final fallbackLetters = (displayName == null || displayName.isEmpty)
         ? '@'
         : displayName.substring(0, 1);
-        
+
     return Container(
       decoration: BoxDecoration(
         color: backgroundColor ?? displayName?.lightColorAvatar,
@@ -205,8 +208,8 @@ class _AvatarPresence extends StatelessWidget {
         final dotColor = presence.presence.isOnline
             ? Colors.green
             : presence.presence.isUnavailable
-                ? Colors.orange
-                : Colors.grey;
+            ? Colors.orange
+            : Colors.grey;
 
         return Positioned(
           bottom: -3,
@@ -225,10 +228,7 @@ class _AvatarPresence extends StatelessWidget {
               decoration: BoxDecoration(
                 color: dotColor,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  width: 1,
-                  color: theme.colorScheme.surface,
-                ),
+                border: Border.all(width: 1, color: theme.colorScheme.surface),
               ),
             ),
           ),

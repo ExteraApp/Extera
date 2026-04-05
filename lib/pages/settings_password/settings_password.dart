@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/settings_password/settings_password_view.dart';
 import 'package:extera_next/utils/localized_exception_extension.dart';
 import 'package:extera_next/widgets/matrix.dart';
@@ -55,13 +55,11 @@ class SettingsPasswordController extends State<SettingsPassword> {
     try {
       final scaffoldMessenger = ScaffoldMessenger.of(context);
       await Matrix.of(context).client.changePassword(
-            newPassword1Controller.text,
-            oldPassword: oldPasswordController.text,
-          );
+        newPassword1Controller.text,
+        oldPassword: oldPasswordController.text,
+      );
       scaffoldMessenger.showSnackBar(
-        SnackBar(
-          content: Text(L10n.of(context).passwordHasBeenChanged),
-        ),
+        SnackBar(content: Text(L10n.of(context).passwordHasBeenChanged)),
       );
       if (mounted) context.pop();
     } catch (e) {

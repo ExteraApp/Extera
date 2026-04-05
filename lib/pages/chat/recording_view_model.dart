@@ -10,9 +10,8 @@ import 'package:matrix/matrix.dart';
 import 'package:path/path.dart' as path_lib;
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
-import 'package:wakelock_plus/wakelock_plus.dart';
-
 import 'package:video_compress/video_compress.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 import 'package:extera_next/config/setting_keys.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
@@ -324,8 +323,7 @@ class RecordingViewModelState extends State<RecordingViewModel>
       await WakelockPlus.enable();
       await cameraController!.startVideoRecording();
 
-      fileName =
-          'video_note_${DateTime.now().millisecondsSinceEpoch}.mp4';
+      fileName = 'video_note_${DateTime.now().millisecondsSinceEpoch}.mp4';
 
       _isVideoRecording = true;
       setState(() => duration = Duration.zero);
@@ -471,11 +469,7 @@ class RecordingViewModelState extends State<RecordingViewModel>
   }
 
   Future<void> stopAndSendVideo(
-    Future<void> Function(
-      String path,
-      int duration,
-      String fileName,
-    )
+    Future<void> Function(String path, int duration, String fileName)
     onVideoSend,
   ) async {
     await _stopAndSendVideoWithCallback(onVideoSend);
@@ -497,17 +491,12 @@ class RecordingViewModelState extends State<RecordingViewModel>
   }
 
   Future<void> _stopAndSendVideoWithCallback(
-    Future<void> Function(
-      String path,
-      int duration,
-      String fileName,
-    )
+    Future<void> Function(String path, int duration, String fileName)
     onVideoSend,
   ) async {
     _recorderSubscription?.cancel();
 
-    if (cameraController == null ||
-        !cameraController!.value.isRecordingVideo) {
+    if (cameraController == null || !cameraController!.value.isRecordingVideo) {
       throw ('Video recording failed!');
     }
 

@@ -3,9 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
-
 import 'package:extera_next/config/themes.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/widgets/app_lock.dart';
 
 class LockScreen extends StatefulWidget {
@@ -85,9 +84,7 @@ class _LockScreenState extends State<LockScreen> {
                   onChanged: tryUnlock,
                   onSubmitted: tryUnlock,
                   style: const TextStyle(fontSize: 40),
-                  inputFormatters: [
-                    LengthLimitingTextInputFormatter(4),
-                  ],
+                  inputFormatters: [LengthLimitingTextInputFormatter(4)],
                   decoration: InputDecoration(
                     errorText: _errorText,
                     hintText: L10n.of(context).pinCode,

@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:matrix/matrix.dart';
@@ -10,6 +9,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:universal_html/html.dart' as html;
 
 import 'package:extera_next/config/app_config.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/utils/client_manager.dart';
 import 'package:extera_next/utils/platform_infos.dart';
 import 'cipher.dart';
@@ -27,12 +27,12 @@ Future<DatabaseApi> flutterMatrixSdkDatabaseBuilder(String clientName) async {
     Logs().wtf('Unable to construct database!', e, s);
     // Try to delete database so that it can created again on next init:
     database?.delete().catchError(
-          (e, s) => Logs().wtf(
-            'Unable to delete database, after failed construction',
-            e,
-            s,
-          ),
-        );
+      (e, s) => Logs().wtf(
+        'Unable to delete database, after failed construction',
+        e,
+        s,
+      ),
+    );
 
     // Delete database file:
     if (database == null && !kIsWeb) {
@@ -85,8 +85,9 @@ Future<MatrixSdkDatabase> _constructDatabase(String clientName) async {
   // fix dlopen for old Android
   await applyWorkaroundToOpenSqlCipherOnOldAndroidVersions();
   // import the SQLite / SQLCipher shared objects / dynamic libraries
-  final factory =
-      createDatabaseFactoryFfi(ffiInit: SQfLiteEncryptionHelper.ffiInit);
+  final factory = createDatabaseFactoryFfi(
+    ffiInit: SQfLiteEncryptionHelper.ffiInit,
+  );
 
   // migrate from potential previous SQLite database path to current one
   await _migrateLegacyLocation(path, clientName);
@@ -98,11 +99,7 @@ Future<MatrixSdkDatabase> _constructDatabase(String clientName) async {
   // to manage SQLite encryption
   final helper = cipher == null
       ? null
-      : SQfLiteEncryptionHelper(
-          factory: factory,
-          path: path,
-          cipher: cipher,
-        );
+      : SQfLiteEncryptionHelper(factory: factory, path: path, cipher: cipher);
 
   // check whether the DB is already encrypted and otherwise do so
   await helper?.ensureDatabaseFileEncrypted();

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:go_router/go_router.dart';
 import 'package:matrix/matrix.dart';
 
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/utils/date_time_extension.dart';
 import 'package:extera_next/utils/matrix_sdk_extensions/matrix_locals.dart';
 import 'package:extera_next/utils/url_launcher.dart';
@@ -14,10 +14,8 @@ class ChatSearchMessageTab extends StatelessWidget {
   final String searchQuery;
   final Room room;
   final Stream<(List<Event>, String?)>? searchStream;
-  final void Function({
-    String? prevBatch,
-    List<Event>? previousSearchResult,
-  }) startSearch;
+  final void Function({String? prevBatch, List<Event>? previousSearchResult})
+  startSearch;
 
   const ChatSearchMessageTab({
     required this.searchQuery,
@@ -42,9 +40,7 @@ class ChatSearchMessageTab extends StatelessWidget {
               const SizedBox(height: 8),
               Text(
                 L10n.of(context).searchIn(
-                  room.getLocalizedDisplayname(
-                    MatrixLocals(L10n.of(context)),
-                  ),
+                  room.getLocalizedDisplayname(MatrixLocals(L10n.of(context))),
                 ),
               ),
             ],
@@ -55,19 +51,15 @@ class ChatSearchMessageTab extends StatelessWidget {
         return SelectionArea(
           child: ListView.separated(
             itemCount: events.length + 1,
-            separatorBuilder: (context, _) => Divider(
-              color: theme.dividerColor,
-              height: 1,
-            ),
+            separatorBuilder: (context, _) =>
+                Divider(color: theme.dividerColor, height: 1),
             itemBuilder: (context, i) {
               if (i == events.length) {
                 if (snapshot.connectionState != ConnectionState.done) {
                   return const Padding(
                     padding: EdgeInsets.all(16.0),
                     child: Center(
-                      child: CircularProgressIndicator.adaptive(
-                        strokeWidth: 2,
-                      ),
+                      child: CircularProgressIndicator.adaptive(strokeWidth: 2),
                     ),
                   );
                 }
@@ -87,9 +79,7 @@ class ChatSearchMessageTab extends StatelessWidget {
                         prevBatch: nextBatch,
                         previousSearchResult: events,
                       ),
-                      icon: const Icon(
-                        Icons.arrow_downward_outlined,
-                      ),
+                      icon: const Icon(Icons.arrow_downward_outlined),
                       label: Text(L10n.of(context).searchMore),
                     ),
                   ),
@@ -134,15 +124,9 @@ class _MessageSearchResultListTile extends StatelessWidget {
     return ListTile(
       title: Row(
         children: [
-          Avatar(
-            mxContent: sender.avatarUrl,
-            name: displayname,
-            size: 16,
-          ),
+          Avatar(mxContent: sender.avatarUrl, name: displayname, size: 16),
           const SizedBox(width: 8),
-          Text(
-            displayname,
-          ),
+          Text(displayname),
           Expanded(
             child: Text(
               ' | ${event.originServerTs.localizedTimeShort(context)}',
@@ -164,23 +148,16 @@ class _MessageSearchResultListTile extends StatelessWidget {
             .calcLocalizedBodyFallback(
               plaintextBody: true,
               removeMarkdown: true,
-              MatrixLocals(
-                L10n.of(context),
-              ),
+              MatrixLocals(L10n.of(context)),
             )
             .trim(),
         maxLines: 7,
         overflow: TextOverflow.ellipsis,
       ),
       trailing: IconButton(
-        icon: const Icon(
-          Icons.chevron_right_outlined,
-        ),
+        icon: const Icon(Icons.chevron_right_outlined),
         onPressed: () => context.go(
-          '/${Uri(
-            pathSegments: ['rooms', room.id],
-            queryParameters: {'event': event.eventId},
-          )}',
+          '/${Uri(pathSegments: ['rooms', room.id], queryParameters: {'event': event.eventId})}',
         ),
       ),
     );

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:intl/intl.dart';
+
+import 'package:extera_next/generated/l10n/l10n.dart';
 
 /// Provides extra functionality for formatting the time.
 extension DateTimeExtension on DateTime {
@@ -29,9 +30,9 @@ extension DateTimeExtension on DateTime {
   /// Returns a simple time String.
   String localizedTimeOfDay(BuildContext context) =>
       (MediaQuery.alwaysUse24HourFormatOf(context) ||
-              L10n.of(context).alwaysUse24HourFormat == 'true')
-          ? DateFormat('HH:mm', L10n.of(context).localeName).format(this)
-          : DateFormat('h:mm a', L10n.of(context).localeName).format(this);
+          L10n.of(context).alwaysUse24HourFormat == 'true')
+      ? DateFormat('HH:mm', L10n.of(context).localeName).format(this)
+      : DateFormat('h:mm a', L10n.of(context).localeName).format(this);
 
   /// Returns [localizedTimeOfDay()] if the ChatTime is today, the name of the week
   /// day if the ChatTime is this week and a date string else.
@@ -42,7 +43,8 @@ extension DateTimeExtension on DateTime {
 
     final sameDay = sameYear && now.month == month && now.day == day;
 
-    final sameWeek = sameYear &&
+    final sameWeek =
+        sameYear &&
         !sameDay &&
         now.millisecondsSinceEpoch - millisecondsSinceEpoch <
             1000 * 60 * 60 * 24 * 7;
@@ -50,14 +52,17 @@ extension DateTimeExtension on DateTime {
     if (sameDay) {
       return localizedTimeOfDay(context);
     } else if (sameWeek) {
-      return DateFormat.E(Localizations.localeOf(context).languageCode)
-          .format(this);
+      return DateFormat.E(
+        Localizations.localeOf(context).languageCode,
+      ).format(this);
     } else if (sameYear) {
-      return DateFormat.MMMd(Localizations.localeOf(context).languageCode)
-          .format(this);
+      return DateFormat.MMMd(
+        Localizations.localeOf(context).languageCode,
+      ).format(this);
     }
-    return DateFormat.yMMMd(Localizations.localeOf(context).languageCode)
-        .format(this);
+    return DateFormat.yMMMd(
+      Localizations.localeOf(context).languageCode,
+    ).format(this);
   }
 
   /// If the DateTime is today, this returns [localizedTimeOfDay()], if not it also

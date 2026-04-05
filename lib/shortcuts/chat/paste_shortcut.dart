@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:hotkey_manager/hotkey_manager.dart';
 
 class PasteIntent extends Intent {
@@ -15,14 +16,12 @@ class ChatPasteShortcut extends StatefulWidget {
     required this.child,
     super.key,
   });
-  
+
   @override
   State<StatefulWidget> createState() => ChatPasteShortcutState();
 }
 
 class ChatPasteShortcutState extends State<ChatPasteShortcut> {
-
-
   final HotKey pasteKey = HotKey(
     key: LogicalKeyboardKey.keyV,
     modifiers: [HotKeyModifier.control],
@@ -32,9 +31,12 @@ class ChatPasteShortcutState extends State<ChatPasteShortcut> {
   @override
   void initState() {
     super.initState();
-    hotKeyManager.register(pasteKey, keyDownHandler: (hotKey) {
-      widget.onPaste();
-    });
+    hotKeyManager.register(
+      pasteKey,
+      keyDownHandler: (hotKey) {
+        widget.onPaste();
+      },
+    );
   }
 
   @override

@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'dart:ui';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:matrix/matrix.dart';
 
 import 'package:extera_next/config/app_config.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/utils/client_manager.dart';
 import 'package:extera_next/utils/platform_infos.dart';
 
@@ -30,22 +30,22 @@ class SessionBackup {
       SessionBackup.fromJson(jsonDecode(json));
 
   factory SessionBackup.fromJson(Map<String, dynamic> json) => SessionBackup(
-        olmAccount: json['olm_account'],
-        accessToken: json['access_token'],
-        userId: json['user_id'],
-        homeserver: json['homeserver'],
-        deviceId: json['device_id'],
-        deviceName: json['device_name'],
-      );
+    olmAccount: json['olm_account'],
+    accessToken: json['access_token'],
+    userId: json['user_id'],
+    homeserver: json['homeserver'],
+    deviceId: json['device_id'],
+    deviceName: json['device_name'],
+  );
 
   Map<String, dynamic> toJson() => {
-        'olm_account': olmAccount,
-        'access_token': accessToken,
-        'user_id': userId,
-        'homeserver': homeserver,
-        'device_id': deviceId,
-        if (deviceName != null) 'device_name': deviceName,
-      };
+    'olm_account': olmAccount,
+    'access_token': accessToken,
+    'user_id': userId,
+    'homeserver': homeserver,
+    'device_id': deviceId,
+    if (deviceName != null) 'device_name': deviceName,
+  };
 
   @override
   String toString() => jsonEncode(toJson());
@@ -81,7 +81,8 @@ extension InitWithRestoreExtension on Client {
         final homeserver = this.homeserver?.toString();
         final deviceId = deviceID;
         final userId = userID;
-        final hasBackup = accessToken != null &&
+        final hasBackup =
+            accessToken != null &&
             homeserver != null &&
             deviceId != null &&
             userId != null;

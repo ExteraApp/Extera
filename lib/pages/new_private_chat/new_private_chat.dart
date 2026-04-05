@@ -1,18 +1,18 @@
 import 'dart:async';
 
-import 'package:extera_next/utils/show_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:matrix/matrix.dart';
 
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/new_private_chat/new_private_chat_view.dart';
 import 'package:extera_next/pages/new_private_chat/qr_scanner_modal.dart';
 import 'package:extera_next/utils/adaptive_bottom_sheet.dart';
 import 'package:extera_next/utils/fluffy_share.dart';
 import 'package:extera_next/utils/platform_infos.dart';
+import 'package:extera_next/utils/show_profile.dart';
 import 'package:extera_next/utils/url_launcher.dart';
 import 'package:extera_next/widgets/matrix.dart';
 
@@ -52,8 +52,9 @@ class NewPrivateChatController extends State<NewPrivateChat> {
   }
 
   Future<List<Profile>> _searchUser(String searchTerm) async {
-    final result =
-        await Matrix.of(context).client.searchUserDirectory(searchTerm);
+    final result = await Matrix.of(
+      context,
+    ).client.searchUserDirectory(searchTerm);
     final profiles = result.results;
 
     if (searchTerm.isValidMatrixId &&
@@ -73,9 +74,7 @@ class NewPrivateChatController extends State<NewPrivateChat> {
       if (info.version.sdkInt < 21) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(
-              L10n.of(context).unsupportedAndroidVersionLong,
-            ),
+            content: Text(L10n.of(context).unsupportedAndroidVersionLong),
           ),
         );
         return;
@@ -93,15 +92,13 @@ class NewPrivateChatController extends State<NewPrivateChat> {
     await Clipboard.setData(
       ClipboardData(text: Matrix.of(context).client.userID!),
     );
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(L10n.of(context).copiedToClipboard)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(L10n.of(context).copiedToClipboard)));
   }
 
-  void openUserModal(Profile profile) => showProfile(
-        context: context,
-        profile: profile,
-      );
+  void openUserModal(Profile profile) =>
+      showProfile(context: context, profile: profile);
 
   @override
   Widget build(BuildContext context) => NewPrivateChatView(this);

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart' hide Visibility;
 
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:go_router/go_router.dart';
 import 'package:matrix/matrix.dart';
 
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/chat_access_settings/chat_access_settings_page.dart';
 import 'package:extera_next/utils/localized_exception_extension.dart';
 import 'package:extera_next/widgets/adaptive_dialogs/show_modal_action_popup.dart';

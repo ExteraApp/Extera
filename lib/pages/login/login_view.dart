@@ -1,7 +1,7 @@
-import 'package:extera_next/generated/l10n/l10n.dart';
-import 'package:extera_next/widgets/layouts/login_scaffold.dart';
 import 'package:flutter/material.dart';
 
+import 'package:extera_next/generated/l10n/l10n.dart';
+import 'package:extera_next/widgets/layouts/login_scaffold.dart';
 import 'login.dart';
 
 class LoginView extends StatelessWidget {

@@ -1,3 +1,9 @@
+import 'package:flutter/material.dart';
+
+import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:go_router/go_router.dart';
+import 'package:matrix/matrix.dart';
+
 import 'package:extera_next/config/app_config.dart';
 import 'package:extera_next/config/setting_keys.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
@@ -6,10 +12,6 @@ import 'package:extera_next/utils/url_launcher.dart';
 import 'package:extera_next/widgets/avatar.dart';
 import 'package:extera_next/widgets/future_loading_dialog.dart';
 import 'package:extera_next/widgets/list_divider.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_linkify/flutter_linkify.dart';
-import 'package:go_router/go_router.dart';
-import 'package:matrix/matrix.dart';
 
 class InviteDialog extends StatelessWidget {
   final Room room;
@@ -51,8 +53,8 @@ class InviteDialog extends StatelessWidget {
     final topic = room.topic;
     final reason = membershipEvent?.content.tryGet<String>('reason');
     // final actualMembersCount =
-        // (room.summary.mInvitedMemberCount ?? 0) +
-        // (room.summary.mJoinedMemberCount ?? 0);
+    // (room.summary.mInvitedMemberCount ?? 0) +
+    // (room.summary.mJoinedMemberCount ?? 0);
 
     return Scaffold(
       appBar: AppBar(title: Text(L10n.of(context).newInvitation)),

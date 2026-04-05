@@ -1,8 +1,10 @@
+import 'package:flutter/material.dart';
+
+import 'package:matrix/matrix.dart';
+
 import 'package:extera_next/config/setting_keys.dart';
 import 'package:extera_next/pages/chat_privacy/chat_privacy_view.dart';
 import 'package:extera_next/widgets/matrix.dart';
-import 'package:flutter/material.dart';
-import 'package:matrix/matrix.dart';
 
 class ChatPrivacy extends StatefulWidget {
   final String roomId;
@@ -14,7 +16,6 @@ class ChatPrivacy extends StatefulWidget {
 }
 
 class ChatPrivacyController extends State<ChatPrivacy> {
-
   Room get room {
     final client = Matrix.of(context).client;
     return client.getRoomById(widget.roomId)!;
@@ -31,16 +32,20 @@ class ChatPrivacyController extends State<ChatPrivacy> {
 
   bool get sendReadReceipts {
     final client = Matrix.of(context).client;
-    if (!privacySettingsEnabled) return AppSettings.sendPublicReadReceipts.value;
+    if (!privacySettingsEnabled)
+      return AppSettings.sendPublicReadReceipts.value;
     final content = client.accountData[_eventKey]!.content;
-    return content.tryGet<bool>('read_receipts') ?? AppSettings.sendPublicReadReceipts.value;
+    return content.tryGet<bool>('read_receipts') ??
+        AppSettings.sendPublicReadReceipts.value;
   }
 
   bool get sendTypingNotifications {
     final client = Matrix.of(context).client;
-    if (!privacySettingsEnabled) return AppSettings.sendPublicReadReceipts.value;
+    if (!privacySettingsEnabled)
+      return AppSettings.sendPublicReadReceipts.value;
     final content = client.accountData[_eventKey]!.content;
-    return content.tryGet<bool>('typing_notifications') ?? AppSettings.sendTypingNotifications.value;
+    return content.tryGet<bool>('typing_notifications') ??
+        AppSettings.sendTypingNotifications.value;
   }
 
   void setReadReceipts(bool readReceipts) async {
@@ -72,5 +77,4 @@ class ChatPrivacyController extends State<ChatPrivacy> {
 
   @override
   Widget build(BuildContext context) => ChatPrivacyView(this);
-  
 }

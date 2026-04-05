@@ -1,7 +1,9 @@
+import 'package:flutter/material.dart' hide Notification;
+
+import 'package:matrix/matrix.dart';
+
 import 'package:extera_next/pages/notifications/notifications_view.dart';
 import 'package:extera_next/widgets/matrix.dart';
-import 'package:flutter/material.dart' hide Notification;
-import 'package:matrix/matrix.dart';
 
 class Notifications extends StatefulWidget {
   const Notifications({super.key});

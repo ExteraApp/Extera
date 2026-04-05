@@ -45,10 +45,8 @@ abstract class AppConfig {
   static String _webBaseUrl = 'https://fluffychat.im/web';
 
   static String get webBaseUrl => _webBaseUrl;
-  static const String sourceCodeUrl =
-      'https://github.com/ExteraApp/Extera';
-  static const String supportUrl =
-      'https://github.com/ExteraApp/Extera/issues';
+  static const String sourceCodeUrl = 'https://github.com/ExteraApp/Extera';
+  static const String supportUrl = 'https://github.com/ExteraApp/Extera/issues';
   static const String changelogUrl =
       'https://github.com/ExteraApp/Extera/blob/main/CHANGELOG.md';
   static final Uri newIssueUrl = Uri(

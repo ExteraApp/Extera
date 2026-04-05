@@ -1,9 +1,11 @@
-import 'package:extera_next/config/themes.dart';
-import 'package:extera_next/pages/chat/events/message.dart';
 import 'package:flutter/material.dart';
+
 import 'package:matrix/matrix.dart';
 
+import 'package:extera_next/config/themes.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
+import 'package:extera_next/pages/chat/events/message.dart';
+import 'package:extera_next/widgets/layouts/max_width_body.dart';
 
 class TranslatedEventDialog extends StatefulWidget {
   final Event event;
@@ -27,10 +29,7 @@ class TranslatedEventDialogState extends State<TranslatedEventDialog> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    final colors = [
-      theme.secondaryBubbleColor,
-      theme.bubbleColor,
-    ];
+    final colors = [theme.secondaryBubbleColor, theme.bubbleColor];
 
     final message = Message(
       event,
@@ -52,12 +51,7 @@ class TranslatedEventDialogState extends State<TranslatedEventDialog> {
 
     return Scaffold(
       appBar: AppBar(title: Text(L10n.of(context).translatedMessage)),
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          message,
-        ],
-      ),
+      body: MaxWidthBody(child: message),
     );
   }
 }

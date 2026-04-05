@@ -1,6 +1,8 @@
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:flutter/material.dart';
+
 import 'package:emojis/emoji.dart';
+
+import 'package:extera_next/generated/l10n/l10n.dart';
 
 // ==========================================
 // 1. Data Models
@@ -141,6 +143,7 @@ class _RecentTab extends _PickerTab {
 class MatrixEmojiPicker extends StatefulWidget {
   final EmojiSelectionCallback onEmojiSelected;
   final VoidCallback onBackspacePressed;
+
   /// A list of recent `PickerEmoji` items to show in the "Recent" tab.
   final List<PickerEmoji> recentEmojis;
 
@@ -275,7 +278,9 @@ class MatrixEmojiPickerState extends State<MatrixEmojiPicker>
       final source = <PickerEmoji>[];
       source.addAll(_allEmojis);
       for (final r in widget.recentEmojis) {
-        if (!source.any((e) => e.displayName == r.displayName && e.type == r.type)) {
+        if (!source.any(
+          (e) => e.displayName == r.displayName && e.type == r.type,
+        )) {
           source.add(r);
         }
       }

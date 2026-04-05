@@ -3,11 +3,11 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:http/http.dart';
 import 'package:matrix/encryption.dart';
 import 'package:matrix/matrix.dart';
 
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/utils/other_party_can_receive.dart';
 import 'uia_request_manager.dart';
 
@@ -20,8 +20,8 @@ extension LocalizedExceptionExtension on Object {
     final numString = round < 10
         ? num.toStringAsFixed(2)
         : round < 100
-            ? num.toStringAsFixed(1)
-            : round.toString();
+        ? num.toStringAsFixed(1)
+        : round.toString();
     return '$numString ${'kMGTPEZY'[i - 1]}B';
   }
 
@@ -31,9 +31,9 @@ extension LocalizedExceptionExtension on Object {
   ]) {
     if (this is FileTooBigMatrixException) {
       final exception = this as FileTooBigMatrixException;
-      return L10n.of(context).fileIsTooBigForServer(
-        _formatFileSize(exception.maxFileSize),
-      );
+      return L10n.of(
+        context,
+      ).fileIsTooBigForServer(_formatFileSize(exception.maxFileSize));
     }
     if (this is OtherPartyCanNotReceiveMessages) {
       return L10n.of(context).otherPartyNotLoggedIn;

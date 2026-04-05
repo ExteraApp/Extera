@@ -1,4 +1,10 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import 'package:collection/collection.dart';
+import 'package:emojis/emoji.dart';
+import 'package:matrix/matrix.dart';
+
 import 'package:extera_next/config/app_config.dart';
 import 'package:extera_next/config/setting_keys.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
@@ -13,10 +19,6 @@ import 'package:extera_next/widgets/emoji_picker.dart';
 import 'package:extera_next/widgets/list_divider.dart';
 import 'package:extera_next/widgets/matrix.dart';
 import 'package:extera_next/widgets/mxc_image.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:emojis/emoji.dart';
-import 'package:matrix/matrix.dart';
 
 class MessageContextMenu extends StatefulWidget {
   final ChatController controller;

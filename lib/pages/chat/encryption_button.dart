@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:go_router/go_router.dart';
 import 'package:matrix/matrix.dart';
 
+import 'package:extera_next/generated/l10n/l10n.dart';
 import '../../widgets/matrix.dart';
 
 class EncryptionButton extends StatelessWidget {
@@ -13,11 +13,9 @@ class EncryptionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<SyncUpdate>(
-      stream: Matrix.of(context)
-          .client
-          .onSync
-          .stream
-          .where((s) => s.deviceLists != null),
+      stream: Matrix.of(
+        context,
+      ).client.onSync.stream.where((s) => s.deviceLists != null),
       builder: (context, snapshot) {
         return FutureBuilder<EncryptionHealthState>(
           future: room.encrypted
@@ -33,10 +31,9 @@ class EncryptionButton extends StatelessWidget {
               color: room.joinRules != JoinRules.public && !room.encrypted
                   ? Colors.red
                   : room.joinRules != JoinRules.public &&
-                          snapshot.data ==
-                              EncryptionHealthState.unverifiedDevices
-                      ? Colors.orange
-                      : null,
+                        snapshot.data == EncryptionHealthState.unverifiedDevices
+                  ? Colors.orange
+                  : null,
             ),
             onPressed: () => context.go('/rooms/${room.id}/encryption'),
           ),

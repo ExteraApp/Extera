@@ -1,9 +1,9 @@
-import 'package:extera_next/config/setting_keys.dart';
 import 'package:flutter/material.dart';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:matrix/matrix.dart';
 
+import 'package:extera_next/config/setting_keys.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/utils/matrix_sdk_extensions/matrix_locals.dart';
 import '../../../config/app_config.dart';
 
@@ -23,19 +23,20 @@ class StateMessage extends StatelessWidget {
             color: theme.colorScheme.surface.withAlpha(128),
             borderRadius: BorderRadius.circular(AppConfig.borderRadius / 3),
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8.0,
+                vertical: 4.0,
+              ),
               child: Text(
-                event.calcLocalizedBodyFallback(
-                  MatrixLocals(L10n.of(context)),
-                ),
+                event.calcLocalizedBodyFallback(MatrixLocals(L10n.of(context))),
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 12 * AppSettings.fontSizeFactor.value,
-                  decoration:
-                      event.redacted ? TextDecoration.lineThrough : null,
+                  decoration: event.redacted
+                      ? TextDecoration.lineThrough
+                      : null,
                 ),
               ),
             ),

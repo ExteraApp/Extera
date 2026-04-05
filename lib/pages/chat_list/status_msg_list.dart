@@ -1,11 +1,11 @@
-import 'package:extera_next/config/setting_keys.dart';
-import 'package:extera_next/utils/show_profile.dart';
 import 'package:flutter/material.dart';
 
 import 'package:matrix/matrix.dart';
 
 import 'package:extera_next/config/app_config.dart';
+import 'package:extera_next/config/setting_keys.dart';
 import 'package:extera_next/config/themes.dart';
+import 'package:extera_next/utils/show_profile.dart';
 import 'package:extera_next/utils/stream_extension.dart';
 import 'package:extera_next/widgets/avatar.dart';
 import 'package:extera_next/widgets/hover_builder.dart';
@@ -14,10 +14,7 @@ import 'package:extera_next/widgets/matrix.dart';
 class StatusMessageList extends StatelessWidget {
   final void Function() onStatusEdit;
 
-  const StatusMessageList({
-    required this.onStatusEdit,
-    super.key,
-  });
+  const StatusMessageList({required this.onStatusEdit, super.key});
 
   static const double height = 116;
 
@@ -25,10 +22,7 @@ class StatusMessageList extends StatelessWidget {
     final client = Matrix.of(context).client;
     if (profile.userId == client.userID) return onStatusEdit();
 
-    showProfile(
-      context: context,
-      profile: profile,
-    );
+    showProfile(context: context, profile: profile);
     return;
   }
 
@@ -57,8 +51,9 @@ class StatusMessageList extends StatelessWidget {
               ),
             ),
             builder: (context, snapshot) {
-              final presences =
-                  snapshot.data?.where(isInterestingPresence).toList();
+              final presences = snapshot.data
+                  ?.where(isInterestingPresence)
+                  .toList();
 
               // If no other presences than the own entry is interesting, we
               // hide the presence header.
@@ -117,7 +112,8 @@ class PresenceAvatar extends StatelessWidget {
         final theme = Theme.of(context);
 
         final profile = snapshot.data;
-        final displayName = profile?.displayName ??
+        final displayName =
+            profile?.displayName ??
             presence.userid.localpart ??
             presence.userid;
         final statusMsg = presence.statusMsg;
@@ -138,18 +134,25 @@ class PresenceAvatar extends StatelessWidget {
                       duration: FluffyThemes.animationDuration,
                       curve: FluffyThemes.animationCurve,
                       child: InkWell(
-                        borderRadius: BorderRadius.circular(avatarSize * AppSettings.avatarBorderRadius.value),
+                        borderRadius: BorderRadius.circular(
+                          avatarSize * AppSettings.avatarBorderRadius.value,
+                        ),
                         onTap: profile == null ? null : () => onTap(profile),
                         child: Material(
-                          borderRadius: BorderRadius.circular(avatarSize * AppSettings.avatarBorderRadius.value),
+                          borderRadius: BorderRadius.circular(
+                            avatarSize * AppSettings.avatarBorderRadius.value,
+                          ),
                           child: Stack(
                             children: [
                               Container(
                                 padding: const EdgeInsets.all(3),
                                 decoration: BoxDecoration(
                                   gradient: presence.gradient,
-                                  borderRadius:
-                                      BorderRadius.circular(avatarSize * AppSettings.avatarBorderRadius.value * 0.5),
+                                  borderRadius: BorderRadius.circular(
+                                    avatarSize *
+                                        AppSettings.avatarBorderRadius.value *
+                                        0.5,
+                                  ),
                                 ),
                                 child: Avatar(
                                   name: displayName,
@@ -216,10 +219,7 @@ class PresenceAvatar extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(
                                       AppConfig.borderRadius / 2,
                                     ),
-                                    child: const SizedBox(
-                                      width: 8,
-                                      height: 8,
-                                    ),
+                                    child: const SizedBox(width: 8, height: 8),
                                   ),
                                 ),
                                 Positioned(
@@ -232,10 +232,7 @@ class PresenceAvatar extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(
                                       AppConfig.borderRadius / 2,
                                     ),
-                                    child: const SizedBox(
-                                      width: 4,
-                                      height: 4,
-                                    ),
+                                    child: const SizedBox(width: 4, height: 4),
                                   ),
                                 ),
                               ],
@@ -254,9 +251,7 @@ class PresenceAvatar extends StatelessWidget {
                     textAlign: TextAlign.center,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 13,
-                    ),
+                    style: const TextStyle(fontSize: 13),
                   ),
                 ),
               ],
@@ -270,10 +265,12 @@ class PresenceAvatar extends StatelessWidget {
 
 extension on Client {
   Set<String> get interestingPresences {
-    final allHeroes = rooms.map((room) => room.summary.mHeroes).fold(
-      <String>{},
-      (previousValue, element) => previousValue..addAll(element ?? {}),
-    );
+    final allHeroes = rooms
+        .map((room) => room.summary.mHeroes)
+        .fold(
+          <String>{},
+          (previousValue, element) => previousValue..addAll(element ?? {}),
+        );
     allHeroes.add(userID!);
     return allHeroes;
   }
@@ -291,31 +288,23 @@ extension on CachedPresence {
 
   LinearGradient get gradient => presence.isOnline == true
       ? LinearGradient(
-          colors: [
-            Colors.green,
-            Colors.green.shade200,
-            Colors.green.shade900,
-          ],
+          colors: [Colors.green, Colors.green.shade200, Colors.green.shade900],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         )
       : presence.isUnavailable
-          ? LinearGradient(
-              colors: [
-                Colors.yellow,
-                Colors.yellow.shade200,
-                Colors.yellow.shade900,
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            )
-          : LinearGradient(
-              colors: [
-                Colors.grey,
-                Colors.grey.shade200,
-                Colors.grey.shade900,
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            );
+      ? LinearGradient(
+          colors: [
+            Colors.yellow,
+            Colors.yellow.shade200,
+            Colors.yellow.shade900,
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        )
+      : LinearGradient(
+          colors: [Colors.grey, Colors.grey.shade200, Colors.grey.shade900],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        );
 }

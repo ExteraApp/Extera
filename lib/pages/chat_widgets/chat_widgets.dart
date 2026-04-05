@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
+
+import 'package:matrix/matrix.dart';
+
 import 'package:extera_next/pages/chat_widgets/chat_widgets_view.dart';
 import 'package:extera_next/pages/chat_widgets/widget_info.dart';
 import 'package:extera_next/utils/adaptive_bottom_sheet.dart';
 import 'package:extera_next/widgets/matrix.dart';
-import 'package:flutter/material.dart';
-import 'package:matrix/matrix.dart';
 
 class ChatWidgets extends StatefulWidget {
   final String roomId;

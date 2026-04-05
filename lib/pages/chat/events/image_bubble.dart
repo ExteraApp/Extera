@@ -1,6 +1,3 @@
-import 'package:extera_next/config/setting_keys.dart';
-import 'package:extera_next/generated/l10n/l10n.dart';
-import 'package:extera_next/pages/chat/events/html_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -8,6 +5,9 @@ import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:matrix/matrix.dart';
 
 import 'package:extera_next/config/app_config.dart';
+import 'package:extera_next/config/setting_keys.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
+import 'package:extera_next/pages/chat/events/html_message.dart';
 import 'package:extera_next/pages/image_viewer/image_viewer.dart';
 import 'package:extera_next/utils/url_launcher.dart';
 import 'package:extera_next/widgets/mxc_image.dart';
@@ -54,12 +54,15 @@ class ImageBubble extends StatelessWidget {
     final infoMap = event.infoMap;
     final imageWidth = infoMap['w'] as int?;
     final imageHeight = infoMap['h'] as int?;
-    
-    if (imageWidth != null && imageHeight != null && imageWidth > 0 && imageHeight > 0) {
+
+    if (imageWidth != null &&
+        imageHeight != null &&
+        imageWidth > 0 &&
+        imageHeight > 0) {
       // Return aspect ratio (width / height)
       return imageWidth / imageHeight;
     }
-      
+
     // Fallback to square aspect ratio if metadata is not available
     return 1.0;
   }

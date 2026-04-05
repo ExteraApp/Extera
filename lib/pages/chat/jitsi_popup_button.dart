@@ -1,16 +1,17 @@
-import 'package:extera_next/utils/url_launcher.dart';
-import 'package:extera_next/widgets/future_loading_snackbar.dart';
-// import 'package:extera_next/widgets/matrix.dart';
 import 'package:flutter/material.dart';
 
 import 'package:matrix/matrix.dart';
+import 'package:uuid/v4.dart';
 
 import 'package:extera_next/config/setting_keys.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/utils/matrix_sdk_extensions/matrix_locals.dart';
+import 'package:extera_next/utils/url_launcher.dart';
 import 'package:extera_next/widgets/adaptive_dialogs/show_ok_cancel_alert_dialog.dart';
 import 'package:extera_next/widgets/future_loading_dialog.dart';
-import 'package:uuid/v4.dart';
+import 'package:extera_next/widgets/future_loading_snackbar.dart';
+
+// import 'package:extera_next/widgets/matrix.dart';
 
 class JitsiPopupButton extends StatelessWidget {
   final Room room;

@@ -1,7 +1,7 @@
-import 'package:extera_next/config/setting_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:extera_next/config/setting_keys.dart';
 import 'app_config.dart';
 
 abstract class FluffyThemes {
@@ -82,7 +82,9 @@ abstract class FluffyThemes {
       colorScheme: colorScheme,
       useSystemColors: true,
       fontFamily: AppSettings.systemFont.value ? 'SystemFont' : null,
-      fontFamilyFallback: twemoji == true ? ['Twemoji Mozilla', 'SystemFont', 'Roboto'] : null,
+      fontFamilyFallback: twemoji == true
+          ? ['Twemoji Mozilla', 'SystemFont', 'Roboto']
+          : null,
       dividerColor: brightness == Brightness.dark
           ? colorScheme.surfaceContainerHighest
           : colorScheme.surfaceContainer,

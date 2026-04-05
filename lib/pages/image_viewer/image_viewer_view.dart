@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:matrix/matrix.dart';
+
 import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/image_viewer/video_player.dart';
 import 'package:extera_next/utils/platform_infos.dart';

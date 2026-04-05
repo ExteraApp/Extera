@@ -73,8 +73,7 @@ Future<Result<T>> showFutureLoadingSnackbar<T>({
     messenger.clearSnackBars();
     progressNotifier.dispose();
 
-    final errorMessage =
-        e.toLocalizedString(context, exceptionContext);
+    final errorMessage = e.toLocalizedString(context, exceptionContext);
 
     messenger.showSnackBar(
       SnackBar(

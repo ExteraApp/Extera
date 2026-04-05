@@ -1,17 +1,17 @@
-import 'package:extera_next/config/setting_keys.dart';
-import 'package:extera_next/widgets/list_divider.dart';
 import 'package:flutter/material.dart';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:go_router/go_router.dart';
 import 'package:matrix/matrix.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import 'package:extera_next/config/app_config.dart';
+import 'package:extera_next/config/setting_keys.dart';
 import 'package:extera_next/config/themes.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/utils/fluffy_share.dart';
 import 'package:extera_next/utils/platform_infos.dart';
 import 'package:extera_next/widgets/avatar.dart';
+import 'package:extera_next/widgets/list_divider.dart';
 import 'package:extera_next/widgets/matrix.dart';
 import 'package:extera_next/widgets/mxc_image.dart';
 import 'package:extera_next/widgets/navigation_rail.dart';

@@ -1,23 +1,20 @@
 import 'dart:typed_data';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:go_router/go_router.dart';
 import 'package:matrix/matrix.dart' as sdk;
 import 'package:matrix/matrix.dart';
 
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/new_group/new_group_view.dart';
 import 'package:extera_next/utils/file_selector.dart';
 import 'package:extera_next/widgets/matrix.dart';
 
 class NewGroup extends StatefulWidget {
   final CreateGroupType createGroupType;
-  const NewGroup({
-    this.createGroupType = CreateGroupType.group,
-    super.key,
-  });
+  const NewGroup({this.createGroupType = CreateGroupType.group, super.key});
 
   @override
   NewGroupController createState() => NewGroupController();
@@ -70,8 +67,9 @@ class NewGroupController extends State<NewGroup> {
   Future<void> _createGroup() async {
     if (!mounted) return;
     final roomId = await Matrix.of(context).client.createGroupChat(
-      visibility:
-          groupCanBeFound ? sdk.Visibility.public : sdk.Visibility.private,
+      visibility: groupCanBeFound
+          ? sdk.Visibility.public
+          : sdk.Visibility.private,
       enableEncryption: enableEncryption,
       groupName: nameController.text.isNotEmpty ? nameController.text : null,
       initialState: [
@@ -94,24 +92,24 @@ class NewGroupController extends State<NewGroup> {
   Future<void> _createSpace() async {
     if (!mounted) return;
     final spaceId = await Matrix.of(context).client.createRoom(
-          preset: publicGroup
-              ? sdk.CreateRoomPreset.publicChat
-              : sdk.CreateRoomPreset.privateChat,
-          creationContent: {'type': RoomCreationTypes.mSpace},
-          visibility: publicGroup ? sdk.Visibility.public : null,
-          roomAliasName: publicGroup
-              ? nameController.text.trim().toLowerCase().replaceAll(' ', '_')
-              : null,
-          name: nameController.text.trim(),
-          powerLevelContentOverride: {'events_default': 100},
-          initialState: [
-            if (avatar != null)
-              sdk.StateEvent(
-                type: sdk.EventTypes.RoomAvatar,
-                content: {'url': avatarUrl.toString()},
-              ),
-          ],
-        );
+      preset: publicGroup
+          ? sdk.CreateRoomPreset.publicChat
+          : sdk.CreateRoomPreset.privateChat,
+      creationContent: {'type': RoomCreationTypes.mSpace},
+      visibility: publicGroup ? sdk.Visibility.public : null,
+      roomAliasName: publicGroup
+          ? nameController.text.trim().toLowerCase().replaceAll(' ', '_')
+          : null,
+      name: nameController.text.trim(),
+      powerLevelContentOverride: {'events_default': 100},
+      initialState: [
+        if (avatar != null)
+          sdk.StateEvent(
+            type: sdk.EventTypes.RoomAvatar,
+            content: {'url': avatarUrl.toString()},
+          ),
+      ],
+    );
     if (!mounted) return;
     context.pop<String>(spaceId);
   }

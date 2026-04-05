@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:matrix/matrix.dart';
 
 import 'package:extera_next/config/setting_keys.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/widgets/adaptive_dialogs/show_ok_cancel_alert_dialog.dart';
 import 'package:extera_next/widgets/adaptive_dialogs/show_text_input_dialog.dart';
 import 'package:extera_next/widgets/app_lock.dart';
@@ -91,13 +91,13 @@ class SettingsSecurityController extends State<SettingsSecurity> {
     await showFutureLoadingDialog(
       context: context,
       future: () => Matrix.of(context).client.deactivateAccount(
-            auth: AuthenticationPassword(
-              password: input,
-              identifier: AuthenticationUserIdentifier(
-                user: Matrix.of(context).client.userID!,
-              ),
-            ),
+        auth: AuthenticationPassword(
+          password: input,
+          identifier: AuthenticationUserIdentifier(
+            user: Matrix.of(context).client.userID!,
           ),
+        ),
+      ),
     );
   }
 
@@ -105,9 +105,7 @@ class SettingsSecurityController extends State<SettingsSecurity> {
 
   void changeShareKeysWith(ShareKeysWith? shareKeysWith) async {
     if (shareKeysWith == null) return;
-    AppSettings.shareKeysWith.setItem(
-      shareKeysWith.name,
-    );
+    AppSettings.shareKeysWith.setItem(shareKeysWith.name);
     Matrix.of(context).client.shareKeysWith = shareKeysWith;
     setState(() {});
   }

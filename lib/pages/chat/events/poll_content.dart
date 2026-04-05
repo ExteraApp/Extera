@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
+
+import 'package:matrix/matrix.dart';
+
 import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/utils/poll_events.dart';
 import 'package:extera_next/utils/stream_extension.dart';
 import 'package:extera_next/widgets/matrix.dart';
-import 'package:flutter/material.dart';
-import 'package:matrix/matrix.dart';
 
 class PollWidget extends StatefulWidget {
   final Color color;
@@ -58,8 +60,7 @@ class PollWidgetState extends State<PollWidget> {
     final room = widget.event.room;
     final currentUserId = room.client.userID;
 
-    final rel = await Matrix.of(context)
-        .client
+    final rel = await Matrix.of(context).client
         .getRelatingEventsWithRelTypeAndEventType(
           room.id,
           widget.event.eventId,
@@ -80,8 +81,9 @@ class PollWidgetState extends State<PollWidget> {
           final List<dynamic> answers = responseContent['answers'];
           setState(() {
             selectedAnswers = answers.cast<String>();
-            originalVote =
-                List.from(answers.cast<String>()); // Store original vote
+            originalVote = List.from(
+              answers.cast<String>(),
+            ); // Store original vote
             hasVoted = true;
           });
         }
@@ -98,8 +100,7 @@ class PollWidgetState extends State<PollWidget> {
     final results = <String, int>{};
     final voters = <String, List<String>>{}; // answerId -> list of userIds
 
-    final rel = await Matrix.of(context)
-        .client
+    final rel = await Matrix.of(context).client
         .getRelatingEventsWithRelTypeAndEventType(
           room.id,
           pollEventId,
@@ -121,8 +122,9 @@ class PollWidgetState extends State<PollWidget> {
     }
 
     for (final response in userLatestResponse.values) {
-      final responseContent = response
-          .content['org.matrix.msc3381.poll.response'] as Map<String, dynamic>;
+      final responseContent =
+          response.content['org.matrix.msc3381.poll.response']
+              as Map<String, dynamic>;
 
       // Безопасно приводим список ответов
       final List<dynamic> answersRaw = responseContent['answers'] ?? [];
@@ -157,18 +159,13 @@ class PollWidgetState extends State<PollWidget> {
       final room = widget.event.room;
 
       // Send poll response event
-      await room.sendEvent(
-        {
-          'm.relates_to': {
-            'rel_type': 'm.reference',
-            'event_id': widget.event.eventId,
-          },
-          'org.matrix.msc3381.poll.response': {
-            'answers': answers,
-          },
+      await room.sendEvent({
+        'm.relates_to': {
+          'rel_type': 'm.reference',
+          'event_id': widget.event.eventId,
         },
-        type: 'org.matrix.msc3381.poll.response',
-      );
+        'org.matrix.msc3381.poll.response': {'answers': answers},
+      }, type: 'org.matrix.msc3381.poll.response');
 
       setState(() {
         selectedAnswers = answers;
@@ -277,7 +274,8 @@ class PollWidgetState extends State<PollWidget> {
     final client = Matrix.of(context).client;
     final event = widget.event;
     final content = event.content[PollEvents.PollStart] as Map<String, dynamic>;
-    final question = content['question']?['m.text'] as String? ??
+    final question =
+        content['question']?['m.text'] as String? ??
         content['question']?['org.matrix.msc1767.text'] as String? ??
         content['question']?['body'] as String? ??
         'Poll';
@@ -311,9 +309,7 @@ class PollWidgetState extends State<PollWidget> {
 
           // answers
           StreamBuilder(
-            key: ValueKey(
-              event.eventId,
-            ),
+            key: ValueKey(event.eventId),
             stream: client.onTimelineEvent.stream
                 .where(
                   (s) =>
@@ -329,7 +325,8 @@ class PollWidgetState extends State<PollWidget> {
                     final index = entry.key;
                     final answer = entry.value as Map<String, dynamic>;
                     final answerId = answer['id'] as String;
-                    final answerText = answer['m.text'] as String? ??
+                    final answerText =
+                        answer['m.text'] as String? ??
                         answer['org.matrix.msc1767.text'] as String? ??
                         'Answer ${index + 1}';
                     final isSelected = selectedAnswers.contains(answerId);
@@ -346,10 +343,7 @@ class PollWidgetState extends State<PollWidget> {
                         child: InkWell(
                           borderRadius: BorderRadius.circular(12),
                           onTap: canVote
-                              ? () => _onAnswerSelected(
-                                    answerId,
-                                    !isSelected,
-                                  )
+                              ? () => _onAnswerSelected(answerId, !isSelected)
                               : null,
                           child: Container(
                             decoration: BoxDecoration(
@@ -373,11 +367,13 @@ class PollWidgetState extends State<PollWidget> {
                                         decoration: BoxDecoration(
                                           color: isSelected
                                               ? theme.colorScheme.primary
-                                                  .withValues(alpha: 0.12)
-                                              : widget.color
-                                                  .withValues(alpha: 0.08),
-                                          borderRadius:
-                                              BorderRadius.circular(11),
+                                                    .withValues(alpha: 0.12)
+                                              : widget.color.withValues(
+                                                  alpha: 0.08,
+                                                ),
+                                          borderRadius: BorderRadius.circular(
+                                            11,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -449,10 +445,12 @@ class PollWidgetState extends State<PollWidget> {
                                             vertical: 4,
                                           ),
                                           decoration: BoxDecoration(
-                                            color: widget.color
-                                                .withValues(alpha: 0.08),
-                                            borderRadius:
-                                                BorderRadius.circular(8),
+                                            color: widget.color.withValues(
+                                              alpha: 0.08,
+                                            ),
+                                            borderRadius: BorderRadius.circular(
+                                              8,
+                                            ),
                                           ),
                                           child: Text(
                                             '${(percentage * 100).toStringAsFixed(0)}%',
@@ -499,9 +497,7 @@ class PollWidgetState extends State<PollWidget> {
                         ? const SizedBox(
                             width: 16,
                             height: 16,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                            ),
+                            child: CircularProgressIndicator(strokeWidth: 2),
                           )
                         : Icon(
                             hasVoted ? Icons.edit : Icons.how_to_vote,
@@ -560,10 +556,9 @@ class PollWidgetState extends State<PollWidget> {
                   ),
                   const SizedBox(width: 6),
                   Text(
-                    L10n.of(context).choicesSelected(
-                      selectedAnswers.length,
-                      maxSelections,
-                    ),
+                    L10n.of(
+                      context,
+                    ).choicesSelected(selectedAnswers.length, maxSelections),
                     style: TextStyle(
                       fontSize: widget.fontSize - 1,
                       color: widget.color.withValues(alpha: 0.7),
@@ -599,19 +594,12 @@ class _PollInfoChip extends StatelessWidget {
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: color.withValues(alpha: 0.12),
-          width: 1,
-        ),
+        border: Border.all(color: color.withValues(alpha: 0.12), width: 1),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            icon,
-            size: 14,
-            color: color.withValues(alpha: 0.7),
-          ),
+          Icon(icon, size: 14, color: color.withValues(alpha: 0.7)),
           const SizedBox(width: 4),
           Text(
             label,

@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pro_image_editor/pro_image_editor.dart';
 
@@ -23,10 +24,8 @@ class MaterialYouEditor extends StatefulWidget {
 
 class _MaterialYouEditorState extends State<MaterialYouEditor> {
   /// Calculates the number of columns for the EmojiPicker.
-  int _calculateEmojiColumns(BoxConstraints constraints) => max(
-    1,
-    6 / 400 * constraints.maxWidth - 1,
-  ).floor();
+  int _calculateEmojiColumns(BoxConstraints constraints) =>
+      max(1, 6 / 400 * constraints.maxWidth - 1).floor();
 
   @override
   Widget build(BuildContext context) {

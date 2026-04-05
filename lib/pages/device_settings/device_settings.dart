@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:collection/collection.dart' show IterableExtension;
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:matrix/encryption/utils/key_verification.dart';
 import 'package:matrix/matrix.dart';
 
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/device_settings/device_settings_view.dart';
 import 'package:extera_next/pages/key_verification/key_verification_dialog.dart';
 import 'package:extera_next/widgets/adaptive_dialogs/show_ok_cancel_alert_dialog.dart';
@@ -73,10 +73,7 @@ class DevicesSettingsController extends State<DevicesSettings> {
       context: context,
       delay: false,
       future: () => matrix.client.uiaRequestBackground(
-        (auth) => matrix.client.deleteDevices(
-          deviceIds,
-          auth: auth,
-        ),
+        (auth) => matrix.client.deleteDevices(deviceIds, auth: auth),
       ),
     );
     reload();
@@ -93,9 +90,9 @@ class DevicesSettingsController extends State<DevicesSettings> {
     if (displayName == null) return;
     final success = await showFutureLoadingDialog(
       context: context,
-      future: () => Matrix.of(context)
-          .client
-          .updateDevice(device.deviceId, displayName: displayName),
+      future: () => Matrix.of(
+        context,
+      ).client.updateDevice(device.deviceId, displayName: displayName),
     );
     if (success.error == null) {
       reload();
@@ -117,8 +114,10 @@ class DevicesSettingsController extends State<DevicesSettings> {
         .deviceKeys[device.deviceId]!
         .startVerification();
     req.onUpdate = () {
-      if ({KeyVerificationState.error, KeyVerificationState.done}
-          .contains(req.state)) {
+      if ({
+        KeyVerificationState.error,
+        KeyVerificationState.done,
+      }.contains(req.state)) {
         setState(() {});
       }
     };
@@ -149,9 +148,7 @@ class DevicesSettingsController extends State<DevicesSettings> {
   bool _isOwnDevice(Device userDevice) =>
       userDevice.deviceId == Matrix.of(context).client.deviceID;
 
-  Device? get thisDevice => devices!.firstWhereOrNull(
-        _isOwnDevice,
-      );
+  Device? get thisDevice => devices!.firstWhereOrNull(_isOwnDevice);
 
   List<Device> get notThisDevice => List<Device>.from(devices!)
     ..removeWhere(_isOwnDevice)

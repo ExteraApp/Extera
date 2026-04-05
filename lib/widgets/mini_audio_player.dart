@@ -2,9 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-import 'package:extera_next/widgets/background_audio_player.dart';
 import 'package:go_router/go_router.dart';
 import 'package:matrix/matrix.dart';
+
+import 'package:extera_next/widgets/background_audio_player.dart';
 
 /// A Material 3 mini audio player bar.
 ///
@@ -84,9 +85,7 @@ class _MiniPlayerContent extends StatelessWidget {
       margin: const .symmetric(horizontal: 12, vertical: 6),
       elevation: 2,
       shadowColor: Colors.transparent,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       color: colorScheme.surfaceContainerHigh,
       clipBehavior: Clip.antiAlias,
       child: Column(
@@ -203,16 +202,12 @@ class _MiniPlayerContent extends StatelessWidget {
 
     return IconButton.filledTonal(
       onPressed: player.togglePlayPause,
-      icon: Icon(
-        isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
-      ),
+      icon: Icon(isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded),
       style: IconButton.styleFrom(
         backgroundColor: colorScheme.secondaryContainer,
         foregroundColor: colorScheme.onSecondaryContainer,
         minimumSize: const Size(40, 40),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
       tooltip: isPlaying ? 'Pause' : 'Play',
     );
@@ -231,9 +226,7 @@ class _MiniPlayerContent extends StatelessWidget {
         '/rooms/${event.roomId!}/threads/${event.relationshipEventId}?event=${event.eventId}',
       );
     } else {
-      context.go(
-        '/rooms/${event.roomId!}?event=${event.eventId}',
-      );
+      context.go('/rooms/${event.roomId!}?event=${event.eventId}');
     }
   }
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:matrix/matrix.dart';
 
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/utils/localized_exception_extension.dart';
 
 extension SyncStatusLocalization on SyncStatusUpdate {
@@ -12,8 +12,9 @@ extension SyncStatusLocalization on SyncStatusUpdate {
       case SyncStatus.waitingForResponse:
         return L10n.of(context).waitingForServer;
       case SyncStatus.error:
-        return ((error?.exception ?? Object()) as Object)
-            .toLocalizedString(context);
+        return ((error?.exception ?? Object()) as Object).toLocalizedString(
+          context,
+        );
       case SyncStatus.processing:
       case SyncStatus.cleaningUp:
       case SyncStatus.finished:

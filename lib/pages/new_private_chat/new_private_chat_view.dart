@@ -1,4 +1,3 @@
-import 'package:extera_next/widgets/list_divider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
@@ -14,6 +13,7 @@ import 'package:extera_next/utils/platform_infos.dart';
 import 'package:extera_next/utils/url_launcher.dart';
 import 'package:extera_next/widgets/avatar.dart';
 import 'package:extera_next/widgets/layouts/max_width_body.dart';
+import 'package:extera_next/widgets/list_divider.dart';
 import 'package:extera_next/widgets/matrix.dart';
 import '../../widgets/qr_code_viewer.dart';
 
@@ -140,7 +140,10 @@ class NewPrivateChatView extends StatelessWidget {
                               color: theme.colorScheme.surfaceContainerHigh,
                               borderRadius: borderRadius,
                               child: ListTileTheme(
-                                contentPadding: const .symmetric(vertical: 4, horizontal: 16),
+                                contentPadding: const .symmetric(
+                                  vertical: 4,
+                                  horizontal: 16,
+                                ),
                                 child: Column(
                                   children: [
                                     ListTile(

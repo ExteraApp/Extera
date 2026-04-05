@@ -1,10 +1,12 @@
+import 'package:flutter/material.dart' hide Intent;
+
+import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
+import 'package:matrix/matrix.dart';
+
 import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/utils/platform_infos.dart';
 import 'package:extera_next/utils/sign_in_flows/calc_redirect_url.dart';
 import 'package:extera_next/widgets/adaptive_dialogs/show_modal_action_popup.dart';
-import 'package:flutter/material.dart' hide Intent;
-import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
-import 'package:matrix/matrix.dart';
 
 Future<void> ssoLoginFlow(
   Client client,

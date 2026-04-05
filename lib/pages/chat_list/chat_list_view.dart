@@ -1,14 +1,14 @@
+import 'package:flutter/material.dart';
+
+import 'package:go_router/go_router.dart';
+
 import 'package:extera_next/config/setting_keys.dart';
+import 'package:extera_next/config/themes.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
+import 'package:extera_next/pages/chat_list/chat_list.dart';
 import 'package:extera_next/pages/chat_list/chat_list_bottom_navbar.dart';
 import 'package:extera_next/pages/chat_list/chat_list_legacy_bottom_navbar.dart';
 import 'package:extera_next/widgets/matrix.dart';
-import 'package:flutter/material.dart';
-
-import 'package:extera_next/generated/l10n/l10n.dart';
-import 'package:go_router/go_router.dart';
-
-import 'package:extera_next/config/themes.dart';
-import 'package:extera_next/pages/chat_list/chat_list.dart';
 import 'package:extera_next/widgets/navigation_rail.dart';
 import 'chat_list_body.dart';
 
@@ -55,7 +55,9 @@ class ChatListView extends StatelessWidget {
                 body: Stack(
                   children: [
                     ChatListViewBody(controller),
-                    if (client.rooms.isNotEmpty && !controller.isSearchMode && !AppSettings.useLegacyNavBar.value)
+                    if (client.rooms.isNotEmpty &&
+                        !controller.isSearchMode &&
+                        !AppSettings.useLegacyNavBar.value)
                       Positioned(
                         left: 0,
                         right: 0,

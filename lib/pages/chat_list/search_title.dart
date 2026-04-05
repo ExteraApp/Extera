@@ -1,5 +1,6 @@
-import 'package:extera_next/config/app_config.dart';
 import 'package:flutter/material.dart';
+
+import 'package:extera_next/config/app_config.dart';
 
 class SearchTitle extends StatelessWidget {
   final String title;
@@ -30,10 +31,7 @@ class SearchTitle extends StatelessWidget {
         child: Align(
           alignment: Alignment.centerLeft,
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 8,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: IconTheme(
               data: theme.iconTheme.copyWith(size: 16),
               child: Row(

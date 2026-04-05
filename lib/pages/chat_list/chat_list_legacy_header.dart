@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:matrix/matrix.dart';
 
 import 'package:extera_next/config/themes.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/chat_list/chat_list.dart';
 import 'package:extera_next/pages/chat_list/client_chooser_button.dart';
 import 'package:extera_next/utils/sync_status_localization.dart';
 import '../../widgets/matrix.dart';
 
-class ChatListLegacyHeader extends StatelessWidget implements PreferredSizeWidget {
+class ChatListLegacyHeader extends StatelessWidget
+    implements PreferredSizeWidget {
   final ChatListController controller;
   final bool globalSearch;
 
@@ -34,23 +35,21 @@ class ChatListLegacyHeader extends StatelessWidget implements PreferredSizeWidge
       title: StreamBuilder(
         stream: client.onSyncStatus.stream,
         builder: (context, snapshot) {
-          final status = client.onSyncStatus.value ??
+          final status =
+              client.onSyncStatus.value ??
               const SyncStatusUpdate(SyncStatus.waitingForResponse);
-          final hide = client.onSync.value != null &&
+          final hide =
+              client.onSync.value != null &&
               status.status != SyncStatus.error &&
               client.prevBatch != null;
           return TextField(
             controller: controller.searchController,
             focusNode: controller.searchFocusNode,
             textInputAction: TextInputAction.search,
-            onChanged: (text) => controller.onSearchEnter(
-              text,
-              globalSearch: false,
-            ),
-            onSubmitted: (text) => controller.onSearchEnter(
-              text,
-              globalSearch: globalSearch,
-            ),
+            onChanged: (text) =>
+                controller.onSearchEnter(text, globalSearch: false),
+            onSubmitted: (text) =>
+                controller.onSearchEnter(text, globalSearch: globalSearch),
             decoration: InputDecoration(
               filled: true,
               fillColor: theme.colorScheme.secondaryContainer,
@@ -70,19 +69,19 @@ class ChatListLegacyHeader extends StatelessWidget implements PreferredSizeWidge
               ),
               prefixIcon: hide
                   ? controller.isSearchMode
-                      ? IconButton(
-                          tooltip: L10n.of(context).cancel,
-                          icon: const Icon(Icons.close_outlined),
-                          onPressed: controller.cancelSearch,
-                          color: theme.colorScheme.onSecondaryContainer,
-                        )
-                      : IconButton(
-                          onPressed: controller.startSearch,
-                          icon: Icon(
-                            Icons.search_outlined,
+                        ? IconButton(
+                            tooltip: L10n.of(context).cancel,
+                            icon: const Icon(Icons.close_outlined),
+                            onPressed: controller.cancelSearch,
                             color: theme.colorScheme.onSecondaryContainer,
-                          ),
-                        )
+                          )
+                        : IconButton(
+                            onPressed: controller.startSearch,
+                            icon: Icon(
+                              Icons.search_outlined,
+                              color: theme.colorScheme.onSecondaryContainer,
+                            ),
+                          )
                   : Container(
                       margin: const EdgeInsets.all(12),
                       width: 8,
@@ -101,37 +100,34 @@ class ChatListLegacyHeader extends StatelessWidget implements PreferredSizeWidge
                     ),
               suffixIcon: controller.isSearchMode && globalSearch
                   ? controller.isSearching
-                      ? const Padding(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 10.0,
-                            horizontal: 12,
-                          ),
-                          child: SizedBox.square(
-                            dimension: 24,
-                            child: CircularProgressIndicator.adaptive(
-                              strokeWidth: 2,
+                        ? const Padding(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 12,
                             ),
-                          ),
-                        )
-                      : TextButton.icon(
-                          onPressed: controller.setServer,
-                          style: TextButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(99),
+                            child: SizedBox.square(
+                              dimension: 24,
+                              child: CircularProgressIndicator.adaptive(
+                                strokeWidth: 2,
+                              ),
                             ),
-                            textStyle: const TextStyle(fontSize: 12),
-                          ),
-                          icon: const Icon(Icons.edit_outlined, size: 16),
-                          label: Text(
-                            controller.searchServer ??
-                                Matrix.of(context).client.homeserver!.host,
-                            maxLines: 2,
-                          ),
-                        )
-                  : SizedBox(
-                      width: 0,
-                      child: ClientChooserButton(controller),
-                    ),
+                          )
+                        : TextButton.icon(
+                            onPressed: controller.setServer,
+                            style: TextButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(99),
+                              ),
+                              textStyle: const TextStyle(fontSize: 12),
+                            ),
+                            icon: const Icon(Icons.edit_outlined, size: 16),
+                            label: Text(
+                              controller.searchServer ??
+                                  Matrix.of(context).client.homeserver!.host,
+                              maxLines: 2,
+                            ),
+                          )
+                  : SizedBox(width: 0, child: ClientChooserButton(controller)),
             ),
           );
         },

@@ -20,10 +20,7 @@ class RecordingInputRow extends StatelessWidget {
   Widget build(BuildContext context) {
     // Video recording is now handled by VideoNoteRecordingDialog,
     // so this widget only handles audio recording.
-    return _AudioRecordingInputRow(
-      state: state,
-      onSend: onSend,
-    );
+    return _AudioRecordingInputRow(state: state, onSend: onSend);
   }
 }
 
@@ -31,10 +28,7 @@ class _AudioRecordingInputRow extends StatelessWidget {
   final RecordingViewModelState state;
   final Future<void> Function(String, int, List<int>, String) onSend;
 
-  const _AudioRecordingInputRow({
-    required this.state,
-    required this.onSend,
-  });
+  const _AudioRecordingInputRow({required this.state, required this.onSend});
 
   @override
   Widget build(BuildContext context) {

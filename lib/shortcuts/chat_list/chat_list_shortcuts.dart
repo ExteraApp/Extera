@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:hotkey_manager/hotkey_manager.dart';
 
 class NextChatIntent extends Intent {
@@ -21,14 +22,12 @@ class ChatListShortcuts extends StatefulWidget {
     required this.child,
     super.key,
   });
-  
+
   @override
   State<StatefulWidget> createState() => ChatListShortcutsState();
 }
 
 class ChatListShortcutsState extends State<ChatListShortcuts> {
-
-
   final HotKey prevChatKey = HotKey(
     key: LogicalKeyboardKey.arrowUp,
     modifiers: [HotKeyModifier.alt],
@@ -44,12 +43,18 @@ class ChatListShortcutsState extends State<ChatListShortcuts> {
   @override
   void initState() {
     super.initState();
-    hotKeyManager.register(prevChatKey, keyDownHandler: (hotKey) {
-      widget.onPreviousChat();
-    });
-    hotKeyManager.register(nextChatKey, keyDownHandler: (hotKey) {
-      widget.onNextChat();
-    });
+    hotKeyManager.register(
+      prevChatKey,
+      keyDownHandler: (hotKey) {
+        widget.onPreviousChat();
+      },
+    );
+    hotKeyManager.register(
+      nextChatKey,
+      keyDownHandler: (hotKey) {
+        widget.onNextChat();
+      },
+    );
   }
 
   @override

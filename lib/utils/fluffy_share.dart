@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:share_plus/share_plus.dart';
 
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/utils/platform_infos.dart';
 import '../widgets/matrix.dart';
 
@@ -21,12 +21,10 @@ abstract class FluffyShare {
       );
       return;
     }
-    await Clipboard.setData(
-      ClipboardData(text: text),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(L10n.of(context).copiedToClipboard)),
-    );
+    await Clipboard.setData(ClipboardData(text: text));
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(L10n.of(context).copiedToClipboard)));
     return;
   }
 

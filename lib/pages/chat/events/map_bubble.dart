@@ -1,8 +1,9 @@
-import 'package:extera_next/utils/platform_infos.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+
+import 'package:extera_next/utils/platform_infos.dart';
 
 class MapBubble extends StatelessWidget {
   final double latitude;
@@ -44,7 +45,8 @@ class MapBubble extends StatelessWidget {
                     minZoom: 0,
                     urlTemplate:
                         'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                    userAgentPackageName: '${PlatformInfos.clientName} (flutter_map)',
+                    userAgentPackageName:
+                        '${PlatformInfos.clientName} (flutter_map)',
                   ),
                   MarkerLayer(
                     rotate: true,

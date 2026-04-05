@@ -1,30 +1,30 @@
 import 'dart:ui' as ui;
 
-import 'package:extera_next/config/setting_keys.dart';
-import 'package:extera_next/pages/chat/jitsi_popup_button.dart';
-import 'package:extera_next/pages/dialer/back_to_call_button.dart';
-import 'package:extera_next/widgets/avatar.dart';
-import 'package:extera_next/widgets/mini_audio_player.dart';
 import 'package:flutter/material.dart';
 
 import 'package:badges/badges.dart';
 import 'package:desktop_drop/desktop_drop.dart';
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:matrix/matrix.dart';
 
+import 'package:extera_next/config/setting_keys.dart';
 import 'package:extera_next/config/themes.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/chat/chat.dart';
 import 'package:extera_next/pages/chat/chat_app_bar_list_tile.dart';
 import 'package:extera_next/pages/chat/chat_app_bar_title.dart';
 import 'package:extera_next/pages/chat/chat_event_list.dart';
 import 'package:extera_next/pages/chat/encryption_button.dart';
+import 'package:extera_next/pages/chat/jitsi_popup_button.dart';
 import 'package:extera_next/pages/chat/pinned_events.dart';
 import 'package:extera_next/pages/chat/reply_display.dart';
+import 'package:extera_next/pages/dialer/back_to_call_button.dart';
 import 'package:extera_next/utils/account_config.dart';
 import 'package:extera_next/utils/url_launcher.dart';
+import 'package:extera_next/widgets/avatar.dart';
 import 'package:extera_next/widgets/chat_settings_popup_menu.dart';
 import 'package:extera_next/widgets/matrix.dart';
+import 'package:extera_next/widgets/mini_audio_player.dart';
 import 'package:extera_next/widgets/mxc_image.dart';
 import 'package:extera_next/widgets/unread_rooms_badge.dart';
 import '../../utils/stream_extension.dart';

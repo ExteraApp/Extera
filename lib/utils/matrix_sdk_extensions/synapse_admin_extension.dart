@@ -23,9 +23,7 @@ extension SynapseAdmin on matrix.Client {
   }
 
   Future<matrix.Event?> getReportedEvent(int id) async {
-    final requestUri = Uri(
-      path: '/_synapse/admin/v1/event_reports/$id',
-    );
+    final requestUri = Uri(path: '/_synapse/admin/v1/event_reports/$id');
 
     if (baseUri == null) return null;
     final request = Request('GET', baseUri!.resolveUri(requestUri));
@@ -46,7 +44,8 @@ extension SynapseAdmin on matrix.Client {
       eventId: json['event_id'],
       senderId: json['sender'],
       originServerTs: DateTime.fromMillisecondsSinceEpoch(
-          json['event_json']['origin_server_ts'],),
+        json['event_json']['origin_server_ts'],
+      ),
       room: room,
     );
   }
@@ -55,9 +54,7 @@ extension SynapseAdmin on matrix.Client {
     print('Checking if I am admin...');
     print('User ID: $userID');
     if (userID == null) return false;
-    final requestUri = Uri(
-      path: '/_synapse/admin/v1/users/$userID/admin',
-    );
+    final requestUri = Uri(path: '/_synapse/admin/v1/users/$userID/admin');
 
     print('Base URL: ${baseUri.toString()}');
     if (baseUri == null) return false;

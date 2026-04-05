@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:go_router/go_router.dart';
 import 'package:matrix/matrix.dart';
 
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/archive/archive.dart';
 import 'package:extera_next/pages/chat_list/chat_list_item.dart';
 import 'package:extera_next/widgets/layouts/max_width_body.dart';
@@ -60,8 +60,9 @@ class ArchiveView extends StatelessWidget {
                   itemBuilder: (BuildContext context, int i) => ChatListItem(
                     controller.archive[i],
                     onForget: () => controller.forgetRoomAction(i),
-                    onTap: () => context
-                        .go('/rooms/archive/${controller.archive[i].id}'),
+                    onTap: () => context.go(
+                      '/rooms/archive/${controller.archive[i].id}',
+                    ),
                   ),
                 );
               }

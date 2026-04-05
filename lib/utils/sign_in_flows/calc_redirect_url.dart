@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
+
+import 'package:universal_html/html.dart' as html;
+
 import 'package:extera_next/config/app_config.dart';
 import 'package:extera_next/utils/platform_infos.dart';
-import 'package:flutter/foundation.dart';
-import 'package:universal_html/html.dart' as html;
 
 (Uri redirectUrl, String urlScheme) calcRedirectUrl({
   bool withAuthHtmlPath = false,

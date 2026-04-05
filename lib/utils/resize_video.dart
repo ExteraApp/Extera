@@ -1,8 +1,8 @@
 import 'package:cross_file/cross_file.dart';
-import 'package:extera_next/utils/client_manager.dart';
 import 'package:matrix/matrix.dart';
 import 'package:video_compress/video_compress.dart';
 
+import 'package:extera_next/utils/client_manager.dart';
 import 'package:extera_next/utils/platform_infos.dart';
 
 extension ResizeImage on XFile {

@@ -1,24 +1,24 @@
-import 'package:extera_next/config/setting_keys.dart';
-import 'package:extera_next/pages/chat_list/chat_list_legacy_header.dart';
-import 'package:extera_next/pages/dialer/back_to_call_button.dart';
-import 'package:extera_next/shortcuts/chat_list/chat_list_shortcuts.dart';
-import 'package:extera_next/utils/show_profile.dart';
-import 'package:extera_next/widgets/mini_audio_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:matrix/matrix.dart';
 
+import 'package:extera_next/config/setting_keys.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/chat_list/chat_list.dart';
 import 'package:extera_next/pages/chat_list/chat_list_item.dart';
+import 'package:extera_next/pages/chat_list/chat_list_legacy_header.dart';
 import 'package:extera_next/pages/chat_list/dummy_chat_list_item.dart';
 import 'package:extera_next/pages/chat_list/search_title.dart';
 import 'package:extera_next/pages/chat_list/space_view.dart';
 import 'package:extera_next/pages/chat_list/status_msg_list.dart';
+import 'package:extera_next/pages/dialer/back_to_call_button.dart';
+import 'package:extera_next/shortcuts/chat_list/chat_list_shortcuts.dart';
+import 'package:extera_next/utils/show_profile.dart';
 import 'package:extera_next/utils/stream_extension.dart';
 import 'package:extera_next/widgets/adaptive_dialogs/public_room_dialog.dart';
 import 'package:extera_next/widgets/avatar.dart';
+import 'package:extera_next/widgets/mini_audio_player.dart';
 import '../../config/themes.dart';
 import '../../widgets/matrix.dart';
 import 'chat_list_header.dart';

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:intl/intl.dart';
 import 'package:matrix/matrix.dart';
 
 import 'package:extera_next/config/app_config.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/chat/events/video_player.dart';
 import 'package:extera_next/pages/image_viewer/image_viewer.dart';
 import 'package:extera_next/utils/matrix_sdk_extensions/matrix_locals.dart';
@@ -13,10 +13,8 @@ import 'package:extera_next/widgets/mxc_image.dart';
 class ChatSearchImagesTab extends StatelessWidget {
   final Room room;
   final Stream<(List<Event>, String?)>? searchStream;
-  final void Function({
-    String? prevBatch,
-    List<Event>? previousSearchResult,
-  }) startSearch;
+  final void Function({String? prevBatch, List<Event>? previousSearchResult})
+  startSearch;
 
   const ChatSearchImagesTab({
     required this.room,
@@ -41,9 +39,7 @@ class ChatSearchImagesTab extends StatelessWidget {
               const SizedBox(height: 8),
               Text(
                 L10n.of(context).searchIn(
-                  room.getLocalizedDisplayname(
-                    MatrixLocals(L10n.of(context)),
-                  ),
+                  room.getLocalizedDisplayname(MatrixLocals(L10n.of(context))),
                 ),
               ),
             ],
@@ -80,9 +76,7 @@ class ChatSearchImagesTab extends StatelessWidget {
                 return const Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Center(
-                    child: CircularProgressIndicator.adaptive(
-                      strokeWidth: 2,
-                    ),
+                    child: CircularProgressIndicator.adaptive(strokeWidth: 2),
                   ),
                 );
               }
@@ -102,9 +96,7 @@ class ChatSearchImagesTab extends StatelessWidget {
                       prevBatch: nextBatch,
                       previousSearchResult: events,
                     ),
-                    icon: const Icon(
-                      Icons.arrow_downward_outlined,
-                    ),
+                    icon: const Icon(Icons.arrow_downward_outlined),
                     label: Text(L10n.of(context).searchMore),
                   ),
                 ),
@@ -119,10 +111,7 @@ class ChatSearchImagesTab extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: Container(
-                        height: 1,
-                        color: theme.dividerColor,
-                      ),
+                      child: Container(height: 1, color: theme.dividerColor),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -135,10 +124,7 @@ class ChatSearchImagesTab extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      child: Container(
-                        height: 1,
-                        color: theme.dividerColor,
-                      ),
+                      child: Container(height: 1, color: theme.dividerColor),
                     ),
                   ],
                 ),
@@ -150,40 +136,40 @@ class ChatSearchImagesTab extends StatelessWidget {
                   clipBehavior: Clip.hardEdge,
                   padding: const EdgeInsets.all(padding),
                   crossAxisCount: 3,
-                  children: monthEvents.map(
-                    (event) {
-                      if (event.messageType == MessageTypes.Video) {
-                        return Material(
-                          clipBehavior: Clip.hardEdge,
-                          borderRadius: borderRadius,
-                          child: EventVideoPlayer(event, theme.colorScheme.onSurface, theme.colorScheme.primary),
-                        );
-                      }
-                      return InkWell(
-                        onTap: () => showDialog(
-                          context: context,
-                          useRootNavigator: false,
-                          builder: (_) => ImageViewer(
-                            event,
-                            outerContext: context,
-                          ),
-                        ),
+                  children: monthEvents.map((event) {
+                    if (event.messageType == MessageTypes.Video) {
+                      return Material(
+                        clipBehavior: Clip.hardEdge,
                         borderRadius: borderRadius,
-                        child: Material(
-                          clipBehavior: Clip.hardEdge,
-                          borderRadius: borderRadius,
-                          child: MxcImage(
-                            event: event,
-                            width: 128,
-                            height: 128,
-                            fit: BoxFit.cover,
-                            animated: true,
-                            isThumbnail: true,
-                          ),
+                        child: EventVideoPlayer(
+                          event,
+                          theme.colorScheme.onSurface,
+                          theme.colorScheme.primary,
                         ),
                       );
-                    },
-                  ).toList(),
+                    }
+                    return InkWell(
+                      onTap: () => showDialog(
+                        context: context,
+                        useRootNavigator: false,
+                        builder: (_) =>
+                            ImageViewer(event, outerContext: context),
+                      ),
+                      borderRadius: borderRadius,
+                      child: Material(
+                        clipBehavior: Clip.hardEdge,
+                        borderRadius: borderRadius,
+                        child: MxcImage(
+                          event: event,
+                          width: 128,
+                          height: 128,
+                          fit: BoxFit.cover,
+                          animated: true,
+                          isThumbnail: true,
+                        ),
+                      ),
+                    );
+                  }).toList(),
                 ),
               ],
             );

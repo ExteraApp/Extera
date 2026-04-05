@@ -21,10 +21,7 @@ Future<T?> showAdaptiveBottomSheet<T>({
       builder: (context) => Center(
         child: Container(
           margin: const EdgeInsets.all(16),
-          constraints: const BoxConstraints(
-            maxWidth: 480,
-            maxHeight: 720,
-          ),
+          constraints: const BoxConstraints(maxWidth: 480, maxHeight: 720),
           child: Material(
             elevation: Theme.of(context).dialogTheme.elevation ?? 4,
             shadowColor: Theme.of(context).dialogTheme.shadowColor,

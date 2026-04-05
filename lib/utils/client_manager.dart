@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
-import 'package:extera_next/utils/poll_events.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:collection/collection.dart';
@@ -15,10 +13,12 @@ import 'package:universal_html/html.dart' as html;
 
 import 'package:extera_next/config/app_config.dart';
 import 'package:extera_next/config/setting_keys.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/utils/custom_http_client.dart';
 import 'package:extera_next/utils/custom_image_resizer.dart';
 import 'package:extera_next/utils/init_with_restore.dart';
 import 'package:extera_next/utils/platform_infos.dart';
+import 'package:extera_next/utils/poll_events.dart';
 import 'matrix_sdk_extensions/flutter_matrix_dart_sdk_database/builder.dart';
 
 abstract class ClientManager {
@@ -40,22 +40,27 @@ abstract class ClientManager {
       clientNames.add(PlatformInfos.clientName);
       await store.setStringList(clientNamespace, clientNames.toList());
     }
-    final clients =
-        await Future.wait(clientNames.map((name) => createClient(name, store)));
+    final clients = await Future.wait(
+      clientNames.map((name) => createClient(name, store)),
+    );
     if (initialize) {
       await Future.wait(
         clients.map(
-          (client) => client.initWithRestore(
-            onMigration: () async {
-              final l10n = await lookupL10n(PlatformDispatcher.instance.locale);
-              sendInitNotification(
-                l10n.databaseMigrationTitle,
-                l10n.databaseMigrationBody,
-              );
-            },
-          ).catchError(
-            (e, s) => Logs().e('Unable to initialize client', e, s),
-          ),
+          (client) => client
+              .initWithRestore(
+                onMigration: () async {
+                  final l10n = await lookupL10n(
+                    PlatformDispatcher.instance.locale,
+                  );
+                  sendInitNotification(
+                    l10n.databaseMigrationTitle,
+                    l10n.databaseMigrationBody,
+                  );
+                },
+              )
+              .catchError(
+                (e, s) => Logs().e('Unable to initialize client', e, s),
+              ),
         ),
       );
     }
@@ -107,8 +112,7 @@ abstract class ClientManager {
 
     return Client(
       clientName,
-      httpClient:
-          CustomHttpClient.createHTTPClient(),
+      httpClient: CustomHttpClient.createHTTPClient(),
       verificationMethods: {
         KeyVerificationMethod.numbers,
         if (kIsWeb || PlatformInfos.isMobile || PlatformInfos.isLinux)
@@ -139,21 +143,21 @@ abstract class ClientManager {
       customImageResizer: PlatformInfos.isMobile ? customImageResizer : null,
       defaultNetworkRequestTimeout: const Duration(minutes: 30),
       enableDehydratedDevices: true,
-      shareKeysWith: ShareKeysWith.values
-              .singleWhereOrNull((share) => share.name == shareKeysWith) ??
+      shareKeysWith:
+          ShareKeysWith.values.singleWhereOrNull(
+            (share) => share.name == shareKeysWith,
+          ) ??
           ShareKeysWith.all,
       convertLinebreaksInFormatting: false,
-      onSoftLogout:
-          enableSoftLogout ? (client) => client.refreshAccessToken() : null,
+      onSoftLogout: enableSoftLogout
+          ? (client) => client.refreshAccessToken()
+          : null,
     );
   }
 
   static void sendInitNotification(String title, String body) async {
     if (kIsWeb) {
-      html.Notification(
-        title,
-        body: body,
-      );
+      html.Notification(title, body: body);
       return;
     }
     if (Platform.isLinux) {
@@ -161,9 +165,7 @@ abstract class ClientManager {
         title,
         body: body,
         appName: AppConfig.applicationName,
-        hints: [
-          NotificationHint.soundName('message-new-instant'),
-        ],
+        hints: [NotificationHint.soundName('message-new-instant')],
       );
       return;
     }

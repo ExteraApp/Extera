@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class ListDivider extends StatelessWidget {
-
   const ListDivider({super.key});
 
   @override

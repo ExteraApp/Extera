@@ -1,8 +1,13 @@
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
 class Translator {
-  static Future<String> translate(String str, String targetLanguage, String baseUrl) async {
+  static Future<String> translate(
+    String str,
+    String targetLanguage,
+    String baseUrl,
+  ) async {
     final url = Uri.parse('$baseUrl/translate/anything/auto/$targetLanguage');
     final response = await http.post(
       url,

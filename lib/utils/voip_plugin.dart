@@ -1,17 +1,17 @@
 import 'dart:core';
 
-import 'package:audioplayers/audioplayers.dart';
-import 'package:extera_next/config/app_config.dart';
-import 'package:extera_next/config/setting_keys.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart' as webrtc_impl;
 import 'package:matrix/matrix.dart';
 import 'package:webrtc_interface/webrtc_interface.dart' hide Navigator;
 
+import 'package:extera_next/config/app_config.dart';
+import 'package:extera_next/config/setting_keys.dart';
 import 'package:extera_next/pages/chat_list/chat_list.dart';
 import 'package:extera_next/pages/dialer/dialer.dart';
 import 'package:extera_next/utils/platform_infos.dart';
@@ -37,7 +37,8 @@ class VoipPlugin with WidgetsBindingObserver implements WebRTCDelegate {
 
   final ValueNotifier<CallSession?> currentCallNotifier = ValueNotifier(null);
   CallSession? get currentCallSession => currentCallNotifier.value;
-  set currentCallSession(CallSession? value) => currentCallNotifier.value = value;
+  set currentCallSession(CallSession? value) =>
+      currentCallNotifier.value = value;
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState? state) {
@@ -106,7 +107,9 @@ class VoipPlugin with WidgetsBindingObserver implements WebRTCDelegate {
             ),
           ),
         );
-        player.play(AssetSource(AppConfig.ringtoneFiles[AppSettings.ringtone.value]!));
+        player.play(
+          AssetSource(AppConfig.ringtoneFiles[AppSettings.ringtone.value]!),
+        );
       }
     } catch (ex) {
       Logs().e("Failed to play ringtone", ex);
@@ -214,8 +217,11 @@ class VoipPlugin with WidgetsBindingObserver implements WebRTCDelegate {
   @override
   Future<void> handleNewCall(CallSession call) async {
     if (PlatformInfos.isAndroid) {
-      if (call.direction == .kIncoming && call.remoteUserId == call.client.userID) {
-        Logs().w("Ignoring a call from ourselves, it's probably a call to someone else from different device.");
+      if (call.direction == .kIncoming &&
+          call.remoteUserId == call.client.userID) {
+        Logs().w(
+          "Ignoring a call from ourselves, it's probably a call to someone else from different device.",
+        );
         return;
       }
       try {
@@ -225,7 +231,9 @@ class VoipPlugin with WidgetsBindingObserver implements WebRTCDelegate {
           'wasForeground',
           wasForeground == true ? 'true' : 'false',
         );
-        FlutterForegroundTask.setOnLockScreenVisibility(AppSettings.incomingCallsOnLockScreen.value);
+        FlutterForegroundTask.setOnLockScreenVisibility(
+          AppSettings.incomingCallsOnLockScreen.value,
+        );
         FlutterForegroundTask.wakeUpScreen();
         FlutterForegroundTask.launchApp();
       } catch (e) {

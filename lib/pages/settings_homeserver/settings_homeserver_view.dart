@@ -1,17 +1,17 @@
 import 'dart:convert';
 
-import 'package:extera_next/widgets/list_divider.dart';
 import 'package:flutter/material.dart';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:matrix/matrix.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import 'package:extera_next/config/app_config.dart';
 import 'package:extera_next/config/themes.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/utils/localized_exception_extension.dart';
 import 'package:extera_next/widgets/layouts/max_width_body.dart';
+import 'package:extera_next/widgets/list_divider.dart';
 import '../../widgets/matrix.dart';
 import 'settings_homeserver.dart';
 
@@ -131,7 +131,7 @@ class SettingsHomeserverView extends StatelessWidget {
                         );
                       },
                     ),
-                            const ListDivider(),
+                    const ListDivider(),
                     FutureBuilder(
                       future: controller.fetchServerInfo(),
                       builder: (context, snapshot) {

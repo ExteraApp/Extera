@@ -1,17 +1,17 @@
-import 'package:extera_next/config/setting_keys.dart';
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:collection/collection.dart';
-import 'package:flutter/services.dart';
-import 'package:highlight_selectable/theme_map.dart';
 import 'package:highlight_selectable/highlight_selectable.dart';
+import 'package:highlight_selectable/theme_map.dart';
 import 'package:html/dom.dart' as dom;
 import 'package:html/parser.dart' as parser;
+import 'package:latext/latext.dart';
 import 'package:linkify/linkify.dart';
 import 'package:matrix/matrix.dart';
-import 'package:latext/latext.dart';
 
+import 'package:extera_next/config/setting_keys.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/widgets/avatar.dart';
 import 'package:extera_next/widgets/mxc_image.dart';
 import '../../../utils/url_launcher.dart';
@@ -180,7 +180,12 @@ class _HtmlMessageState extends State<HtmlMessage> {
     return [
       for (var i = 0; i < nodes.length; i++) ...[
         // Actually render the node child:
-        _renderHtml(nodes[i], context, depth: depth + 1, insideAnchor: insideAnchor),
+        _renderHtml(
+          nodes[i],
+          context,
+          depth: depth + 1,
+          insideAnchor: insideAnchor,
+        ),
         // Add linebreaks between blocks:
         if (nodes[i] is dom.Element &&
             onlyElements.indexOf(nodes[i] as dom.Element) <

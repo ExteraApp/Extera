@@ -49,9 +49,7 @@ class ConfigViewer extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Advanced configurations'),
-        leading: BackButton(
-          onPressed: () => context.go('/'),
-        ),
+        leading: BackButton(onPressed: () => context.go('/')),
       ),
       body: Column(
         children: [
@@ -61,9 +59,7 @@ class ConfigViewer extends StatelessWidget {
             color: theme.colorScheme.errorContainer,
             child: Text(
               'Changing configs by hand is untested! Use without any warranty!',
-              style: TextStyle(
-                color: theme.colorScheme.onErrorContainer,
-              ),
+              style: TextStyle(color: theme.colorScheme.onErrorContainer),
             ),
           ),
           Expanded(

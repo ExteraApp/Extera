@@ -1,19 +1,20 @@
+import 'dart:math';
 import 'dart:ui' as ui;
 
-import 'package:extera_next/config/setting_keys.dart';
-import 'package:extera_next/utils/poll_events.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:go_router/go_router.dart';
 import 'package:matrix/matrix.dart';
 import 'package:swipe_to_action/swipe_to_action.dart';
 
+import 'package:extera_next/config/setting_keys.dart';
 import 'package:extera_next/config/themes.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/chat/events/room_creation_state_event.dart';
 import 'package:extera_next/utils/date_time_extension.dart';
 import 'package:extera_next/utils/platform_infos.dart';
+import 'package:extera_next/utils/poll_events.dart';
 import 'package:extera_next/utils/string_color.dart';
 import 'package:extera_next/widgets/avatar.dart';
 import 'package:extera_next/widgets/matrix.dart';
@@ -134,6 +135,48 @@ class _MessageState extends State<Message> {
       _threadSenderFuture = threadLastEvent.fetchSenderUser();
     } else {
       _threadSenderFuture = null;
+    }
+  }
+
+  /// Calculates the width of the media content (image/video/sticker) for
+  /// the given event, matching the logic in [MessageContent], [ImageBubble],
+  /// and [EventVideoPlayer]. Returns null if the event is not a media type.
+  double? _calculateMediaWidth(Event event) {
+    if (event.redacted) return null;
+
+    switch (event.messageType) {
+      case MessageTypes.Image:
+      case MessageTypes.Sticker:
+        final maxSize = event.messageType == MessageTypes.Sticker
+            ? 128.0 * AppSettings.stickerScale.value
+            : 512.0;
+        final w = event.content
+            .tryGetMap<String, Object?>('info')
+            ?.tryGet<int>('w');
+        final h = event.content
+            .tryGetMap<String, Object?>('info')
+            ?.tryGet<int>('h');
+        var imageWidth = maxSize;
+        if (w != null && h != null) {
+          if (w > h) {
+            imageWidth = maxSize;
+          } else {
+            imageWidth = max(32, maxSize * (w / h));
+          }
+        }
+        final hasDescription = event.fileDescription != null;
+        const minBubbleWidth = 180.0;
+        return hasDescription ? max(minBubbleWidth, imageWidth) : imageWidth;
+
+      case MessageTypes.Video:
+        final infoMap = event.content.tryGetMap<String, Object?>('info');
+        final videoWidth = infoMap?.tryGet<int>('w') ?? 400;
+        final videoHeight = infoMap?.tryGet<int>('h') ?? 300;
+        const height = 300.0;
+        return videoWidth * (height / videoHeight);
+
+      default:
+        return null;
     }
   }
 
@@ -426,8 +469,12 @@ class _MessageState extends State<Message> {
                                     AppConfig.borderRadius,
                                   ),
                                 ),
-                                constraints: const BoxConstraints(
-                                  maxWidth: FluffyThemes.columnWidth * 1.5,
+                                constraints: BoxConstraints(
+                                  maxWidth:
+                                      (_replyEventFuture != null
+                                          ? _calculateMediaWidth(displayEvent)
+                                          : null) ??
+                                      FluffyThemes.columnWidth * 1.5,
                                 ),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,

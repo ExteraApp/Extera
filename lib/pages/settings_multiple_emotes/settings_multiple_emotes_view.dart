@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:go_router/go_router.dart';
 import 'package:matrix/matrix.dart';
 
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/settings_multiple_emotes/settings_multiple_emotes.dart';
 import 'package:extera_next/widgets/matrix.dart';
 
@@ -21,8 +21,9 @@ class MultipleEmotesSettingsView extends StatelessWidget {
         title: Text(L10n.of(context).emotePacks),
       ),
       body: StreamBuilder(
-        stream: room.client.onRoomState.stream
-            .where((update) => update.roomId == room.id),
+        stream: room.client.onRoomState.stream.where(
+          (update) => update.roomId == room.id,
+        ),
         builder: (context, snapshot) {
           final packStateEvents = room.states['im.ponies.room_emotes'];
           // we need to manually convert the map using Map.of, otherwise assigning null will throw a type error.
@@ -40,9 +41,11 @@ class MultipleEmotesSettingsView extends StatelessWidget {
             itemCount: keys.length,
             itemBuilder: (BuildContext context, int i) {
               final event = packs[keys[i]];
-              final eventPack =
-                  event?.content.tryGetMap<String, Object?>('pack');
-              final packName = eventPack?.tryGet<String>('displayname') ??
+              final eventPack = event?.content.tryGetMap<String, Object?>(
+                'pack',
+              );
+              final packName =
+                  eventPack?.tryGet<String>('displayname') ??
                   eventPack?.tryGet<String>('name') ??
                   (keys[i].isNotEmpty ? keys[i] : 'Default Pack');
 
@@ -50,8 +53,14 @@ class MultipleEmotesSettingsView extends StatelessWidget {
                 title: Text(packName),
                 onTap: () async {
                   context.go(
-                    ['', 'rooms', room.id, 'details', 'emotes', keys[i]]
-                        .join('/'),
+                    [
+                      '',
+                      'rooms',
+                      room.id,
+                      'details',
+                      'emotes',
+                      keys[i],
+                    ].join('/'),
                   );
                 },
               );

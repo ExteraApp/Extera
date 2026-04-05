@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import 'package:extera_next/config/app_config.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/chat_privacy/chat_privacy.dart';
@@ -5,7 +7,6 @@ import 'package:extera_next/utils/stream_extension.dart';
 import 'package:extera_next/widgets/layouts/max_width_body.dart';
 import 'package:extera_next/widgets/list_divider.dart';
 import 'package:extera_next/widgets/matrix.dart';
-import 'package:flutter/material.dart';
 
 class ChatPrivacyView extends StatelessWidget {
   final ChatPrivacyController controller;

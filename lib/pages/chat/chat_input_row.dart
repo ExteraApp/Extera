@@ -1,13 +1,13 @@
-import 'package:extera_next/config/setting_keys.dart';
-import 'package:extera_next/shortcuts/chat/paste_shortcut.dart';
 import 'package:flutter/material.dart';
 
 import 'package:matrix/matrix.dart';
 
+import 'package:extera_next/config/setting_keys.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/chat/recording_input_row.dart';
 import 'package:extera_next/pages/chat/recording_view_model.dart';
 import 'package:extera_next/pages/chat/video_note_recording_dialog.dart';
+import 'package:extera_next/shortcuts/chat/paste_shortcut.dart';
 import 'package:extera_next/utils/platform_infos.dart';
 import 'package:extera_next/widgets/avatar.dart';
 import 'package:extera_next/widgets/matrix.dart';
@@ -327,14 +327,20 @@ class ChatInputRow extends StatelessWidget {
                         PlatformInfos.platformCanRecord &&
                             controller.sendController.text.isEmpty
                         ? IconButton(
-                            tooltip: recordingViewModel.recordingMode == RecordingMode.video
+                            tooltip:
+                                recordingViewModel.recordingMode ==
+                                    RecordingMode.video
                                 ? L10n.of(context).videoNote
                                 : L10n.of(context).voiceMessage,
                             onPressed: () {
                               // On tap: show tip and toggle mode if video notes enabled
-                              final videoNotesEnabled = AppSettings.enableVideoNotes.value && PlatformInfos.isMobile;
+                              final videoNotesEnabled =
+                                  AppSettings.enableVideoNotes.value &&
+                                  PlatformInfos.isMobile;
                               if (videoNotesEnabled) {
-                                final newMode = recordingViewModel.recordingMode == RecordingMode.audio
+                                final newMode =
+                                    recordingViewModel.recordingMode ==
+                                        RecordingMode.audio
                                     ? RecordingMode.video
                                     : RecordingMode.audio;
                                 recordingViewModel.setRecordingMode(newMode);
@@ -349,8 +355,12 @@ class ChatInputRow extends StatelessWidget {
                                     showCloseIcon: true,
                                     content: Text(
                                       newMode == RecordingMode.video
-                                          ? L10n.of(context).longPressToRecordVideoNote
-                                          : L10n.of(context).longPressToRecordVoiceMessage,
+                                          ? L10n.of(
+                                              context,
+                                            ).longPressToRecordVideoNote
+                                          : L10n.of(
+                                              context,
+                                            ).longPressToRecordVoiceMessage,
                                     ),
                                   ),
                                 );
@@ -365,14 +375,17 @@ class ChatInputRow extends StatelessWidget {
                                     ),
                                     showCloseIcon: true,
                                     content: Text(
-                                      L10n.of(context).longPressToRecordVoiceMessage,
+                                      L10n.of(
+                                        context,
+                                      ).longPressToRecordVoiceMessage,
                                     ),
                                   ),
                                 );
                               }
                             },
                             onLongPress: () {
-                              if (recordingViewModel.recordingMode == RecordingMode.video) {
+                              if (recordingViewModel.recordingMode ==
+                                  RecordingMode.video) {
                                 // Open full-screen video note dialog
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
@@ -384,7 +397,9 @@ class ChatInputRow extends StatelessWidget {
                                   ),
                                 );
                               } else {
-                                recordingViewModel.startRecording(controller.room);
+                                recordingViewModel.startRecording(
+                                  controller.room,
+                                );
                               }
                             },
                             style: IconButton.styleFrom(
@@ -392,7 +407,8 @@ class ChatInputRow extends StatelessWidget {
                               foregroundColor: theme.onBubbleColor,
                             ),
                             icon: Icon(
-                              recordingViewModel.recordingMode == RecordingMode.video
+                              recordingViewModel.recordingMode ==
+                                      RecordingMode.video
                                   ? Icons.camera_alt_outlined
                                   : Icons.mic_none_outlined,
                             ),

@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:file_selector/file_selector.dart';
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:matrix/matrix.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:universal_html/html.dart' as html;
 
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/utils/platform_infos.dart';
 import 'package:extera_next/utils/size_string.dart';
 import 'package:extera_next/widgets/future_loading_dialog.dart';
@@ -24,8 +24,7 @@ extension MatrixFileExtension on MatrixFile {
         ? (await getSaveLocation(
             suggestedName: name,
             confirmButtonText: L10n.of(context).saveFile,
-          ))
-            ?.path
+          ))?.path
         : await FilePicker.platform.saveFile(
             dialogTitle: L10n.of(context).saveFile,
             fileName: name,
@@ -44,9 +43,7 @@ extension MatrixFileExtension on MatrixFile {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(
-          L10n.of(context).fileHasBeenSavedAt(downloadPath),
-        ),
+        content: Text(L10n.of(context).fileHasBeenSavedAt(downloadPath)),
       ),
     );
   }
@@ -60,13 +57,8 @@ extension MatrixFileExtension on MatrixFile {
 
   void _webDownload() {
     html.AnchorElement(
-      href: html.Url.createObjectUrlFromBlob(
-        html.Blob(
-          [bytes],
-          mimeType,
-        ),
-      ),
-    )
+        href: html.Url.createObjectUrlFromBlob(html.Blob([bytes], mimeType)),
+      )
       ..download = name
       ..click();
   }
@@ -78,8 +70,9 @@ extension MatrixFileExtension on MatrixFile {
 
     await Share.shareXFiles(
       [XFile.fromData(bytes, name: name, mimeType: mimeType)],
-      sharePositionOrigin:
-          box == null ? null : box.localToGlobal(Offset.zero) & box.size,
+      sharePositionOrigin: box == null
+          ? null
+          : box.localToGlobal(Offset.zero) & box.size,
     );
     return;
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:marquee/marquee.dart'; // Make sure you have this package installed
 
 class OverflowMarquee extends StatelessWidget {

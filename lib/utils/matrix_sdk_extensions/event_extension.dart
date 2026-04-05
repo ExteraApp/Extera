@@ -1,15 +1,15 @@
 import 'dart:developer';
 
-import 'package:extera_next/pages/download_manager/download_manager.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:async/async.dart' as async;
 import 'package:matrix/matrix.dart';
+import 'package:mime/mime.dart';
 
+import 'package:extera_next/pages/download_manager/download_manager.dart';
 import 'package:extera_next/utils/size_string.dart';
 import 'package:extera_next/widgets/future_loading_dialog.dart';
-import 'package:mime/mime.dart';
 import 'matrix_file_extension.dart';
 
 extension LocalizedBody on Event {

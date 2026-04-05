@@ -1,9 +1,8 @@
-import 'package:extera_next/config/app_config.dart';
 import 'package:flutter/material.dart';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
-
+import 'package:extera_next/config/app_config.dart';
 import 'package:extera_next/config/themes.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/new_group/new_group.dart';
 import 'package:extera_next/utils/localized_exception_extension.dart';
 import 'package:extera_next/widgets/avatar.dart';

@@ -1,25 +1,25 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:extera_next/config/setting_keys.dart';
-import 'package:extera_next/pages/dialer/task_handler.dart';
-import 'package:extera_next/widgets/matrix.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:action_slider/action_slider.dart';
 
+import 'package:action_slider/action_slider.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart' hide VideoRenderer;
 import 'package:hotkey_manager/hotkey_manager.dart';
 import 'package:matrix/matrix.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
+import 'package:extera_next/config/setting_keys.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
+import 'package:extera_next/pages/dialer/task_handler.dart';
 import 'package:extera_next/utils/matrix_sdk_extensions/matrix_locals.dart';
 import 'package:extera_next/utils/platform_infos.dart';
 import 'package:extera_next/utils/voip/video_renderer.dart';
 import 'package:extera_next/widgets/avatar.dart';
+import 'package:extera_next/widgets/matrix.dart';
 import 'pip/pip_view.dart';
 
 // Add this outside of the Calling class

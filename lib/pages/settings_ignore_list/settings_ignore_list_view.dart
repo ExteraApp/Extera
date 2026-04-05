@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:matrix/matrix.dart';
 
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/widgets/avatar.dart';
 import 'package:extera_next/widgets/future_loading_dialog.dart';
 import 'package:extera_next/widgets/layouts/max_width_body.dart';
@@ -59,9 +59,7 @@ class SettingsIgnoreListView extends StatelessWidget {
                 ],
               ),
             ),
-            Divider(
-              color: theme.dividerColor,
-            ),
+            Divider(color: theme.dividerColor),
             Expanded(
               child: StreamBuilder<Object>(
                 stream: client.onSync.stream.where(
@@ -76,8 +74,9 @@ class SettingsIgnoreListView extends StatelessWidget {
                   return ListView.builder(
                     itemCount: client.ignoredUsers.length,
                     itemBuilder: (c, i) => FutureBuilder<Profile>(
-                      future:
-                          client.getProfileFromUserId(client.ignoredUsers[i]),
+                      future: client.getProfileFromUserId(
+                        client.ignoredUsers[i],
+                      ),
                       builder: (c, s) => ListTile(
                         leading: Avatar(
                           mxContent: s.data?.avatarUrl ?? Uri.parse(''),
@@ -86,8 +85,9 @@ class SettingsIgnoreListView extends StatelessWidget {
                         title: Text(
                           s.data?.displayName ?? client.ignoredUsers[i],
                         ),
-                        subtitle:
-                            Text(s.data?.userId ?? client.ignoredUsers[i]),
+                        subtitle: Text(
+                          s.data?.userId ?? client.ignoredUsers[i],
+                        ),
                         trailing: IconButton(
                           tooltip: L10n.of(context).delete,
                           icon: const Icon(Icons.delete_outlined),

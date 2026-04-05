@@ -1,34 +1,34 @@
 import 'dart:async';
 
-import 'package:extera_next/config/app_config.dart';
-import 'package:extera_next/pages/chat_list/invite_dialog.dart';
-import 'package:extera_next/utils/adaptive_bottom_sheet.dart';
-import 'package:extera_next/utils/check_updates.dart';
-import 'package:extera_next/widgets/adaptive_dialogs/set_status_dialog.dart';
-import 'package:extera_next/widgets/future_loading_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:app_links/app_links.dart';
 import 'package:cross_file/cross_file.dart';
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:flutter_shortcuts_new/flutter_shortcuts_new.dart';
 import 'package:go_router/go_router.dart';
 import 'package:matrix/matrix.dart' as sdk;
 import 'package:matrix/matrix.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 
+import 'package:extera_next/config/app_config.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/chat_list/chat_list_view.dart';
+import 'package:extera_next/pages/chat_list/invite_dialog.dart';
+import 'package:extera_next/utils/adaptive_bottom_sheet.dart';
+import 'package:extera_next/utils/check_updates.dart';
 import 'package:extera_next/utils/localized_exception_extension.dart';
 import 'package:extera_next/utils/matrix_sdk_extensions/matrix_locals.dart';
 import 'package:extera_next/utils/platform_infos.dart';
 import 'package:extera_next/utils/show_scaffold_dialog.dart';
 import 'package:extera_next/utils/show_update_snackbar.dart';
+import 'package:extera_next/widgets/adaptive_dialogs/set_status_dialog.dart';
 import 'package:extera_next/widgets/adaptive_dialogs/show_modal_action_popup.dart';
 import 'package:extera_next/widgets/adaptive_dialogs/show_ok_cancel_alert_dialog.dart';
 import 'package:extera_next/widgets/adaptive_dialogs/show_text_input_dialog.dart';
 import 'package:extera_next/widgets/avatar.dart';
 import 'package:extera_next/widgets/future_loading_dialog.dart';
+import 'package:extera_next/widgets/future_loading_snackbar.dart';
 import 'package:extera_next/widgets/share_scaffold_dialog.dart';
 import '../../../utils/account_bundles.dart';
 import '../../config/setting_keys.dart';
@@ -347,7 +347,11 @@ class ChatListController extends State<ChatList>
   void _processIncomingSharedMedia(List<SharedMediaFile> files) {
     if (files.isEmpty) return;
 
-    files.removeWhere((file) => file.path.startsWith(AppConfig.deepLinkPrefix) || file.path.startsWith(AppConfig.appSsoUrlScheme));
+    files.removeWhere(
+      (file) =>
+          file.path.startsWith(AppConfig.deepLinkPrefix) ||
+          file.path.startsWith(AppConfig.appSsoUrlScheme),
+    );
 
     showScaffoldDialog(
       context: context,
@@ -417,7 +421,9 @@ class ChatListController extends State<ChatList>
         searchServer = Matrix.of(
           context,
         ).store.getString(_serverStoreNamespace);
-        Matrix.of(context).backgroundPush?.setupPush();
+        Matrix.of(
+          context,
+        ).backgroundPush?.setupPush(Matrix.of(context).widget.clients);
         UpdateNotifier.showUpdateSnackBar(context);
       }
 
@@ -588,7 +594,9 @@ class ChatListController extends State<ChatList>
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
-                    room.isLowPriority ? Icons.low_priority : Icons.low_priority_outlined,
+                    room.isLowPriority
+                        ? Icons.low_priority
+                        : Icons.low_priority_outlined,
                   ),
                   const SizedBox(width: 12),
                   Text(

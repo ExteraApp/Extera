@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:cross_file/cross_file.dart';
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:go_router/go_router.dart';
 import 'package:matrix/matrix.dart';
 
 import 'package:extera_next/config/app_config.dart';
 import 'package:extera_next/config/themes.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/utils/matrix_sdk_extensions/matrix_locals.dart';
 import 'package:extera_next/widgets/avatar.dart';
 import 'package:extera_next/widgets/matrix.dart';
@@ -64,9 +64,7 @@ class _ShareScaffoldDialogState extends State<ShareScaffoldDialog> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final rooms = Matrix.of(context)
-        .client
-        .rooms
+    final rooms = Matrix.of(context).client.rooms
         .where(
           (room) =>
               room.canSendDefaultMessages &&
@@ -138,8 +136,9 @@ class _ShareScaffoldDialogState extends State<ShareScaffoldDialog> {
                     ),
                     controlAffinity: ListTileControlAffinity.trailing,
                     shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(AppConfig.borderRadius),
+                      borderRadius: BorderRadius.circular(
+                        AppConfig.borderRadius,
+                      ),
                     ),
                     secondary: Avatar(
                       mxContent: room.avatar,

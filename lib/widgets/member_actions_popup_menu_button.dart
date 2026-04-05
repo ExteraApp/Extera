@@ -1,10 +1,10 @@
-import 'package:extera_next/utils/show_profile.dart';
-import 'package:extera_next/widgets/matrix.dart';
 import 'package:flutter/material.dart';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:matrix/matrix.dart';
 
+import 'package:extera_next/generated/l10n/l10n.dart';
+import 'package:extera_next/utils/show_profile.dart';
+import 'package:extera_next/widgets/matrix.dart';
 import 'package:extera_next/widgets/permission_slider_dialog.dart';
 import 'adaptive_dialogs/show_ok_cancel_alert_dialog.dart';
 import 'adaptive_dialogs/show_text_input_dialog.dart';
@@ -113,8 +113,8 @@ void showMemberActionsPopupMenu({
                   user.powerLevel < 50
                       ? L10n.of(context).userLevel(user.powerLevel)
                       : user.powerLevel < 100
-                          ? L10n.of(context).moderatorLevel(user.powerLevel)
-                          : L10n.of(context).adminLevel(user.powerLevel),
+                      ? L10n.of(context).moderatorLevel(user.powerLevel)
+                      : L10n.of(context).adminLevel(user.powerLevel),
                   style: const TextStyle(fontSize: 10),
                 ),
               ],
@@ -223,14 +223,14 @@ void showMemberActionsPopupMenu({
       return;
     case _MemberActions.kick:
       final reason = await showTextInputDialog(
-            context: context,
-            title: L10n.of(context).doYouWantToKick(user.displayName ?? user.id),
-            okLabel: L10n.of(context).yes,
-            cancelLabel: L10n.of(context).no,
-            message: L10n.of(context).kickUserDescription,
-            hintText: L10n.of(context).reason,
-            isDestructive: true,
-          );
+        context: context,
+        title: L10n.of(context).doYouWantToKick(user.displayName ?? user.id),
+        okLabel: L10n.of(context).yes,
+        cancelLabel: L10n.of(context).no,
+        message: L10n.of(context).kickUserDescription,
+        hintText: L10n.of(context).reason,
+        isDestructive: true,
+      );
       if (reason != null) {
         await showFutureLoadingDialog(
           context: context,
@@ -240,14 +240,14 @@ void showMemberActionsPopupMenu({
       return;
     case _MemberActions.ban:
       final reason = await showTextInputDialog(
-            context: context,
-            title: L10n.of(context).doYouWantToBan(user.displayName ?? user.id),
-            okLabel: L10n.of(context).yes,
-            cancelLabel: L10n.of(context).no,
-            message: L10n.of(context).banUserDescription,
-            hintText: L10n.of(context).reason,
-            isDestructive: true,
-          );
+        context: context,
+        title: L10n.of(context).doYouWantToBan(user.displayName ?? user.id),
+        okLabel: L10n.of(context).yes,
+        cancelLabel: L10n.of(context).no,
+        message: L10n.of(context).banUserDescription,
+        hintText: L10n.of(context).reason,
+        isDestructive: true,
+      );
       if (reason != null) {
         await showFutureLoadingDialog(
           context: context,
@@ -267,10 +267,7 @@ void showMemberActionsPopupMenu({
 
       final result = await showFutureLoadingDialog(
         context: context,
-        future: () => user.room.client.reportUser(
-          user.id,
-          reason,
-        ),
+        future: () => user.room.client.reportUser(user.id, reason),
       );
       if (result.error != null) return;
       ScaffoldMessenger.of(context).showSnackBar(

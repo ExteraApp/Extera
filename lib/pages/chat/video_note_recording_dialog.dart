@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
+import 'package:camera/camera.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:matrix/matrix.dart';
 import 'package:video_compress/video_compress.dart';
@@ -17,7 +17,7 @@ import 'package:extera_next/widgets/adaptive_dialogs/show_ok_cancel_alert_dialog
 class VideoNoteRecordingDialog extends StatefulWidget {
   final Room room;
   final Future<void> Function(String path, int duration, String fileName)
-      onVideoSend;
+  onVideoSend;
 
   const VideoNoteRecordingDialog({
     required this.room,
@@ -52,8 +52,7 @@ class _VideoNoteRecordingDialogState extends State<VideoNoteRecordingDialog>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (_cameraController != null &&
-        _cameraController!.value.isInitialized) {
+    if (_cameraController != null && _cameraController!.value.isInitialized) {
       if (state == AppLifecycleState.inactive) {
         _cancel();
       }

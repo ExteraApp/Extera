@@ -1,16 +1,19 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:audioplayers/audioplayers.dart';
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+import 'package:audioplayers/audioplayers.dart';
 import 'package:matrix/matrix.dart';
 import 'package:opus_caf_converter_dart/opus_caf_converter_dart.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
+import 'package:extera_next/generated/l10n/l10n.dart';
+
 enum BackgroundAudioStatus { idle, loading, playing, paused, completed }
+
 class AudioTrackInfo {
   final String id;
   final String title;
@@ -89,7 +92,7 @@ class BackgroundAudioPlayerState extends State<BackgroundAudioPlayer>
   final ValueNotifier<Duration> durationNotifier = ValueNotifier(Duration.zero);
   final ValueNotifier<AudioTrackInfo?> trackNotifier = ValueNotifier(null);
   final ValueNotifier<double> playbackRateNotifier = ValueNotifier(1.0);
-  
+
   BackgroundAudioStatus get status => _status;
   AudioTrackInfo? get currentTrack => _currentTrack;
   Duration get position => _position;

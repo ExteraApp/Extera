@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:emojis/emoji.dart';
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:matrix/matrix.dart';
 import 'package:slugify/slugify.dart';
 
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/utils/markdown_context_builder.dart';
 import 'package:extera_next/widgets/mxc_image.dart';
 import '../../widgets/avatar.dart';
@@ -51,8 +51,10 @@ class InputBar extends StatelessWidget {
         controller!.selection.baseOffset < 0) {
       return []; // no entries if there is selected text
     }
-    final searchText =
-        controller!.text.substring(0, controller!.selection.baseOffset);
+    final searchText = controller!.text.substring(
+      0,
+      controller!.selection.baseOffset,
+    );
     final ret = <Map<String, String?>>[];
     const maxResults = 30;
 
@@ -61,17 +63,15 @@ class InputBar extends StatelessWidget {
       final commandSearch = commandMatch[1]!.toLowerCase();
       for (final command in room.client.commands.keys) {
         if (command.contains(commandSearch)) {
-          ret.add({
-            'type': 'command',
-            'name': command,
-          });
+          ret.add({'type': 'command', 'name': command});
         }
 
         if (ret.length > maxResults) return ret;
       }
     }
-    final emojiMatch =
-        RegExp(r'(?:\s|^):(?:([-\w]+)~)?([-\w]+)$').firstMatch(searchText);
+    final emojiMatch = RegExp(
+      r'(?:\s|^):(?:([-\w]+)~)?([-\w]+)$',
+    ).firstMatch(searchText);
     if (emojiMatch != null) {
       final packSearch = emojiMatch[1];
       final emoteSearch = emojiMatch[2]!.toLowerCase();
@@ -104,8 +104,8 @@ class InputBar extends StatelessWidget {
               'type': 'emote',
               'name': emote.key,
               'pack': packSearch,
-              'pack_avatar_url':
-                  emotePacks[packSearch]!.pack.avatarUrl?.toString(),
+              'pack_avatar_url': emotePacks[packSearch]!.pack.avatarUrl
+                  ?.toString(),
               'pack_display_name':
                   emotePacks[packSearch]!.pack.displayName ?? packSearch,
               'mxc': emote.value.url.toString(),
@@ -119,8 +119,10 @@ class InputBar extends StatelessWidget {
       // aside of emote packs, also propose normal (tm) unicode emojis
       final matchingUnicodeEmojis = Emoji.all()
           .where(
-            (element) => [element.name, ...element.keywords]
-                .any((element) => element.toLowerCase().contains(emoteSearch)),
+            (element) => [
+              element.name,
+              ...element.keywords,
+            ].any((element) => element.toLowerCase().contains(emoteSearch)),
           )
           .toList();
       // sort by the index of the search term in the name in order to have
@@ -152,14 +154,18 @@ class InputBar extends StatelessWidget {
         }
       }
     }
-    final userMatch = RegExp(r'(?:\s|^)@([^ \[\]]+)$', unicode: true).firstMatch(searchText);
+    final userMatch = RegExp(
+      r'(?:\s|^)@([^ \[\]]+)$',
+      unicode: true,
+    ).firstMatch(searchText);
     if (userMatch != null) {
       final userSearch = userMatch[1]!.toLowerCase();
       for (final user in room.getParticipants()) {
         if ((user.displayName != null &&
                 (user.displayName!.toLowerCase().contains(userSearch) ||
-                    slugify(user.displayName!.toLowerCase())
-                        .contains(userSearch))) ||
+                    slugify(
+                      user.displayName!.toLowerCase(),
+                    ).contains(userSearch))) ||
             user.id.split(':')[0].toLowerCase().contains(userSearch)) {
           ret.add({
             'type': 'user',
@@ -308,7 +314,8 @@ class InputBar extends StatelessWidget {
           children: <Widget>[
             Avatar(
               mxContent: url,
-              name: suggestion.tryGet<String>('displayname') ??
+              name:
+                  suggestion.tryGet<String>('displayname') ??
                   suggestion.tryGet<String>('mxid'),
               size: size,
               client: client,
@@ -323,8 +330,10 @@ class InputBar extends StatelessWidget {
   }
 
   void insertSuggestion(_, Map<String, String?> suggestion) {
-    final replaceText =
-        controller!.text.substring(0, controller!.selection.baseOffset);
+    final replaceText = controller!.text.substring(
+      0,
+      controller!.selection.baseOffset,
+    );
     var startText = '';
     final afterText = replaceText == controller!.text
         ? ''
@@ -383,7 +392,7 @@ class InputBar extends StatelessWidget {
         (Match m) => '${m[1]}$insertText',
       );
     }
-    
+
     if (insertText.isNotEmpty && startText.isNotEmpty) {
       controller!.text = startText + afterText;
       controller!.selection = TextSelection(
@@ -418,10 +427,7 @@ class InputBar extends StatelessWidget {
               bytes: data,
               name: content.uri.split('/').last,
             );
-            room.sendFileEvent(
-              file,
-              shrinkImageMaxDimension: 1600,
-            );
+            room.sendFileEvent(file, shrinkImageMaxDimension: 1600);
           },
         ),
         minLines: minLines,

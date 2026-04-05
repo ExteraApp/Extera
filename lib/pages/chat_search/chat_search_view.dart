@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
-
 import 'package:extera_next/config/themes.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/chat_search/chat_search_files_tab.dart';
 import 'package:extera_next/pages/chat_search/chat_search_images_tab.dart';
 import 'package:extera_next/pages/chat_search/chat_search_message_tab.dart';
@@ -49,9 +48,7 @@ class ChatSearchView extends StatelessWidget {
             if (FluffyThemes.isThreeColumnMode(context))
               const SizedBox(height: 16),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: TextField(
                 controller: controller.searchController,
                 onSubmitted: (_) => controller.restartSearch(),

@@ -3712,5 +3712,9 @@
   "longPressToRecordVideoNote": "Зажмите чтобы записать видео-заметку.",
   "tapToSwitchToVoice": "Нажмите для переключения на голосовое сообщение",
   "tapToSwitchToVideo": "Нажмите для переключения на видео-заметку",
-  "sendVideoNote": "Отправить видео-заметку"
+  "sendVideoNote": "Отправить видео-заметку",
+  "recentStickers": "Недавние",
+  "removeFromFavourites": "Убрать из избранных",
+  "addToFavourites": "Добавить в избранные",
+  "removeFromRecents": "Убрать из недавних"
 }

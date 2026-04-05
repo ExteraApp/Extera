@@ -1,12 +1,12 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 import 'package:collection/collection.dart';
-import 'package:extera_next/generated/l10n/l10n.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:matrix/matrix.dart';
 
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/chat_details/chat_details_view.dart';
 import 'package:extera_next/pages/settings/settings.dart';
 import 'package:extera_next/utils/file_selector.dart';
@@ -48,11 +48,7 @@ class ChatDetailsController extends State<ChatDetails> {
       title: L10n.of(context).changeTheNameOfTheGroup,
       okLabel: L10n.of(context).ok,
       cancelLabel: L10n.of(context).cancel,
-      initialText: room.getLocalizedDisplayname(
-        MatrixLocals(
-          L10n.of(context),
-        ),
-      ),
+      initialText: room.getLocalizedDisplayname(MatrixLocals(L10n.of(context))),
     );
     if (input == null) return;
     final success = await showFutureLoadingDialog(
@@ -85,9 +81,7 @@ class ChatDetailsController extends State<ChatDetails> {
     );
     if (success.error == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(L10n.of(context).chatDescriptionHasBeenChanged),
-        ),
+        SnackBar(content: Text(L10n.of(context).chatDescriptionHasBeenChanged)),
       );
     }
   }
@@ -155,10 +149,7 @@ class ChatDetailsController extends State<ChatDetails> {
         imageQuality: 50,
       );
       if (result == null) return;
-      file = MatrixFile(
-        bytes: await result.readAsBytes(),
-        name: result.path,
-      );
+      file = MatrixFile(bytes: await result.readAsBytes(), name: result.path);
     } else {
       final picked = await selectFiles(
         context,

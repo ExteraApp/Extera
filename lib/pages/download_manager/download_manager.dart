@@ -1,25 +1,34 @@
-import 'package:extera_next/utils/downloads_directory.dart';
-import 'package:extera_next/widgets/matrix.dart';
-import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
-import 'package:matrix/matrix.dart';
 import 'dart:async';
 
+import 'package:flutter/material.dart';
+
+import 'package:dio/dio.dart';
+import 'package:matrix/matrix.dart';
 import 'package:provider/provider.dart';
+
+import 'package:extera_next/utils/downloads_directory.dart';
+import 'package:extera_next/widgets/matrix.dart';
 
 sealed class DownloadEvent {
   final String downloadName;
   final String downloadUrl;
   final DateTime timestamp;
 
-  DownloadEvent({required this.downloadName, required this.downloadUrl, DateTime? timestamp})
-    : timestamp = timestamp ?? DateTime.now();
+  DownloadEvent({
+    required this.downloadName,
+    required this.downloadUrl,
+    DateTime? timestamp,
+  }) : timestamp = timestamp ?? DateTime.now();
 }
 
 class DownloadStartEvent extends DownloadEvent {
   final int totalBytes;
 
-  DownloadStartEvent({required super.downloadName, required super.downloadUrl, required this.totalBytes});
+  DownloadStartEvent({
+    required super.downloadName,
+    required super.downloadUrl,
+    required this.totalBytes,
+  });
 
   @override
   String toString() =>
@@ -97,7 +106,11 @@ class Download {
 
           if (received == 0 || totalBytes == total && receivedBytes == 0) {
             manager._emitEvent(
-              DownloadStartEvent(downloadName: name, downloadUrl: url, totalBytes: totalBytes),
+              DownloadStartEvent(
+                downloadName: name,
+                downloadUrl: url,
+                totalBytes: totalBytes,
+              ),
             );
           }
 
@@ -140,7 +153,12 @@ class Download {
         _isCompleted = true;
         Logs().w("Error during download: $e");
         manager._emitEvent(
-          DownloadEndEvent(downloadName: name, downloadUrl: url, success: false, error: e),
+          DownloadEndEvent(
+            downloadName: name,
+            downloadUrl: url,
+            success: false,
+            error: e,
+          ),
         );
         manager._removeDownload(this);
       }

@@ -1,8 +1,10 @@
-import 'package:extera_next/pages/chat_threads/chat_threads_view.dart';
-import 'package:extera_next/widgets/matrix.dart';
 import 'package:flutter/material.dart';
+
 import 'package:go_router/go_router.dart';
 import 'package:matrix/matrix.dart';
+
+import 'package:extera_next/pages/chat_threads/chat_threads_view.dart';
+import 'package:extera_next/widgets/matrix.dart';
 
 class ChatThreads extends StatefulWidget {
   final String roomId;

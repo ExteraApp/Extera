@@ -1,10 +1,13 @@
 // import 'package:extera_next/config/app_config.dart';
+
 import 'package:flutter/material.dart';
-import 'package:extera_next/generated/l10n/l10n.dart';
+
 import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:matrix/matrix.dart';
+
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/utils/url_launcher.dart';
 import 'package:extera_next/widgets/adaptive_dialogs/dialog_text_field.dart';
-import 'package:matrix/matrix.dart';
 
 Future<(PresenceType, String?)?> showStatusInputDialog({
   required BuildContext context,

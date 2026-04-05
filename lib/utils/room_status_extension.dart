@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:matrix/matrix.dart';
 
+import 'package:extera_next/generated/l10n/l10n.dart';
 import '../config/app_config.dart';
 
 extension RoomStatusExtension on Room {
@@ -19,8 +19,9 @@ extension RoomStatusExtension on Room {
     } else if (typingUsers.length == 1) {
       typingText = L10n.of(context).isTyping;
       if (typingUsers.first.id != directChatMatrixID) {
-        typingText =
-            L10n.of(context).userIsTyping(typingUsers.first.calcDisplayname());
+        typingText = L10n.of(
+          context,
+        ).userIsTyping(typingUsers.first.calcDisplayname());
       }
     } else if (typingUsers.length == 2) {
       typingText = L10n.of(context).userAndUserAreTyping(
@@ -51,7 +52,8 @@ extension RoomStatusExtension on Room {
     }
     lastReceipts.removeWhere(
       (receipt) =>
-          receipt.user.id == client.userID || receipt.user.id == timeline.events.first.senderId,
+          receipt.user.id == client.userID ||
+          receipt.user.id == timeline.events.first.senderId,
     );
     return lastReceipts.toList();
   }
@@ -59,7 +61,9 @@ extension RoomStatusExtension on Room {
   bool hasBeenReadBySomeone(Timeline timeline, String eventId) {
     if (timeline.events.isEmpty) return false;
     for (final event in timeline.events) {
-      if (event.receipts.where((receipt) => receipt.user.id != client.userID!).isNotEmpty) {
+      if (event.receipts
+          .where((receipt) => receipt.user.id != client.userID!)
+          .isNotEmpty) {
         return true;
       }
       if (event.eventId == eventId) {
@@ -72,7 +76,9 @@ extension RoomStatusExtension on Room {
   String? getLatestReadMessage(Timeline timeline) {
     if (timeline.events.isEmpty) return null;
     for (final event in timeline.events) {
-      if (event.receipts.where((receipt) => receipt.user.id != client.userID!).isNotEmpty) {
+      if (event.receipts
+          .where((receipt) => receipt.user.id != client.userID!)
+          .isNotEmpty) {
         return event.eventId;
       }
     }

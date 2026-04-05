@@ -1,19 +1,18 @@
 import 'dart:isolate';
 import 'dart:ui';
 
-import 'package:extera_next/utils/notification_background_handler.dart';
 import 'package:flutter/material.dart';
 
 import 'package:collection/collection.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_vodozemac/flutter_vodozemac.dart' as vod;
 import 'package:matrix/matrix.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:flutter_vodozemac/flutter_vodozemac.dart' as vod;
-
 import 'package:extera_next/config/app_config.dart';
 import 'package:extera_next/utils/client_manager.dart';
+import 'package:extera_next/utils/notification_background_handler.dart';
 import 'package:extera_next/utils/platform_infos.dart';
 import 'package:extera_next/widgets/error_widget.dart';
 import 'config/setting_keys.dart';

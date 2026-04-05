@@ -1,14 +1,14 @@
-import 'package:extera_next/config/app_config.dart';
-import 'package:extera_next/widgets/list_divider.dart';
 import 'package:flutter/material.dart' hide Visibility;
 
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:matrix/matrix.dart';
 
+import 'package:extera_next/config/app_config.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/chat_access_settings/chat_access_settings_controller.dart';
 import 'package:extera_next/utils/fluffy_share.dart';
 import 'package:extera_next/utils/matrix_sdk_extensions/matrix_locals.dart';
 import 'package:extera_next/widgets/layouts/max_width_body.dart';
+import 'package:extera_next/widgets/list_divider.dart';
 
 class ChatAccessSettingsPageView extends StatelessWidget {
   final ChatAccessSettingsController controller;

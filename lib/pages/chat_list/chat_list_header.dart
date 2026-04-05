@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:matrix/matrix.dart';
 
 import 'package:extera_next/config/app_config.dart';
 import 'package:extera_next/config/themes.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/chat_list/chat_list.dart';
 import 'package:extera_next/pages/chat_list/client_chooser_button.dart';
 import 'package:extera_next/utils/sync_status_localization.dart';
@@ -202,7 +202,10 @@ class _ChatListHeaderDelegate extends SliverPersistentHeaderDelegate {
                                       child: Center(
                                         child:
                                             CircularProgressIndicator.adaptive(
-                                              constraints: const .tightFor(width: 24, height: 32),
+                                              constraints: const .tightFor(
+                                                width: 24,
+                                                height: 32,
+                                              ),
                                               strokeWidth: 2,
                                               value: status.progress,
                                               valueColor: status.error != null

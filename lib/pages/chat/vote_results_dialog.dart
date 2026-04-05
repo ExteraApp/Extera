@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+
+import 'package:matrix/matrix.dart';
+
 import 'package:extera_next/config/app_config.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/utils/adaptive_bottom_sheet.dart';
@@ -5,8 +9,6 @@ import 'package:extera_next/utils/poll_events.dart';
 import 'package:extera_next/widgets/avatar.dart';
 import 'package:extera_next/widgets/list_divider.dart';
 import 'package:extera_next/widgets/matrix.dart';
-import 'package:flutter/material.dart';
-import 'package:matrix/matrix.dart';
 
 /// Shows a dialog with detailed poll results
 ///
@@ -314,7 +316,9 @@ class _PollResultsDialog extends StatelessWidget {
                                       materialTapTargetSize:
                                           MaterialTapTargetSize.shrinkWrap,
                                       color: WidgetStateProperty.all(
-                                        theme.colorScheme.surfaceContainerLowest,
+                                        theme
+                                            .colorScheme
+                                            .surfaceContainerLowest,
                                       ),
                                     );
                                   },

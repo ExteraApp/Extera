@@ -15,8 +15,7 @@ extension Msc4140Extension on matrix.Room {
   }) async {
     // PUT /_matrix/client/v3/rooms/{roomId}/delayed_event/{eventType}/{txnId}
     final requestUri = Uri(
-      path:
-          '/_matrix/client/v3/rooms/$id/delayed_event/$type/$txid',
+      path: '/_matrix/client/v3/rooms/$id/delayed_event/$type/$txid',
     );
     final body = jsonEncode({'content': content, 'delay': delay});
     final response = await client.httpClient.put(
@@ -83,8 +82,7 @@ extension Msc4140Extension on matrix.Room {
     String? from,
   }) async {
     // GET /_matrix/client/v3/delayed_events
-    const basePath =
-        '/_matrix/client/v3/delayed_events';
+    const basePath = '/_matrix/client/v3/delayed_events';
     final queryParts = <String>[];
     if (status != null) {
       queryParts.add('status=${Uri.encodeQueryComponent(status)}');

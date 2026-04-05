@@ -1,17 +1,17 @@
-import 'package:extera_next/config/setting_keys.dart';
-import 'package:extera_next/generated/l10n/l10n.dart';
-import 'package:extera_next/utils/room_status_extension.dart';
 import 'package:flutter/material.dart';
 
 import 'package:scroll_to_index/scroll_to_index.dart';
 
+import 'package:extera_next/config/setting_keys.dart';
 import 'package:extera_next/config/themes.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/chat/chat.dart';
 import 'package:extera_next/pages/chat/events/message.dart';
 import 'package:extera_next/pages/chat/typing_indicators.dart';
 import 'package:extera_next/utils/account_config.dart';
 import 'package:extera_next/utils/matrix_sdk_extensions/filtered_timeline_extension.dart';
 import 'package:extera_next/utils/platform_infos.dart';
+import 'package:extera_next/utils/room_status_extension.dart';
 
 class ChatEventList extends StatelessWidget {
   final ChatController controller;
@@ -106,8 +106,7 @@ class ChatEventList extends StatelessWidget {
                 if (i == events.length + 1) {
                   if (timeline.canRequestHistory) {
                     final visibleIndex = timeline.events.lastIndexWhere(
-                      (event) =>
-                          event.isVisibleInGui,
+                      (event) => event.isVisibleInGui,
                     );
                     if (visibleIndex > timeline.events.length - 50) {
                       WidgetsBinding.instance.addPostFrameCallback(
@@ -115,9 +114,12 @@ class ChatEventList extends StatelessWidget {
                       );
                     }
                     // Add top padding when scroll banner is visible to prevent overlap
-                    final hasScrollBanner = controller.scrollUpBannerEventId != null;
+                    final hasScrollBanner =
+                        controller.scrollUpBannerEventId != null;
                     return Padding(
-                      padding: EdgeInsets.only(top: hasScrollBanner ? 72.0 : 0.0),
+                      padding: EdgeInsets.only(
+                        top: hasScrollBanner ? 72.0 : 0.0,
+                      ),
                       child: Center(
                         child: ElevatedButton(
                           onPressed: controller.requestHistory,

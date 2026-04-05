@@ -1,9 +1,11 @@
-import 'package:extera_next/config/themes.dart';
-import 'package:extera_next/pages/chat/events/message.dart';
 import 'package:flutter/material.dart';
+
 import 'package:matrix/matrix.dart';
 
+import 'package:extera_next/config/themes.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
+import 'package:extera_next/pages/chat/events/message.dart';
+import 'package:extera_next/widgets/layouts/max_width_body.dart';
 
 class RecoveredEventDialog extends StatefulWidget {
   final Event event;
@@ -49,7 +51,7 @@ class RecoveredEventDialogState extends State<RecoveredEventDialog> {
 
     return Scaffold(
       appBar: AppBar(title: Text(L10n.of(context).recoveredMessage)),
-      body: Column(children: [SingleChildScrollView(child: message)]),
+      body: MaxWidthBody(child: message),
     );
   }
 }

@@ -1,23 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:extera_next/pages/chat/message_context_menu.dart';
-import 'package:extera_next/pages/chat/message_edits_dialog.dart';
-import 'package:extera_next/pages/chat/recovered_event_dialog.dart';
-import 'package:extera_next/pages/chat/seen_by_row.dart';
-import 'package:extera_next/pages/chat/send_poll_dialog.dart';
-import 'package:extera_next/pages/chat/translated_event_dialog.dart';
-import 'package:extera_next/pages/chat/vote_results_dialog.dart';
-import 'package:extera_next/utils/adaptive_bottom_sheet.dart';
-import 'package:extera_next/utils/clipboard_utils.dart';
-import 'package:extera_next/utils/loading_snackbar_extension.dart';
-import 'package:extera_next/utils/matrix_sdk_extensions/synapse_admin_extension.dart';
-import 'package:extera_next/utils/privacy_options.dart';
-import 'package:extera_next/utils/room_status_extension.dart';
-import 'package:extera_next/utils/translator.dart';
-import 'package:extera_next/widgets/emoji_picker.dart';
-import 'package:extera_next/widgets/future_loading_snackbar.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart' hide Category;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,7 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:collection/collection.dart';
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:extera_next/generated/l10n/l10n.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:matrix/matrix.dart';
@@ -35,21 +18,38 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:extera_next/config/setting_keys.dart';
 import 'package:extera_next/config/themes.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/chat/chat_view.dart';
 import 'package:extera_next/pages/chat/event_info_dialog.dart';
+import 'package:extera_next/pages/chat/message_context_menu.dart';
+import 'package:extera_next/pages/chat/message_edits_dialog.dart';
+import 'package:extera_next/pages/chat/recovered_event_dialog.dart';
+import 'package:extera_next/pages/chat/seen_by_row.dart';
+import 'package:extera_next/pages/chat/send_poll_dialog.dart';
+import 'package:extera_next/pages/chat/translated_event_dialog.dart';
+import 'package:extera_next/pages/chat/vote_results_dialog.dart';
 import 'package:extera_next/pages/chat_details/chat_details.dart';
+import 'package:extera_next/utils/adaptive_bottom_sheet.dart';
+import 'package:extera_next/utils/clipboard_utils.dart';
 import 'package:extera_next/utils/error_reporter.dart';
 import 'package:extera_next/utils/file_selector.dart';
+import 'package:extera_next/utils/loading_snackbar_extension.dart';
 import 'package:extera_next/utils/matrix_sdk_extensions/event_extension.dart';
 import 'package:extera_next/utils/matrix_sdk_extensions/filtered_timeline_extension.dart';
 import 'package:extera_next/utils/matrix_sdk_extensions/matrix_locals.dart';
+import 'package:extera_next/utils/matrix_sdk_extensions/synapse_admin_extension.dart';
 import 'package:extera_next/utils/other_party_can_receive.dart';
 import 'package:extera_next/utils/platform_infos.dart';
+import 'package:extera_next/utils/privacy_options.dart';
+import 'package:extera_next/utils/room_status_extension.dart';
 import 'package:extera_next/utils/show_scaffold_dialog.dart';
+import 'package:extera_next/utils/translator.dart';
 import 'package:extera_next/widgets/adaptive_dialogs/show_modal_action_popup.dart';
 import 'package:extera_next/widgets/adaptive_dialogs/show_ok_cancel_alert_dialog.dart';
 import 'package:extera_next/widgets/adaptive_dialogs/show_text_input_dialog.dart';
+import 'package:extera_next/widgets/emoji_picker.dart';
 import 'package:extera_next/widgets/future_loading_dialog.dart';
+import 'package:extera_next/widgets/future_loading_snackbar.dart';
 import 'package:extera_next/widgets/matrix.dart';
 import 'package:extera_next/widgets/share_scaffold_dialog.dart';
 import '../../utils/account_bundles.dart';
@@ -609,7 +609,9 @@ class ChatController extends State<ChatPageWithRoom>
 
     if (timeline is RoomTimeline) {
       if (eventId == null || eventId == timeline.room.lastEvent?.eventId) {
-        Matrix.of(context).backgroundPush?.cancelNotification(roomId);
+        Matrix.of(
+          context,
+        ).backgroundPush?.cancelNotification(room.client, roomId);
       }
     }
     // TODO same for Threads
@@ -728,9 +730,12 @@ class ChatController extends State<ChatPageWithRoom>
         thread: thread,
         outerContext: context,
         replyEvent: replyEvent,
+        onClearReply: () {
+          replyEvent = null;
+        },
       ),
     );
-    replyEvent = null;
+    // replyEvent = null;
   }
 
   void sendImageFromClipBoard(Uint8List? image) async {
@@ -750,6 +755,10 @@ class ChatController extends State<ChatPageWithRoom>
           room: room,
           thread: thread,
           outerContext: context,
+          replyEvent: replyEvent,
+          onClearReply: () {
+            replyEvent = null;
+          },
         ),
       );
       return;
@@ -763,6 +772,10 @@ class ChatController extends State<ChatPageWithRoom>
         room: room,
         thread: thread,
         outerContext: context,
+        replyEvent: replyEvent,
+        onClearReply: () {
+          replyEvent = null;
+        },
       ),
     );
   }
@@ -825,8 +838,7 @@ class ChatController extends State<ChatPageWithRoom>
     final mimeType = lookupMimeType(fileName, headerBytes: bytes);
     final ext = mimeType == null ? null : extensionFromMime(mimeType);
     if (ext != null) {
-      fileName =
-          'voice_message_${DateTime.now().millisecondsSinceEpoch}.$ext';
+      fileName = 'voice_message_${DateTime.now().millisecondsSinceEpoch}.$ext';
     }
 
     final file = MatrixAudioFile(bytes: bytes, name: fileName);
@@ -875,8 +887,7 @@ class ChatController extends State<ChatPageWithRoom>
     final mimeType = lookupMimeType(fileName, headerBytes: bytes);
     final ext = mimeType == null ? null : extensionFromMime(mimeType);
     if (ext != null) {
-      fileName =
-          'video_note_${DateTime.now().millisecondsSinceEpoch}.$ext';
+      fileName = 'video_note_${DateTime.now().millisecondsSinceEpoch}.$ext';
     }
 
     final file = await videoFile.resizeVideo();
@@ -895,9 +906,7 @@ class ChatController extends State<ChatPageWithRoom>
           file,
           thumbnail: thumbnail,
           inReplyTo: replyEvent,
-          extraContent: {
-            'xyz.extera.video_note': {},
-          },
+          extraContent: {'xyz.extera.video_note': {}},
           threadLastEventId: thread?.lastEvent?.eventId,
           threadRootEventId: thread?.rootEvent.eventId,
         )

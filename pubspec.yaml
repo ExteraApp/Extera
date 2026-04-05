@@ -2,7 +2,7 @@ name: extera_next
 description: Chat with your friends.
 publish_to: none
 # Version schema: <YEAR>.<MAJOR UPDATE>.<MINOR><PATCH>
-version: 26.0.91
+version: 26.1.1
 
 environment:
   sdk: ">=3.10.0 <4.0.0"
@@ -69,10 +69,10 @@ dependencies:
   linkify: ^5.0.0
   material: ^1.0.1
   matrix:
-    path: ../matrix-dart-sdk
-    # git:
-    #   url: https://github.com/ExteraApp/matrix-dart-sdk.git
-    #   ref: main
+    # path: ../matrix-dart-sdk
+    git:
+      url: https://github.com/ExteraApp/matrix-dart-sdk.git
+      ref: main
   mime: ^2.0.0
   native_imaging: ^0.4.0
   opus_caf_converter_dart: ^1.0.1

@@ -2,10 +2,10 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:go_router/go_router.dart';
 import 'package:matrix/matrix.dart';
 
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/chat_permissions_settings/chat_permissions_settings_view.dart';
 import 'package:extera_next/widgets/future_loading_dialog.dart';
 import 'package:extera_next/widgets/matrix.dart';
@@ -30,9 +30,9 @@ class ChatPermissionsSettingsController extends State<ChatPermissionsSettings> {
   }) async {
     final room = Matrix.of(context).client.getRoomById(roomId!)!;
     if (!room.canSendEvent(EventTypes.RoomPowerLevels)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(L10n.of(context).noPermission)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(L10n.of(context).noPermission)));
       return;
     }
     newLevel ??= await showPermissionChooser(
@@ -64,12 +64,13 @@ class ChatPermissionsSettingsController extends State<ChatPermissionsSettings> {
   }
 
   Stream get onChanged => Matrix.of(context).client.onSync.stream.where(
-        (e) =>
-            (e.rooms?.join?.containsKey(roomId) ?? false) &&
-            (e.rooms!.join![roomId!]?.timeline?.events
-                    ?.any((s) => s.type == EventTypes.RoomPowerLevels) ??
-                false),
-      );
+    (e) =>
+        (e.rooms?.join?.containsKey(roomId) ?? false) &&
+        (e.rooms!.join![roomId!]?.timeline?.events?.any(
+              (s) => s.type == EventTypes.RoomPowerLevels,
+            ) ??
+            false),
+  );
 
   @override
   Widget build(BuildContext context) => ChatPermissionsSettingsView(this);

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:matrix/matrix.dart';
 
 import 'package:extera_next/config/app_config.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/utils/date_time_extension.dart';
 import 'package:extera_next/utils/matrix_sdk_extensions/event_extension.dart';
 import 'package:extera_next/utils/matrix_sdk_extensions/matrix_locals.dart';
@@ -11,10 +11,8 @@ import 'package:extera_next/utils/matrix_sdk_extensions/matrix_locals.dart';
 class ChatSearchFilesTab extends StatelessWidget {
   final Room room;
   final Stream<(List<Event>, String?)>? searchStream;
-  final void Function({
-    String? prevBatch,
-    List<Event>? previousSearchResult,
-  }) startSearch;
+  final void Function({String? prevBatch, List<Event>? previousSearchResult})
+  startSearch;
 
   const ChatSearchFilesTab({
     required this.room,
@@ -38,9 +36,7 @@ class ChatSearchFilesTab extends StatelessWidget {
               const SizedBox(height: 8),
               Text(
                 L10n.of(context).searchIn(
-                  room.getLocalizedDisplayname(
-                    MatrixLocals(L10n.of(context)),
-                  ),
+                  room.getLocalizedDisplayname(MatrixLocals(L10n.of(context))),
                 ),
               ),
             ],
@@ -68,9 +64,7 @@ class ChatSearchFilesTab extends StatelessWidget {
                   return const Padding(
                     padding: EdgeInsets.all(16.0),
                     child: Center(
-                      child: CircularProgressIndicator.adaptive(
-                        strokeWidth: 2,
-                      ),
+                      child: CircularProgressIndicator.adaptive(strokeWidth: 2),
                     ),
                   );
                 }
@@ -90,31 +84,31 @@ class ChatSearchFilesTab extends StatelessWidget {
                         prevBatch: nextBatch,
                         previousSearchResult: events,
                       ),
-                      icon: const Icon(
-                        Icons.arrow_downward_outlined,
-                      ),
+                      icon: const Icon(Icons.arrow_downward_outlined),
                       label: Text(L10n.of(context).searchMore),
                     ),
                   ),
                 );
               }
               final event = events[i];
-              final filename = event.content.tryGet<String>('filename') ??
+              final filename =
+                  event.content.tryGet<String>('filename') ??
                   event.content.tryGet<String>('body') ??
                   L10n.of(context).unknownEvent('File');
               final filetype = (filename.contains('.')
                   ? filename.split('.').last.toUpperCase()
                   : event.content
-                          .tryGetMap<String, dynamic>('info')
-                          ?.tryGet<String>('mimetype')
-                          ?.toUpperCase() ??
-                      'UNKNOWN');
+                            .tryGetMap<String, dynamic>('info')
+                            ?.tryGet<String>('mimetype')
+                            ?.toUpperCase() ??
+                        'UNKNOWN');
               final sizeString = event.sizeString;
               final prevEvent = i > 0 ? events[i - 1] : null;
               final sameEnvironment = prevEvent == null
                   ? false
-                  : prevEvent.originServerTs
-                      .sameEnvironment(event.originServerTs);
+                  : prevEvent.originServerTs.sameEnvironment(
+                      event.originServerTs,
+                    );
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -148,8 +142,9 @@ class ChatSearchFilesTab extends StatelessWidget {
                       const SizedBox(height: 4),
                     ],
                     Material(
-                      borderRadius:
-                          BorderRadius.circular(AppConfig.borderRadius),
+                      borderRadius: BorderRadius.circular(
+                        AppConfig.borderRadius,
+                      ),
                       color: theme.colorScheme.onInverseSurface,
                       clipBehavior: Clip.hardEdge,
                       child: ListTile(

@@ -1,11 +1,12 @@
-import 'package:extera_next/generated/l10n/l10n.dart';
-import 'package:extera_next/utils/adaptive_bottom_sheet.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+
+import 'package:file_picker/file_picker.dart';
 
 import 'package:extera_next/config/app_config.dart';
 import 'package:extera_next/config/setting_keys.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/utils/account_config.dart';
+import 'package:extera_next/utils/adaptive_bottom_sheet.dart';
 import 'package:extera_next/utils/file_selector.dart';
 import 'package:extera_next/widgets/future_loading_dialog.dart';
 import 'package:extera_next/widgets/theme_builder.dart';
@@ -187,23 +188,17 @@ class SettingsStyleController extends State<SettingsStyle> {
   }
 
   void changeFontSizeFactor(double d) {
-    AppSettings.fontSizeFactor.setItem(
-      d,
-    );
+    AppSettings.fontSizeFactor.setItem(d);
     setState(() {});
   }
 
   void changeAvatarBorderRadius(double d) {
-    AppSettings.avatarBorderRadius.setItem(
-      d,
-    );
+    AppSettings.avatarBorderRadius.setItem(d);
     setState(() {});
   }
 
   void changeStickerScale(double d) {
-    AppSettings.stickerScale.setItem(
-      d,
-    );
+    AppSettings.stickerScale.setItem(d);
     setState(() {});
   }
 

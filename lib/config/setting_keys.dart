@@ -1,12 +1,13 @@
 import 'dart:convert';
 
-import 'package:extera_next/utils/platform_infos.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
 import 'package:matrix/matrix_api_lite/utils/logs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:extera_next/utils/platform_infos.dart';
 
 abstract class SettingKeys {
   static const String appLockKey = 'chat.fluffy.app_lock';
@@ -18,8 +19,14 @@ enum AppSettings<T> {
   jitsiDomain<String>('xyz.extera.jitsi_domain', 'meet.jit.si'),
   applicationName<String>('xyz.extera.app_name', 'Extera'),
   logoUrl<String>('xyz.extera.logo_url', 'https://extera.xyz/logo.svg'),
-  privacyPolicy<String>('xyz.extera.tos', 'https://github.com/ExteraApp/Extera/blob/main/PRIVACY.md'),
-  tos<String>('xyz.extera.tos', 'https://github.com/ExteraApp/Extera/blob/main/README.md'),
+  privacyPolicy<String>(
+    'xyz.extera.tos',
+    'https://github.com/ExteraApp/Extera/blob/main/PRIVACY.md',
+  ),
+  tos<String>(
+    'xyz.extera.tos',
+    'https://github.com/ExteraApp/Extera/blob/main/README.md',
+  ),
   website<String>('xyz.extera.website', 'https://extera.xyz'),
   defaultHomeserver<String>('xyz.extera.default_hs', 'https://extera.xyz'),
   enableMatrixNativeOIDC<bool>('xyz.extera.enable_matrix_native_oidc', false),
@@ -30,56 +37,50 @@ enum AppSettings<T> {
   messageTranslation<bool>('xyz.extera.messageTranslation', true),
   useLegacyChatListAppBar<bool>('xyz.extera.legacyAppBar', false),
   useLegacyNavBar<bool>('xyz.extera.legacyNavBar', false),
-  showSpaceRoomsInGlobalList<bool>('xyz.extera.showSpaceRoomsInGlobalList', true),
-  unifiedPushRegistered<bool>(
-      'chat.fluffy.unifiedpush.registered', false),
-  unifiedPushEndpoint<String>(
-      'chat.fluffy.unifiedpush.endpoint', ''),
+  showSpaceRoomsInGlobalList<bool>(
+    'xyz.extera.showSpaceRoomsInGlobalList',
+    true,
+  ),
+  unifiedPushRegistered<bool>('chat.fluffy.unifiedpush.registered', false),
+  unifiedPushEndpoint<String>('chat.fluffy.unifiedpush.endpoint', ''),
   showNoGoogle<bool>('chat.fluffy.show_no_google', false),
   twemojiFont<bool>('xyz.extera.next.twemojiFont', false),
   checkForUpdates<bool>('xyz.extera.next.checkForUpdates', true),
-  colorSchemeSeed<int>(
-    'xyz.extera.next.colorSchemeSeed',
-    0x5625BA,
-  ),
-  hideAvatarsInInvites<bool>(
-      'xyz.extera.next.hideAvatarsInInvites', true),
-  displayNavigationRail<bool>(
-      'chat.fluffy.displayNavigationRail', true),
+  colorSchemeSeed<int>('xyz.extera.next.colorSchemeSeed', 0x5625BA),
+  hideAvatarsInInvites<bool>('xyz.extera.next.hideAvatarsInInvites', true),
+  displayNavigationRail<bool>('chat.fluffy.displayNavigationRail', true),
   httpProxy<String>('xyz.extera.next.httpProxy', ''),
   cleanExif<bool>('xyz.extera.next.cleanExif', true),
-  doNotSendIfCantClean<bool>(
-      'xyz.extera.next.doNotSendIfCantClean', true),
-      themeMode<String>('xyz.extera.next.themeMode', 'system'),
+  doNotSendIfCantClean<bool>('xyz.extera.next.doNotSendIfCantClean', true),
+  themeMode<String>('xyz.extera.next.themeMode', 'system'),
   pureBlack<bool>('xyz.extera.next.pureBlack', false),
   renderHtml<bool>('chat.fluffy.renderHtml', true),
-  schemeVariant<int>(
-      'xyz.extera.next.schemeVariant',
-      0,
-  ),
+  schemeVariant<int>('xyz.extera.next.schemeVariant', 0),
   hideRedactedEvents<bool>('chat.fluffy.hideRedactedEvents', false),
   hideUnknownEvents<bool>('chat.fluffy.hideUnknownEvents', true),
   // hideUnimportantStateEvents<bool>(
   //     'chat.fluffy.hideUnimportantStateEvents', true),
   separateChatTypes<bool>('chat.fluffy.separateChatTypes', false),
   autoplayImages<bool>('chat.fluffy.autoplay_images', true),
-  sendTypingNotifications<bool>(
-      'chat.fluffy.send_typing_notifications', true),
-  sendPublicReadReceipts<bool>(
-      'chat.fluffy.send_public_read_receipts', true),
-  swipeRightToLeftToReply<bool>(  
-      'chat.fluffy.swipeRightToLeftToReply', true),
+  sendTypingNotifications<bool>('chat.fluffy.send_typing_notifications', true),
+  sendPublicReadReceipts<bool>('chat.fluffy.send_public_read_receipts', true),
+  swipeRightToLeftToReply<bool>('chat.fluffy.swipeRightToLeftToReply', true),
   sendOnEnter<bool>('chat.fluffy.send_on_enter', true),
   fontSizeFactor<double>('chat.fluffy.font_size_factor', 1.0),
   messageFontSize<double>('chat.fluffy.message_font_size', 16.0),
   hideMemberChangesInPublicChats<bool>(
-      'chat.fluffy.hide_member_changes_in_public_chats', false),
+    'chat.fluffy.hide_member_changes_in_public_chats',
+    false,
+  ),
   experimentalVoip<bool>('chat.fluffy.experimental_voip', false),
   showPresences<bool>('chat.fluffy.show_presences', true),
   presenceStatus<String>('xyz.extera.presence_status', 'online'),
   avatarBorderRadius<double>('xyz.extera.next.avatarBorderRadius', 1),
   autoMarkUnavailable<bool>('xyz.extera.next.autoMarkUnavailable', true),
-  incomingCallsOnLockScreen<bool>('xyz.extera.next.incomingCallsOnLockScreen', true),
+  incomingCallsOnLockScreen<bool>(
+    'xyz.extera.next.incomingCallsOnLockScreen',
+    true,
+  ),
   pushToTalkHotkey<bool>('xyz.extera.next.pushToTalkHotkey', false),
   ringtone<String>('xyz.extera.next.ringtone', 'system'),
   audioRecordingNumChannels<int>('audioRecordingNumChannels', 1),

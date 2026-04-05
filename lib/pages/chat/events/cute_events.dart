@@ -1,10 +1,11 @@
 import 'dart:math';
 
-import 'package:extera_next/config/setting_keys.dart';
 import 'package:flutter/material.dart';
 
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:matrix/matrix.dart';
+
+import 'package:extera_next/config/setting_keys.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
 
 class CuteContent extends StatefulWidget {
   final Event event;
@@ -39,10 +40,7 @@ class _CuteContentState extends State<CuteContent> {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                widget.event.text,
-                style: const TextStyle(fontSize: 150),
-              ),
+              Text(widget.event.text, style: const TextStyle(fontSize: 150)),
               if (label != null) Text(label),
             ],
           ),
@@ -110,10 +108,7 @@ class _CuteEventOverlayState extends State<CuteEventOverlay>
     with TickerProviderStateMixin {
   final List<Size> items = List.generate(
     50,
-    (index) => Size(
-      Random().nextDouble(),
-      4 + (Random().nextDouble() * 4),
-    ),
+    (index) => Size(Random().nextDouble(), 4 + (Random().nextDouble() * 4)),
   );
 
   AnimationController? controller;
@@ -148,14 +143,13 @@ class _CuteEventOverlayState extends State<CuteEventOverlay>
                     .map(
                       (position) => Positioned(
                         left: position.width * width,
-                        bottom: (height *
+                        bottom:
+                            (height *
                                 .25 *
                                 position.height *
                                 (controller?.value ?? 0)) -
                             _CuteOverlayContent.size,
-                        child: _CuteOverlayContent(
-                          emoji: widget.emoji,
-                        ),
+                        child: _CuteOverlayContent(emoji: widget.emoji),
                       ),
                     )
                     .toList(),
@@ -184,10 +178,7 @@ class _CuteOverlayContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox.square(
       dimension: size,
-      child: Text(
-        emoji,
-        style: const TextStyle(fontSize: 48),
-      ),
+      child: Text(emoji, style: const TextStyle(fontSize: 48)),
     );
   }
 }

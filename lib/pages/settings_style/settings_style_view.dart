@@ -1,23 +1,23 @@
 import 'dart:ui';
 
-import 'package:extera_next/utils/platform_infos.dart';
-import 'package:extera_next/widgets/list_divider.dart';
-import 'package:extera_next/widgets/theme_builder.dart';
 import 'package:flutter/material.dart';
 
 import 'package:dynamic_color/dynamic_color.dart';
-import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:matrix/matrix.dart';
 
 import 'package:extera_next/config/setting_keys.dart';
 import 'package:extera_next/config/themes.dart';
+import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/chat/events/state_message.dart';
 import 'package:extera_next/utils/account_config.dart';
 import 'package:extera_next/utils/color_value.dart';
+import 'package:extera_next/utils/platform_infos.dart';
 import 'package:extera_next/widgets/avatar.dart';
 import 'package:extera_next/widgets/layouts/max_width_body.dart';
+import 'package:extera_next/widgets/list_divider.dart';
 import 'package:extera_next/widgets/matrix.dart';
 import 'package:extera_next/widgets/mxc_image.dart';
+import 'package:extera_next/widgets/theme_builder.dart';
 import '../../config/app_config.dart';
 import '../../widgets/settings_switch_list_tile.dart';
 import 'settings_style.dart';
@@ -546,9 +546,7 @@ class SettingsStyleView extends StatelessWidget {
                     const ListDivider(),
                     ListTile(
                       title: Text(L10n.of(context).stickerScale),
-                      trailing: Text(
-                        '× ${AppSettings.stickerScale.value}',
-                      ),
+                      trailing: Text('× ${AppSettings.stickerScale.value}'),
                     ),
                     Slider.adaptive(
                       min: 1,
