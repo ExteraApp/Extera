@@ -387,13 +387,43 @@ class ChatView extends StatelessWidget {
               appbarBottomHeight += ChatAppBarListTile.fixedHeight;
             }
             return Scaffold(
+              extendBodyBehindAppBar: AppSettings.enableChatFrostedGlass.value,
               appBar: AppBar(
+                backgroundColor: AppSettings.enableChatFrostedGlass.value
+                    ? Colors.transparent
+                    : null,
+                elevation: AppSettings.enableChatFrostedGlass.value ? 0 : null,
+                scrolledUnderElevation: AppSettings.enableChatFrostedGlass.value
+                    ? 0
+                    : null,
+                flexibleSpace: AppSettings.enableChatFrostedGlass.value
+                    ? ClipRect(
+                        child: BackdropFilter(
+                          filter: ui.ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: theme.colorScheme.surface.withAlpha(
+                                theme.brightness == Brightness.dark ? 180 : 200,
+                              ),
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: theme.colorScheme.outlineVariant
+                                      .withAlpha(80),
+                                  width: 0.5,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    : null,
                 actionsIconTheme: IconThemeData(
                   color: controller.selectedEvents.isEmpty
                       ? null
                       : theme.colorScheme.tertiary,
                 ),
                 automaticallyImplyLeading: false,
+                centerTitle: AppSettings.enableAppBarCenterTitle.value,
                 leading: controller.selectMode
                     ? IconButton(
                         icon: const Icon(Icons.close),
@@ -465,86 +495,135 @@ class ChatView extends StatelessWidget {
                           ),
                         ),
                       ),
-                    SafeArea(
-                      child: Column(
-                        children: <Widget>[
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: controller.clearSingleSelectedEvent,
-                              child: ChatEventList(
-                                controller: controller,
-                                showThreadRoots: controller.showThreadRoots,
-                              ),
-                            ),
+                    // Messages — full screen under AppBar and InputBar
+                    Positioned.fill(
+                      child: GestureDetector(
+                        onTap: controller.clearSingleSelectedEvent,
+                        child: ChatEventList(
+                          controller: controller,
+                          showThreadRoots: controller.showThreadRoots,
+                        ),
+                      ),
+                    ),
+
+                    // Floating input bar
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      child: SafeArea(
+                        top: false,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: bottomSheetPadding,
+                            vertical: bottomSheetPadding / 2,
                           ),
-                          if (controller.showScrollDownButton)
-                            Divider(height: 1, color: theme.dividerColor),
-                          if (controller.room.isExtinct)
-                            Container(
-                              margin: EdgeInsets.all(bottomSheetPadding),
-                              width: double.infinity,
-                              child: ElevatedButton.icon(
-                                icon: const Icon(Icons.chevron_right),
-                                label: Text(L10n.of(context).enterNewChat),
-                                onPressed: controller.goToNewRoomAction,
-                              ),
-                            )
-                          else if (controller.room.canSendDefaultMessages &&
-                              controller.room.membership == Membership.join &&
-                              !controller.showThreadRoots)
-                            Container(
-                              margin: EdgeInsets.all(bottomSheetPadding),
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: ConstrainedBox(
                               constraints: const BoxConstraints(
                                 maxWidth: FluffyThemes.columnWidth * 2.5,
                               ),
-                              alignment: Alignment.center,
-                              child: Material(
-                                clipBehavior: Clip.hardEdge,
-                                color: theme.colorScheme.surfaceContainerHigh,
-                                borderRadius: BorderRadius.circular(24),
-                                child: controller.room.isAbandonedDMRoom == true
-                                    ? Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          TextButton.icon(
-                                            style: TextButton.styleFrom(
-                                              padding: const EdgeInsets.all(16),
-                                              foregroundColor:
-                                                  theme.colorScheme.error,
+                              child: controller.room.isExtinct
+                                  ? (AppSettings.enableChatFrostedGlass.value
+                                        ? _FloatingInputShell(
+                                            child: ElevatedButton.icon(
+                                              icon: const Icon(
+                                                Icons.chevron_right,
+                                              ),
+                                              label: Text(
+                                                L10n.of(context).enterNewChat,
+                                              ),
+                                              onPressed:
+                                                  controller.goToNewRoomAction,
                                             ),
+                                          )
+                                        : ElevatedButton.icon(
                                             icon: const Icon(
-                                              Icons.archive_outlined,
+                                              Icons.chevron_right,
                                             ),
-                                            onPressed: controller.leaveChat,
-                                            label: Text(L10n.of(context).leave),
-                                          ),
-                                          TextButton.icon(
-                                            style: TextButton.styleFrom(
-                                              padding: const EdgeInsets.all(16),
-                                            ),
-                                            icon: const Icon(
-                                              Icons.forum_outlined,
-                                            ),
-                                            onPressed: controller.recreateChat,
                                             label: Text(
-                                              L10n.of(context).reopenChat,
+                                              L10n.of(context).enterNewChat,
                                             ),
-                                          ),
-                                        ],
-                                      )
-                                    : Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          // ReactionsPicker(controller),
-                                          ReplyDisplay(controller),
-                                          ChatInputRow(controller),
-                                          ChatEmojiPicker(controller),
-                                        ],
-                                      ),
-                              ),
+                                            onPressed:
+                                                controller.goToNewRoomAction,
+                                          ))
+                                  : controller.room.canSendDefaultMessages &&
+                                        controller.room.membership ==
+                                            Membership.join &&
+                                        !controller.showThreadRoots
+                                  ? (() {
+                                      final inputChild =
+                                          controller.room.isAbandonedDMRoom ==
+                                              true
+                                          ? Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                TextButton.icon(
+                                                  style: TextButton.styleFrom(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                          16,
+                                                        ),
+                                                    foregroundColor:
+                                                        theme.colorScheme.error,
+                                                  ),
+                                                  icon: const Icon(
+                                                    Icons.archive_outlined,
+                                                  ),
+                                                  onPressed:
+                                                      controller.leaveChat,
+                                                  label: Text(
+                                                    L10n.of(context).leave,
+                                                  ),
+                                                ),
+                                                TextButton.icon(
+                                                  style: TextButton.styleFrom(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                          16,
+                                                        ),
+                                                  ),
+                                                  icon: const Icon(
+                                                    Icons.forum_outlined,
+                                                  ),
+                                                  onPressed:
+                                                      controller.recreateChat,
+                                                  label: Text(
+                                                    L10n.of(context).reopenChat,
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          : Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                ReplyDisplay(controller),
+                                                ChatInputRow(controller),
+                                                ChatEmojiPicker(controller),
+                                              ],
+                                            );
+                                      return AppSettings
+                                              .enableChatFrostedGlass
+                                              .value
+                                          ? _FloatingInputShell(
+                                              child: inputChild,
+                                            )
+                                          : Material(
+                                              clipBehavior: Clip.hardEdge,
+                                              color: theme
+                                                  .colorScheme
+                                                  .surfaceContainerHigh,
+                                              borderRadius:
+                                                  BorderRadius.circular(24),
+                                              child: inputChild,
+                                            );
+                                    })()
+                                  : const SizedBox.shrink(),
                             ),
-                        ],
+                          ),
+                        ),
                       ),
                     ),
                     if (controller.dragging)
@@ -609,6 +688,49 @@ class ChatView extends StatelessWidget {
               ),
             );
           },
+        ),
+      ),
+    );
+  }
+}
+
+class _FloatingInputShell extends StatelessWidget {
+  final Widget child;
+  const _FloatingInputShell({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return PhysicalModel(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(28),
+      clipBehavior: Clip.antiAlias,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(28),
+        child: BackdropFilter(
+          filter: ui.ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(28),
+              color: theme.colorScheme.surfaceContainerHigh.withAlpha(
+                theme.brightness == Brightness.dark ? 160 : 190,
+              ),
+              border: Border.all(
+                color: theme.colorScheme.outlineVariant.withAlpha(60),
+                width: 0.8,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withAlpha(
+                    theme.brightness == Brightness.dark ? 60 : 20,
+                  ),
+                  blurRadius: 24,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: child,
+          ),
         ),
       ),
     );

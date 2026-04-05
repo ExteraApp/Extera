@@ -3615,6 +3615,8 @@
   "tapToSwitchToVoice": "Tap to switch to voice message",
   "tapToSwitchToVideo": "Tap to switch to video note",
   "sendVideoNote": "Send video note",
+  "enableAppBarCenterTitle": "Center room title",
+  "enableChatFrostedGlass": "Use translucency effect for chat panels",
   "recentStickers": "Recent",
   "removeFromFavourites": "Remove from favourites",
   "addToFavourites": "Add to favourites",

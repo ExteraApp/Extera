@@ -90,6 +90,11 @@ enum AppSettings<T> {
   audioRecordingBitRate<int>('audioRecordingBitRate', 64000),
   audioRecordingSamplingRate<int>('audioRecordingSamplingRate', 44100),
   enableVideoNotes<bool>('xyz.extera.next.enableVideoNotes', false),
+  enableChatFrostedGlass<bool>('xyz.extera.next.enableChatFrostedGlass', false),
+  enableAppBarCenterTitle<bool>(
+    'xyz.extera.next.enableAppBarCenterTitle',
+    false,
+  ),
   enableSoftLogout<bool>('enableSoftLogout', false),
   enableGradient<bool>('enableGradient', true),
   pushNotificationsGatewayUrl<String>(
