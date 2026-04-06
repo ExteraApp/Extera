@@ -19,8 +19,18 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      - name: Set iOS Deployment Target to 14.0
+        run: |
+          sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = .*/IPHONEOS_DEPLOYMENT_TARGET = 14.0/g' ios/Runner.xcodeproj/project.pbxproj
+          
+          if [ -f ios/Podfile ]; then
+            sed -i '' "s/platform :ios, .*/platform :ios, '14.0'/g" ios/Podfile
+          fi
+
       - name: Build Unsigned IPA
         run: |
+          flutter pub get
+          cd ios && pod update && cd ..
           flutter build ios --release --no-codesign
           
           mkdir -p Payload
