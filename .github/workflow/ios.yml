@@ -1,0 +1,42 @@
+name: iOS Build
+
+on:
+  workflow_dispatch:
+jobs:
+  build_ipa_scarlet:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - run: |
+          if [ -f .github/workflows/versions.env ]; then
+            cat .github/workflows/versions.env >> $GITHUB_ENV
+          else
+            echo "FLUTTER_VERSION=stable" >> $GITHUB_ENV
+          fi
+      
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+          
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build Unsigned IPA
+        run: |
+          flutter build ios --release --no-codesign
+          
+          mkdir -p Payload
+          cp -r build/ios/iphoneos/Runner.app Payload/
+          zip -r extera.ipa Payload
+          
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-scarlet-bundle
+          path: extera.ipa
+          files: fluffychat-scarlet.ipa
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
