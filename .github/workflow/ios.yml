@@ -37,6 +37,6 @@ jobs:
         with:
           name: ios-scarlet-bundle
           path: extera.ipa
-          files: fluffychat-scarlet.ipa
+          files: extera.ipa
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
