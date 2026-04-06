@@ -8,12 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - run: |
-          if [ -f .github/workflows/versions.env ]; then
-            cat .github/workflows/versions.env >> $GITHUB_ENV
-          else
-            echo "FLUTTER_VERSION=stable" >> $GITHUB_ENV
-          fi
+      - run: echo "FLUTTER_VERSION=stable" >> $GITHUB_ENV
       
       - name: Install Flutter
         uses: subosito/flutter-action@v2
