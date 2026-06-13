@@ -81,6 +81,11 @@ class SettingsFeaturesView extends StatelessWidget {
                         title: L10n.of(context).enablePeopleTab,
                         setting: AppSettings.enablePeopleTab,
                       ),
+                      const ListDivider(),
+                      SettingsSwitchListTile.adaptive(
+                        title: L10n.of(context).enableInvitesTab,
+                        setting: AppSettings.enableInvitesTab,
+                      ),
                       if (PlatformInfos.isMobile) ...[
                         const ListDivider(),
                         SettingsSwitchListTile.adaptive(

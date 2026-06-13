@@ -27,6 +27,7 @@ enum AppSettings<T> {
   messageStyle<String>('xyz.extera.messageStyle', 'bubbles'),
   fallbackFonts<String>('xyz.extera.fallbackFonts', ''),
   enablePeopleTab<bool>('xyz.extera.enablePeopleTab', true),
+  enableInvitesTab<bool>('xyz.extera.enableInvitesTab', true),
   autoLoadMedia<bool>('xyz.extera.autoLoadMedia', true),
   showCameraButton<bool>('xyz.extera.cameraButton', true),
   stickerScale<double>('xyz.extera.stickerScale', 2),
