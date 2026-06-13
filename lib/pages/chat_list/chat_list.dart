@@ -44,7 +44,7 @@ enum PopupMenuAction {
   archive,
 }
 
-enum ActiveFilter { allChats, messages, groups, unread, spaces, people }
+enum ActiveFilter { allChats, messages, groups, unread, invites, spaces, people }
 
 extension LocalizedActiveFilter on ActiveFilter {
   String toLocalizedString(BuildContext context) {
@@ -57,6 +57,8 @@ extension LocalizedActiveFilter on ActiveFilter {
         return L10n.of(context).unread;
       case ActiveFilter.groups:
         return L10n.of(context).groups;
+      case ActiveFilter.invites:
+        return L10n.of(context).invites;
       case ActiveFilter.spaces:
         return L10n.of(context).spaces;
       case ActiveFilter.people:
@@ -75,6 +77,8 @@ extension LocalizedActiveFilter on ActiveFilter {
             : Icons.mark_unread_chat_alt;
       case .groups:
         return outline ? Icons.people_outline : Icons.people;
+      case .invites:
+        return outline ? Icons.mail_outline : Icons.mail;
       case .spaces:
         return outline ? Icons.grid_view_outlined : Icons.grid_view_rounded;
       case .people:
@@ -166,6 +170,7 @@ class ChatListController extends State<ChatList>
       case .allChats:
         return (room) =>
             !room.isSpace &&
+            (!AppSettings.enableInvitesTab.value || !room.membership.isInvite) &&
             (AppSettings.showSpaceRoomsInGlobalList.value ||
                 room.spaceParents
                     .where((space) => spacesIds.contains(space.roomId))
@@ -174,6 +179,7 @@ class ChatListController extends State<ChatList>
         return (room) =>
             !room.isSpace &&
             room.isDirectChat &&
+            (!AppSettings.enableInvitesTab.value || !room.membership.isInvite) &&
             (AppSettings.showSpaceRoomsInGlobalList.value ||
                 room.spaceParents
                     .where((space) => spacesIds.contains(space.roomId))
@@ -182,14 +188,17 @@ class ChatListController extends State<ChatList>
         return (room) =>
             !room.isSpace &&
             !room.isDirectChat &&
+            (!AppSettings.enableInvitesTab.value || !room.membership.isInvite) &&
             (AppSettings.showSpaceRoomsInGlobalList.value ||
                 room.spaceParents
                     .where((space) => spacesIds.contains(space.roomId))
                     .isEmpty);
+      case .invites:
+        return (room) => room.membership.isInvite;
       case .unread:
-        return (room) => room.isUnreadOrInvited;
+        return (room) => (!AppSettings.enableInvitesTab.value || !room.membership.isInvite) && room.isUnreadOrInvited;
       case .spaces:
-        return (room) => room.isSpace;
+        return (room) => (!AppSettings.enableInvitesTab.value || !room.membership.isInvite) && room.isSpace;
       case .people:
         return (room) => false;
     }

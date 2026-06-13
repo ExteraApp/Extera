@@ -50,6 +50,7 @@ class _ChatListLegacyBottomNavbarState
         ActiveFilter.allChats,
       if (AppSettings.separateChatTypes.value) ActiveFilter.groups,
       ActiveFilter.unread,
+      if (AppSettings.enableInvitesTab.value) ActiveFilter.invites,
       if (spaceDelegateCandidates.isNotEmpty &&
           !_c.widget.displayNavigationRail)
         ActiveFilter.spaces,
@@ -57,10 +58,11 @@ class _ChatListLegacyBottomNavbarState
     ];
 
     final filterLambdas = {
-      ActiveFilter.allChats: (Room room) => true,
-      ActiveFilter.messages: (Room room) => room.isDirectChat,
-      ActiveFilter.groups: (Room room) => !room.isDirectChat,
+      ActiveFilter.allChats: (Room room) =>(!AppSettings.enableInvitesTab.value || !room.membership.isInvite),
+      ActiveFilter.messages: (Room room) => (!AppSettings.enableInvitesTab.value || !room.membership.isInvite) && room.isDirectChat,
+      ActiveFilter.groups: (Room room) => (!AppSettings.enableInvitesTab.value || !room.membership.isInvite) && !room.isDirectChat,
       ActiveFilter.unread: (Room room) => room.isUnread,
+      ActiveFilter.invites: (Room room) => room.membership.isInvite,
       ActiveFilter.spaces: (Room room) => false,
       ActiveFilter.people: (Room room) => false,
     };

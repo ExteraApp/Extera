@@ -3832,5 +3832,7 @@
   },
   "member": "Member",
   "powerLevel": "Power level",
-  "apply": "Apply"
+  "apply": "Apply",
+  "invites": "Invites",
+  "enableInvitesTab": "\"Invites\" tab"
 }
