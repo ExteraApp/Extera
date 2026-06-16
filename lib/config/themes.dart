@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:extera_next/config/setting_keys.dart';
+import 'package:extera_next/utils/platform_infos.dart';
 import 'app_config.dart';
 
 abstract class FluffyThemes {
@@ -17,6 +18,15 @@ abstract class FluffyThemes {
 
   static bool isThreeColumnMode(BuildContext context) =>
       MediaQuery.sizeOf(context).width > FluffyThemes.columnWidth * 3.5;
+
+  static List<String> _filteredFallbackFonts(String fonts) {
+    if (fonts.isEmpty) return const [];
+    final list = fonts.split(',');
+    if (!PlatformInfos.isAndroid) {
+      list.removeWhere((f) => f == 'SystemFont' || f == 'Roboto');
+    }
+    return list;
+  }
 
   static LinearGradient backgroundGradient(BuildContext context, int alpha) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -81,16 +91,21 @@ abstract class FluffyThemes {
       brightness: brightness,
       colorScheme: colorScheme,
       useSystemColors: true,
-      fontFamily: AppSettings.systemFont.value
+      fontFamily: AppSettings.systemFont.value && PlatformInfos.isAndroid
           ? 'SystemFont'
-          : AppSettings.uiFont.value.isEmpty
-          ? null
-          : AppSettings.uiFont.value,
+          : AppSettings.uiFont.value.isNotEmpty
+          ? AppSettings.uiFont.value
+          : PlatformInfos.isLinux && twemoji == true
+          ? 'sans-serif'
+          : null,
       fontFamilyFallback: twemoji == true
-          ? ['Twemoji Mozilla', ...AppSettings.fallbackFonts.value.split(',')]
+          ? [
+              'Twemoji Mozilla',
+              ..._filteredFallbackFonts(AppSettings.fallbackFonts.value),
+            ]
           : AppSettings.fallbackFonts.value.isEmpty
           ? null
-          : AppSettings.fallbackFonts.value.split(','),
+          : _filteredFallbackFonts(AppSettings.fallbackFonts.value),
       dividerColor: brightness == Brightness.dark
           ? colorScheme.surfaceContainerHighest
           : colorScheme.surfaceContainer,
