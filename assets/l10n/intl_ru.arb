@@ -3913,5 +3913,6 @@
   "monospaceFontFallback": "Дополнительные моноширинные шрифты",
   "chatFont": "Шрифт чата",
   "chatFontFallback": "Дополнительные шрифты чата",
-  "openMessageSource": "Исходное сообщение"
+  "openMessageSource": "Исходное сообщение",
+  "enableFloatingAppBar": "Плавающий заголовок чата"
 }

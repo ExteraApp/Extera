@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:ui' as ui;
 
+import 'package:extera_next/pages/chat/chat_floating_app_bar.dart';
+import 'package:extera_next/pages/chat/chat_legacy_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -13,20 +15,16 @@ import 'package:extera_next/config/themes.dart';
 import 'package:extera_next/generated/l10n/l10n.dart';
 import 'package:extera_next/pages/chat/chat.dart';
 import 'package:extera_next/pages/chat/chat_app_bar_list_tile.dart';
-import 'package:extera_next/pages/chat/chat_app_bar_title.dart';
 import 'package:extera_next/pages/chat/chat_event_list.dart';
 import 'package:extera_next/pages/chat/encryption_button.dart';
 import 'package:extera_next/pages/chat/jitsi_popup_button.dart';
-import 'package:extera_next/pages/chat/pinned_events.dart';
 import 'package:extera_next/pages/chat/reply_display.dart';
 import 'package:extera_next/pages/dialer/back_to_call_button.dart';
-import 'package:extera_next/utils/stream_extension.dart';
 import 'package:extera_next/utils/url_launcher.dart';
 import 'package:extera_next/widgets/avatar.dart';
 import 'package:extera_next/widgets/chat_settings_popup_menu.dart';
 import 'package:extera_next/widgets/matrix.dart';
 import 'package:extera_next/widgets/mini_audio_player.dart';
-import 'package:extera_next/widgets/unread_rooms_badge.dart';
 import 'chat_emoji_picker.dart';
 import 'chat_input_row.dart';
 
@@ -390,77 +388,17 @@ class _ChatViewState extends State<ChatView> {
 
           return Scaffold(
             extendBodyBehindAppBar: true,
-            appBar: AppBar(
-              backgroundColor: AppSettings.enableChatFrostedGlass.value
-                  ? Colors.transparent
-                  : null,
-              elevation: AppSettings.enableChatFrostedGlass.value ? 0 : null,
-              shape: FluffyThemes.isColumnMode(context)
-                  ? Border(
-                      bottom: BorderSide(color: theme.dividerColor, width: 1),
+            appBar: AppSettings.enableFloatingAppBar.value
+                    ? FloatingChatAppbar(
+                        controller: controller,
+                        appbarBottomHeight: appbarBottomHeight,
+                        actions: _appBarActions(context)
                     )
-                  : null,
-              scrolledUnderElevation: AppSettings.enableChatFrostedGlass.value
-                  ? 0
-                  : null,
-              flexibleSpace: AppSettings.enableChatFrostedGlass.value
-                  ? ClipRect(
-                      child: BackdropFilter(
-                        filter: ui.ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: theme.colorScheme.surface.withAlpha(
-                              theme.brightness == Brightness.dark ? 180 : 200,
-                            ),
-                            border: Border(
-                              bottom: BorderSide(
-                                color: theme.colorScheme.outlineVariant
-                                    .withAlpha(80),
-                                width: 0.5,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  : null,
-              actionsIconTheme: IconThemeData(
-                color: controller.selectedEvents.isEmpty
-                    ? null
-                    : theme.colorScheme.tertiary,
-              ),
-              automaticallyImplyLeading: false,
-              centerTitle: AppSettings.enableAppBarCenterTitle.value,
-              leading: controller.selectMode
-                  ? IconButton(
-                      icon: const Icon(Icons.close),
-                      onPressed: controller.clearSelectedEvents,
-                      tooltip: L10n.of(context).close,
-                      color: theme.colorScheme.tertiary,
-                    )
-                  : FluffyThemes.isColumnMode(context)
-                  ? null
-                  : StreamBuilder<Object>(
-                      stream: Matrix.of(context).client.onSync.stream
-                          .where((s) => s.hasRoomUpdate)
-                          .rateLimit(const Duration(seconds: 1)),
-                      builder: (context, _) => UnreadRoomsBadge(
-                        filter: (r) => r.id != controller.roomId,
-                        badgePosition: .topEnd(top: 4, end: 8),
-                        child: const Center(child: BackButton()),
-                      ),
+                    : ChatLegacyAppBar(
+                        controller: controller,
+                        appbarBottomHeight: appbarBottomHeight,
+                        actions: _appBarActions(context),
                     ),
-              titleSpacing: FluffyThemes.isColumnMode(context) ? 24 : 0,
-              title: ChatAppBarTitle(controller),
-              actions: _appBarActions(context),
-              bottom: PreferredSize(
-                preferredSize: Size.fromHeight(appbarBottomHeight),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [PinnedEvents(controller)],
-                ),
-              ),
-            ),
             floatingActionButton: ValueListenableBuilder<bool>(
               valueListenable: controller.scrolledUpNotifier,
               builder: (context, scrolledUp, _) {
@@ -520,6 +458,27 @@ class _ChatViewState extends State<ChatView> {
                       child: ChatEventList(
                         controller: controller,
                         showThreadRoots: controller.showThreadRoots,
+                      ),
+                    ),
+                  ),
+                  if (AppSettings.enableFloatingAppBar.value)
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    child: IgnorePointer(
+                      child: Container(
+                        height: MediaQuery.of(context).padding.top + kToolbarHeight + appbarBottomHeight,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              theme.colorScheme.surface,
+                              theme.colorScheme.surface.withValues(alpha: 0),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ),

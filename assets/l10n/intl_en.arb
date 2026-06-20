@@ -3842,5 +3842,6 @@
   "chatFont": "Chat font",
   "chatFontFallback": "Fallback chat fonts",
   "openMessageSource": "Remote message",
-  "showProfileSource": "Profile data"
+  "showProfileSource": "Profile data",
+  "enableFloatingAppBar": "Floating chat app bar"
 }
