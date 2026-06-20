@@ -116,6 +116,7 @@ enum AppSettings<T> {
   audioRecordingSamplingRate<int>('audioRecordingSamplingRate', 44100),
   enableVideoNotes<bool>('xyz.extera.next.enableVideoNotes', false),
   enableChatFrostedGlass<bool>('xyz.extera.next.enableChatFrostedGlass', false),
+  enableFloatingAppBar<bool>('xyz.extera.enableFloatingAppBar', true),
   showSeconds<bool>('xyz.extera.showSeconds', false),
   enableAppBarCenterTitle<bool>(
     'xyz.extera.next.enableAppBarCenterTitle',
