@@ -12,7 +12,7 @@ A FluffyChat fork on steroids, aimed at adding more features.
 - 😄 Custom emotes and stickers
 - 🌌 Spaces
 - 📞 1-to-1 voice/video calls
-- ☎️ Jitsi-powered group calls
+- ☎️ Livekit-based group calls
 
 ### 🔒 Security and privacy
 - 🔑 E2EE encryption using Matrix's `libvodozemac`
