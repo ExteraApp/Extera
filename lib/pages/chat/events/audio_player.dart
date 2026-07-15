@@ -126,6 +126,7 @@ class AudioPlayerState extends State<AudioPlayerWidget> {
               .replaceAll('>', '&gt;');
 
     final filename = event.content.tryGet<String>('filename');
+    final isVoiceNote = event.content.containsKey('org.matrix.msc3245.voice');
 
     // Use ValueListenableBuilders to reactively update UI from the background player
     return ValueListenableBuilder<AudioTrackInfo?>(
@@ -174,13 +175,9 @@ class AudioPlayerState extends State<AudioPlayerWidget> {
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ConstrainedBox(
-                                constraints: const BoxConstraints(
-                                  maxWidth: FluffyThemes.columnWidth,
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
                                     SizedBox(
                                       width: buttonSize,
                                       height: buttonSize,
@@ -212,7 +209,7 @@ class AudioPlayerState extends State<AudioPlayerWidget> {
                                             ),
                                     ),
                                     const SizedBox(width: 8),
-                                    Expanded(
+                                    Flexible(
                                       child: Stack(
                                         children: [
                                           if (waveform != null)
@@ -316,7 +313,9 @@ class AudioPlayerState extends State<AudioPlayerWidget> {
                                           right: 8.0,
                                         ),
                                         child: Icon(
-                                          Icons.mic_none_outlined,
+                                          isVoiceNote
+                                              ? Icons.mic_none_outlined
+                                              : Icons.audiotrack_outlined,
                                           color: widget.color,
                                         ),
                                       ),
@@ -353,8 +352,8 @@ class AudioPlayerState extends State<AudioPlayerWidget> {
                                     ),
                                   ],
                                 ),
-                              ),
-                              if (fileDescription != filename && filename != null) ...[
+                              if (fileDescription != filename &&
+                                  filename != null) ...[
                                 const SizedBox(height: 8),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
