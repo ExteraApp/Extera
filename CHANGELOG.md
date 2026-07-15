@@ -1,3 +1,11 @@
+## Extera 26.4.3
+- Localize time in user profiles (@meoovv)
+- Enable native spell check in message composer (@Quffik)
+- Fix wrong extensions when downloading files
+- Fix displaying filenames in audio messages
+- Redesign message bubbles
+- Update settings categories
+
 ## Extera 26.4.2
 - Show bottom navbar regardless of whether the room list is empty.
 - Timezones in profiles.

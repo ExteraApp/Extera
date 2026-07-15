@@ -173,6 +173,7 @@ class MatrixEmojiPickerState extends State<MatrixEmojiPicker>
   List<PickerEmoji> _allEmojis = [];
   List<PickerEmoji> _displayedEmojis = [];
   final Map<String, List<PickerEmoji>> _variationsMap = {};
+  final Set<String> _variationCharSet = {};
 
   late List<_PickerTab> _tabs;
   late TabController _tabController;
@@ -262,6 +263,11 @@ class MatrixEmojiPickerState extends State<MatrixEmojiPicker>
       setState(() {
         _allEmojis = loadedList;
         _variationsMap.addAll(tempVariations);
+        for (final vars in tempVariations.values) {
+          for (var i = 1; i < vars.length; i++) {
+            _variationCharSet.add(vars[i].displayName);
+          }
+        }
         _isLoading = false;
         _calculateDisplayedEmojis();
       });
@@ -286,6 +292,10 @@ class MatrixEmojiPickerState extends State<MatrixEmojiPicker>
       }
 
       _displayedEmojis = source.where((e) {
+        if (e.type == PickerEmojiType.standard &&
+            _variationCharSet.contains(e.displayName)) {
+          return false;
+        }
         if (e.displayName.toLowerCase().contains(searchText)) return true;
         for (final k in e.keywords) {
           if (k.toLowerCase().contains(searchText)) return true;
@@ -299,9 +309,7 @@ class MatrixEmojiPickerState extends State<MatrixEmojiPicker>
           final matchesCategory = currentTab.category.groups.contains(
             e.standardEmoji!.emojiGroup,
           );
-          final isVariation =
-              e.displayName.contains(':') &&
-              e.displayName.contains('skin tone');
+          final isVariation = _variationCharSet.contains(e.displayName);
           return matchesCategory && !isVariation;
         }).toList();
       } else if (currentTab is _CustomTab) {
@@ -365,29 +373,37 @@ class MatrixEmojiPickerState extends State<MatrixEmojiPicker>
       color: Theme.of(context).cardColor,
       items: [
         PopupMenuItem(
-          enabled: false,
-          padding: EdgeInsets.zero,
-          child: Container(
-            height: 50,
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: variations.map((v) {
-                return InkWell(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    _handleEmojiTap(v);
-                  },
-                  borderRadius: BorderRadius.circular(20),
-                  child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Text(
-                      v.displayName,
-                      style: const TextStyle(fontSize: 28),
+          enabled: true,
+          padding: .zero,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context).size.width * 0.8,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8,
+                vertical: 6,
+              ),
+              child: Wrap(
+                spacing: 4,
+                runSpacing: 4,
+                children: variations.map((v) {
+                  return InkWell(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      _handleEmojiTap(v);
+                    },
+                    borderRadius: BorderRadius.circular(20),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Text(
+                        v.displayName,
+                        style: const TextStyle(fontSize: 28),
+                      ),
                     ),
-                  ),
-                );
-              }).toList(),
+                  );
+                }).toList(),
+              ),
             ),
           ),
         ),
