@@ -5,7 +5,7 @@ publish_to: none
 version: 26.4.2
 
 environment:
-  sdk: ">=3.10.0 <4.0.0"
+  sdk: ">=3.11.0 <4.0.0"
 
 dependencies:
   action_slider: ^0.7.0
