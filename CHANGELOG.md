@@ -5,6 +5,8 @@
 - Fix displaying filenames in audio messages
 - Redesign message bubbles
 - Update settings categories
+- Fix variation emojis (e.g. skin tones) being displayed in emoji picker
+- Remove push-to-talk in legacy calls
 
 ## Extera 26.4.2
 - Show bottom navbar regardless of whether the room list is empty.
