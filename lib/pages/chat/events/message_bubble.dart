@@ -538,7 +538,7 @@ class _MessageBubbleState extends State<MessageBubble> {
                   ],
           ),
           maxLines: 1,
-          overflow: TextOverflow.ellipsis,
+          overflow: .ellipsis,
         );
 
         return Stack(
@@ -764,6 +764,7 @@ class _MessageBubbleState extends State<MessageBubble> {
                                           Positioned(
                                             left: 10,
                                             top: 10,
+                                            right: 10,
                                             child: Container(
                                               padding: const .symmetric(
                                                 horizontal: 6,
