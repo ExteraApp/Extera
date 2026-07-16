@@ -144,35 +144,51 @@ class _ThreadListItem extends StatelessWidget {
                     Expanded(
                       child: Row(
                         children: [
-                          Text(
-                            sender.calcDisplayname(),
-                            style: theme.textTheme.titleSmall,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            thread.originServerTs.localizedTimeShort(context),
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.hintColor,
-                            ),
-                          ),
-                          Expanded(child: const SizedBox.shrink()),
-                          FilledButton(
-                            onPressed: () {
-                              onTap();
-                            },
+                          Expanded(
                             child: Row(
+                              mainAxisSize: MainAxisSize.min,
                               children: [
-                                const Icon(Icons.forum_outlined),
-                                const SizedBox(width: 12),
+                                Flexible(
+                                  child: Text(
+                                    sender.calcDisplayname(),
+                                    style: theme.textTheme.titleSmall,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
                                 Text(
-                                  messageCount?.toString() ??
-                                      L10n.of(context).discuss,
+                                  thread.originServerTs.localizedTimeShort(
+                                    context,
+                                  ),
+                                  style: theme.textTheme.bodySmall?.copyWith(
+                                    color: theme.hintColor,
+                                  ),
                                 ),
                               ],
                             ),
                           ),
+                          IconButton(
+                            onPressed: () {
+                              onTap();
+                            },
+                            icon: const Icon(Icons.forum_outlined),
+                          ),
+                          // FilledButton(
+                          //   onPressed: () {
+                          //     onTap();
+                          //   },
+                          //   child: Row(
+                          //     children: [
+                          //       const Icon(Icons.forum_outlined),
+                          //       const SizedBox(width: 12),
+                          //       Text(
+                          //         messageCount?.toString() ??
+                          //             L10n.of(context).discuss,
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),
