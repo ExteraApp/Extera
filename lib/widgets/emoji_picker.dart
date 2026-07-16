@@ -380,10 +380,7 @@ class MatrixEmojiPickerState extends State<MatrixEmojiPicker>
               maxWidth: MediaQuery.of(context).size.width * 0.8,
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8,
-                vertical: 6,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
               child: Wrap(
                 spacing: 4,
                 runSpacing: 4,

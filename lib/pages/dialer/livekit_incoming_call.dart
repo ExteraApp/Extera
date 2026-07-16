@@ -223,8 +223,9 @@ class _IncomingCallPopup extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isColumn = FluffyThemes.isColumnMode(context);
-    final displayName =
-        room.getLocalizedDisplayname(MatrixLocals(L10n.of(context)));
+    final displayName = room.getLocalizedDisplayname(
+      MatrixLocals(L10n.of(context)),
+    );
 
     final body = SafeArea(
       child: Padding(
@@ -288,17 +289,11 @@ class _IncomingCallPopup extends StatelessWidget {
             color: theme.colorScheme.surface,
           ),
           clipBehavior: Clip.antiAlias,
-          child: Material(
-            color: Colors.transparent,
-            child: body,
-          ),
+          child: Material(color: Colors.transparent, child: body),
         ),
       );
     }
 
-    return Material(
-      color: theme.colorScheme.surface,
-      child: body,
-    );
+    return Material(color: theme.colorScheme.surface, child: body);
   }
 }

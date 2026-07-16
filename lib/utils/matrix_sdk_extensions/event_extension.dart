@@ -39,7 +39,8 @@ extension LocalizedBody on Event {
           : mimeExt == null
           ? ''
           : '.$mimeExt';
-      final filenameNoExt = content.containsKey('filename') && filename.contains('.')
+      final filenameNoExt =
+          content.containsKey('filename') && filename.contains('.')
           ? filename.substring(0, filename.lastIndexOf('.'))
           : filename;
       final downloadFileName =

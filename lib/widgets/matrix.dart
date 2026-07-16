@@ -17,10 +17,10 @@ import 'package:universal_html/html.dart' as html;
 import 'package:url_launcher/url_launcher_string.dart';
 
 import 'package:extera_next/generated/l10n/l10n.dart';
+import 'package:extera_next/pages/dialer/livekit_incoming_call.dart';
 import 'package:extera_next/utils/client_manager.dart';
 import 'package:extera_next/utils/init_with_restore.dart';
 import 'package:extera_next/utils/matrix_sdk_extensions/matrix_file_extension.dart';
-import 'package:extera_next/pages/dialer/livekit_incoming_call.dart';
 import 'package:extera_next/utils/platform_infos.dart';
 import 'package:extera_next/utils/uia_request_manager.dart';
 import 'package:extera_next/utils/voip_plugin.dart';

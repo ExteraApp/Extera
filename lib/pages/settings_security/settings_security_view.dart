@@ -189,9 +189,13 @@ class SettingsSecurityView extends StatelessWidget {
                             if (PlatformInfos.isMobile) ...[
                               const ListDivider(),
                               ListTile(
-                                trailing: const Icon(Icons.chevron_right_outlined),
+                                trailing: const Icon(
+                                  Icons.chevron_right_outlined,
+                                ),
                                 title: Text(L10n.of(context).appLock),
-                                subtitle: Text(L10n.of(context).appLockDescription),
+                                subtitle: Text(
+                                  L10n.of(context).appLockDescription,
+                                ),
                                 onTap: controller.setAppLockAction,
                               ),
                             ],
