@@ -43,7 +43,7 @@ class ChatInputRow extends StatelessWidget {
           );
         }
         return Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: controller.selectMode
               ? <Widget>[
@@ -317,9 +317,11 @@ class ChatInputRow extends StatelessWidget {
                         focusNode: controller.inputFocus,
                         controller: controller.sendController,
                         decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 6.0,
-                            vertical: 10.0,
+                          contentPadding: const EdgeInsets.only(
+                            left: 6.0,
+                            right: 6.0,
+                            bottom: 10.0,
+                            top: 0.0,
                           ),
                           counter: const SizedBox.shrink(),
                           hintText: L10n.of(context).writeAMessage,
