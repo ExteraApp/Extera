@@ -429,7 +429,8 @@ class _MessageBubbleState extends State<MessageBubble> {
     final useBottomRowStatus =
         !useInlineStatus && !useChipStatus && !useBottomChipStatus;
 
-    final hasReplyRelation = event.inReplyToEventId(includingFallback: false) != null;
+    final hasReplyRelation =
+        event.inReplyToEventId(includingFallback: false) != null;
 
     final showSenderAtTop =
         !nextEventSameSender &&
@@ -765,19 +766,21 @@ class _MessageBubbleState extends State<MessageBubble> {
                                             left: 10,
                                             top: 10,
                                             right: 10,
-                                            child: Container(
-                                              padding: const .symmetric(
-                                                horizontal: 6,
-                                                vertical: 2,
-                                              ),
-                                              decoration: BoxDecoration(
-                                                color: Colors.black.withValues(
-                                                  alpha: 0.65,
+                                            child: Align(
+                                              alignment: .topLeft,
+                                              child: Container(
+                                                padding: const .symmetric(
+                                                  horizontal: 6,
+                                                  vertical: 2,
                                                 ),
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.black
+                                                      .withValues(alpha: 0.65),
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                                child: senderNameWidget,
                                               ),
-                                              child: senderNameWidget,
                                             ),
                                           ),
                                         if (useInlineStatus)
