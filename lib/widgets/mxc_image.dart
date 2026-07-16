@@ -184,8 +184,18 @@ class _MxcImageState extends State<MxcImage> {
           animated: originalAnimated,
         );
       } else if (event != null) {
+        final useThumbnail = originalIsThumbnail && event.hasThumbnail;
+        if (!useThumbnail &&
+            !{
+              MessageTypes.Image,
+              MessageTypes.Sticker,
+            }.contains(event.messageType)) {
+          throw Exception(
+            'Event of type ${event.messageType} has no thumbnail!',
+          );
+        }
         final data = await event.downloadAndDecryptAttachment(
-          getThumbnail: originalIsThumbnail,
+          getThumbnail: useThumbnail,
         );
         if (data.detectFileType is MatrixImageFile) {
           loadedBytes = data.bytes;
