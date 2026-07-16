@@ -11,6 +11,7 @@ extension RoomStatusExtension on Room {
     var typingText = '';
     final typingUsers = this.typingUsers;
     typingUsers.removeWhere((User u) => u.id == client.userID);
+    typingUsers.removeWhere((User u) => client.ignoredUsers.contains(u.id));
 
     if (AppConfig.hideTypingUsernames) {
       typingText = L10n.of(context).isTyping;
