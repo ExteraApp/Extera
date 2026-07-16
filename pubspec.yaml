@@ -2,7 +2,7 @@ name: extera_next
 description: Chat with your friends.
 publish_to: none
 # Version schema: <YEAR>.<MAJOR UPDATE>.<MINOR><PATCH>
-version: 26.4.3
+version: 26.4.31
 
 environment:
   sdk: ">=3.11.0 <4.0.0"

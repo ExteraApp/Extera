@@ -1,3 +1,10 @@
+## Extera 26.4.31
+- Fix message composer alignment
+- Fix wrong sender name layout being used in images sent in threads
+- Fix overlay sender names not being truncated correctly
+- Fix user names in thread list taking too much space
+- Do not show ignored users typing in chat list
+
 ## Extera 26.4.3
 - Localize time in user profiles (@meoovv)
 - Enable native spell check in message composer (@Quffik)
