@@ -429,7 +429,7 @@ class _MessageBubbleState extends State<MessageBubble> {
     final useBottomRowStatus =
         !useInlineStatus && !useChipStatus && !useBottomChipStatus;
 
-    final hasReplyRelation = event.inReplyToEventId() != null;
+    final hasReplyRelation = event.inReplyToEventId(includingFallback: false) != null;
 
     final showSenderAtTop =
         !nextEventSameSender &&
