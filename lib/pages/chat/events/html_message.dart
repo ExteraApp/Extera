@@ -248,7 +248,7 @@ class _HtmlMessageState extends State<HtmlMessage> {
         return const TextSpan();
       }
 
-      text = text.replaceAll(RegExp(r'\s+'), ' ');
+      text = text.replaceAll(RegExp(r'[ \t\r\f]+'), ' ');
       if (text.isEmpty) return const TextSpan();
 
       return insideAnchor
