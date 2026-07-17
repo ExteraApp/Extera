@@ -19,6 +19,12 @@ class ImageViewerView extends StatefulWidget {
 }
 
 class _ImageViewerViewState extends State<ImageViewerView> {
+  bool _showUI = true;
+
+  void _toggleUI() {
+    setState(() {_showUI = !_showUI;});
+  }
+
   // Default physics allowing scroll
   ScrollPhysics _pageScrollPhysics = const BouncingScrollPhysics();
 
@@ -47,47 +53,57 @@ class _ImageViewerViewState extends State<ImageViewerView> {
       child: Scaffold(
         backgroundColor: Colors.black.withAlpha(128),
         extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          elevation: 0,
-          leading: IconButton(
-            style: iconButtonStyle,
-            icon: const Icon(Icons.close),
-            onPressed: Navigator.of(context).pop,
-            color: Colors.white,
-            tooltip: L10n.of(context).close,
-          ),
-          backgroundColor: Colors.transparent,
-          actions: [
-            IconButton(
-              style: iconButtonStyle,
-              icon: const Icon(Icons.reply_outlined),
-              onPressed: widget.controller.forwardAction,
-              color: Colors.white,
-              tooltip: L10n.of(context).share,
-            ),
-            const SizedBox(width: 8),
-            IconButton(
-              style: iconButtonStyle,
-              icon: const Icon(Icons.download_outlined),
-              onPressed: () => widget.controller.saveFileAction(context),
-              color: Colors.white,
-              tooltip: L10n.of(context).downloadFile,
-            ),
-            const SizedBox(width: 8),
-            if (PlatformInfos.isMobile)
-              Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: Builder(
-                  builder: (context) => IconButton(
-                    style: iconButtonStyle,
-                    onPressed: () => widget.controller.shareFileAction(context),
-                    tooltip: L10n.of(context).share,
-                    color: Colors.white,
-                    icon: Icon(Icons.adaptive.share_outlined),
-                  ),
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(kToolbarHeight),
+          child: AnimatedOpacity(
+            opacity: _showUI ? 1.0 : 0.0,
+            duration: const Duration(milliseconds: 200),
+            child: IgnorePointer(
+              ignoring: !_showUI,
+              child: AppBar(
+                elevation: 0,
+                leading: IconButton(
+                  style: iconButtonStyle,
+                  icon: const Icon(Icons.close),
+                  onPressed: Navigator.of(context).pop,
+                  color: Colors.white,
+                  tooltip: L10n.of(context).close,
                 ),
+                backgroundColor: Colors.transparent,
+                actions: [
+                  IconButton(
+                    style: iconButtonStyle,
+                    icon: const Icon(Icons.reply_outlined),
+                    onPressed: widget.controller.forwardAction,
+                    color: Colors.white,
+                    tooltip: L10n.of(context).share,
+                  ),
+                  const SizedBox(width: 8),
+                  IconButton(
+                    style: iconButtonStyle,
+                    icon: const Icon(Icons.download_outlined),
+                    onPressed: () => widget.controller.saveFileAction(context),
+                    color: Colors.white,
+                    tooltip: L10n.of(context).downloadFile,
+                  ),
+                  const SizedBox(width: 8),
+                  if (PlatformInfos.isMobile)
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Builder(
+                        builder: (context) => IconButton(
+                          style: iconButtonStyle,
+                          onPressed: () => widget.controller.shareFileAction(context),
+                          tooltip: L10n.of(context).share,
+                          color: Colors.white,
+                          icon: Icon(Icons.adaptive.share_outlined),
+                        ),
+                      ),
+                    ),
+                ],
               ),
-          ],
+            ),
+          ),
         ),
         body: HoverBuilder(
           builder: (context, hovered) => Stack(
@@ -109,7 +125,7 @@ class _ImageViewerViewState extends State<ImageViewerView> {
                           padding: const EdgeInsets.only(top: 52.0),
                           child: Center(
                             child: GestureDetector(
-                              onTap: () {},
+                              onTap: _toggleUI,
                               child: EventVideoPlayer(event, widget.controller),
                             ),
                           ),
@@ -122,6 +138,7 @@ class _ImageViewerViewState extends State<ImageViewerView> {
                           event: event,
                           controller: widget.controller,
                           onZoomStatusChanged: _lockScroll,
+                          onTap: _toggleUI,
                         );
                     }
                   },
@@ -130,30 +147,37 @@ class _ImageViewerViewState extends State<ImageViewerView> {
               if (hovered)
                 Align(
                   alignment: Alignment.centerRight,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (widget.controller.canGoBack)
-                        Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: IconButton(
-                            style: iconButtonStyle,
-                            tooltip: L10n.of(context).previous,
-                            icon: const Icon(Icons.arrow_upward_outlined),
-                            onPressed: widget.controller.prevImage,
-                          ),
-                        ),
-                      if (widget.controller.canGoNext)
-                        Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: IconButton(
-                            style: iconButtonStyle,
-                            tooltip: L10n.of(context).next,
-                            icon: const Icon(Icons.arrow_downward_outlined),
-                            onPressed: widget.controller.nextImage,
-                          ),
-                        ),
-                    ],
+                  child: AnimatedOpacity(
+                    opacity: _showUI ? 1.0 : 0.0,
+                    duration: const Duration(milliseconds: 200),
+                    child: IgnorePointer(
+                      ignoring: !_showUI,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (widget.controller.canGoBack)
+                            Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: IconButton(
+                                style: iconButtonStyle,
+                                tooltip: L10n.of(context).previous,
+                                icon: const Icon(Icons.arrow_upward_outlined),
+                                onPressed: widget.controller.prevImage,
+                              ),
+                            ),
+                          if (widget.controller.canGoNext)
+                            Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: IconButton(
+                                style: iconButtonStyle,
+                                tooltip: L10n.of(context).next,
+                                icon: const Icon(Icons.arrow_downward_outlined),
+                                onPressed: widget.controller.nextImage,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
             ],
@@ -169,11 +193,13 @@ class _ZoomableImage extends StatefulWidget {
   final Event event;
   final ImageViewerController controller;
   final ValueChanged<bool> onZoomStatusChanged;
+  final VoidCallback onTap;
 
   const _ZoomableImage({
     required this.event,
     required this.controller,
     required this.onZoomStatusChanged,
+    required this.onTap,
   });
 
   @override
@@ -219,7 +245,7 @@ class _ZoomableImageState extends State<_ZoomableImage> {
         child: Hero(
           tag: widget.event.eventId,
           child: GestureDetector(
-            onTap: () {},
+            onTap: widget.onTap,
             child: MxcImage(
               key: ValueKey(widget.event.eventId),
               event: widget.event,
