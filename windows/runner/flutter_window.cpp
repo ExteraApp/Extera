@@ -15,6 +15,7 @@ bool FlutterWindow::OnCreate() {
   }
 
   RECT frame = GetClientArea();
+
   // The size here must match the window dimensions to avoid unnecessary surface
   // creation / destruction in the startup path.
   flutter_controller_ = std::make_unique<flutter::FlutterViewController>(
@@ -45,10 +46,11 @@ void FlutterWindow::SetupChannelHandlers() {
           if (arguments) {
             auto isDark_variant = arguments->find(flutter::EncodableValue("isDark"));
             if (isDark_variant != arguments->end()) {
-              bool isDark = std::get<bool>(isDark_variant->second);
-              SetTitleBarColor(isDark);
-              result->Success(flutter::EncodableValue(true));
-              return;
+              if (const auto* isDark = std::get_if<bool>(&isDark_variant->second)) {
+                SetTitleBarColor(*isDark);
+                result->Success();
+                return;
+              }
             }
           }
           result->Error("INVALID_ARGUMENT", "isDark parameter is required");

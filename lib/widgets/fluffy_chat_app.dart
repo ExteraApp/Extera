@@ -51,7 +51,7 @@ class FluffyChatApp extends StatefulWidget {
 
 class _FluffyChatAppState extends State<FluffyChatApp> {
   final _androidSystemFontPlugin = AndroidSystemFont();
-  static const _platform = MethodChannel('xyz.extera.extera/window');
+  static const _platform = MethodChannel('xyz.extera.next/window');
 
   // Keeps track of the last Brightness applied to the native window frame
   // (title bar) so we don't spam the platform channel with redundant calls
