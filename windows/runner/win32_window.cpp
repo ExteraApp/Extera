@@ -1,8 +1,11 @@
 #include "win32_window.h"
 
 #include <flutter_windows.h>
+#include <dwmapi.h>
 
 #include "resource.h"
+
+#pragma comment(lib, "dwmapi.lib")
 
 namespace {
 
@@ -233,6 +236,15 @@ HWND Win32Window::GetHandle() {
 
 void Win32Window::SetQuitOnClose(bool quit_on_close) {
   quit_on_close_ = quit_on_close;
+}
+
+void Win32Window::SetTitleBarColor(bool isDark) {
+  if (!window_handle_) return;
+
+  // Use DwmSetWindowAttribute to set the title bar color
+  // DWMWA_USE_IMMERSIVE_DARK_MODE = 20 for Windows 11
+  BOOL value = isDark ? TRUE : FALSE;
+  DwmSetWindowAttribute(window_handle_, 20, &value, sizeof(value));
 }
 
 bool Win32Window::OnCreate() {

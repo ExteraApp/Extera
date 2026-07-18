@@ -16,17 +16,46 @@ bool FlutterWindow::OnCreate() {
 
   RECT frame = GetClientArea();
 
-  // The size here must match the window dimensions to avoid unnecessary surface
-  // creation / destruction in the startup path.
   flutter_controller_ = std::make_unique<flutter::FlutterViewController>(
       frame.right - frame.left, frame.bottom - frame.top, project_);
-  // Ensure that basic setup of the controller was successful.
   if (!flutter_controller_->engine() || !flutter_controller_->view()) {
     return false;
   }
   RegisterPlugins(flutter_controller_->engine());
   SetChildContent(flutter_controller_->view()->GetNativeWindow());
+
+  SetupChannelHandlers();
   return true;
+}
+
+void FlutterWindow::SetupChannelHandlers() {
+  auto channel =
+      std::make_unique<flutter::MethodChannel<flutter::EncodableValue>>(
+          flutter_controller_->engine()->messenger(), "com.extera.app/window",
+          &flutter::StandardMethodCodec::GetInstance());
+
+  channel->SetMethodCallHandler(
+      [this](const flutter::MethodCall<flutter::EncodableValue>& call,
+             std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>>
+                 result) {
+        if (call.method_name() == "setTitleBarDarkMode") {
+          const auto* arguments = std::get_if<flutter::EncodableMap>(call.arguments());
+          if (arguments) {
+            auto isDark_variant = arguments->find(flutter::EncodableValue("isDark"));
+            if (isDark_variant != arguments->end()) {
+              bool isDark = std::get<bool>(isDark_variant->second);
+              SetTitleBarColor(isDark);
+              result->Success(flutter::EncodableValue(true));
+              return;
+            }
+          }
+          result->Error("INVALID_ARGUMENT", "isDark parameter is required");
+        } else {
+          result->NotImplemented();
+        }
+      });
+
+  method_channel_ = std::move(channel);
 }
 
 void FlutterWindow::OnDestroy() {
