@@ -15,9 +15,11 @@ bool FlutterWindow::OnCreate() {
   }
 
   RECT frame = GetClientArea();
-
+  // The size here must match the window dimensions to avoid unnecessary surface
+  // creation / destruction in the startup path.
   flutter_controller_ = std::make_unique<flutter::FlutterViewController>(
       frame.right - frame.left, frame.bottom - frame.top, project_);
+  // Ensure that basic setup of the controller was successful.
   if (!flutter_controller_->engine() || !flutter_controller_->view()) {
     return false;
   }
@@ -31,7 +33,7 @@ bool FlutterWindow::OnCreate() {
 void FlutterWindow::SetupChannelHandlers() {
   auto channel =
       std::make_unique<flutter::MethodChannel<flutter::EncodableValue>>(
-          flutter_controller_->engine()->messenger(), "com.extera.app/window",
+          flutter_controller_->engine()->messenger(), "xyz.extera.extera/window",
           &flutter::StandardMethodCodec::GetInstance());
 
   channel->SetMethodCallHandler(
