@@ -33,7 +33,7 @@ bool FlutterWindow::OnCreate() {
 void FlutterWindow::SetupChannelHandlers() {
   auto channel =
       std::make_unique<flutter::MethodChannel<flutter::EncodableValue>>(
-          flutter_controller_->engine()->messenger(), "xyz.extera.extera/window",
+          flutter_controller_->engine()->messenger(), "xyz.extera.next/window",
           &flutter::StandardMethodCodec::GetInstance());
 
   channel->SetMethodCallHandler(

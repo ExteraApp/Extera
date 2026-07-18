@@ -154,7 +154,9 @@ class _FluffyChatAppState extends State<FluffyChatApp> {
               routerConfig: FluffyChatApp.router,
               builder: (context, child) => AppLockWidget(
                 pincode: widget.pincode,
-                clients: widget.clients,
+                clients: widget.clients,	
+              // Need a navigator above the Matrix widget for
+              // displaying dialogs
                 child: DownloadManager(
                   child: BackgroundAudioPlayer(
                     child: Matrix(
