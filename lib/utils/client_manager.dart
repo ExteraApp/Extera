@@ -148,7 +148,6 @@ abstract class ClientManager {
       shareKeysWith:
           .values.singleWhereOrNull((share) => share.name == shareKeysWith) ??
           .crossVerifiedIfEnabled,
-      convertLinebreaksInFormatting: false,
       onSoftLogout: enableSoftLogout
           ? (client) => client.refreshAccessToken()
           : null,
