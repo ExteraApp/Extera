@@ -477,8 +477,10 @@ class SendFileDialogState extends State<SendFileDialog> {
                         labelText: L10n.of(context).optionalMessage,
                         keyboardType: .multiline,
                         textCapitalization: TextCapitalization.sentences,
-                        spellCheckConfiguration:
-                            const SpellCheckConfiguration(),
+                        spellCheckConfiguration: SpellCheckConfiguration(
+                          spellCheckSuggestionsToolbarBuilder:
+                              (context, state) => const SizedBox.shrink(),
+                        ),
                         maxLength: 4096,
                         counterText: '',
                         textInputAction: AppSettings.sendOnEnter.value
