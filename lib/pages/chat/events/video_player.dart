@@ -46,6 +46,7 @@ class EventVideoPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final supportsVideoPlayer = PlatformInfos.supportsVideoPlayer;
     final hardCorner = const Radius.circular(2);
     final roundedCorner = Radius.circular(AppConfig.borderRadius - 2);
 
@@ -186,7 +187,7 @@ class EventVideoPlayer extends StatelessWidget {
                       ),
                     Center(
                       child: IconButton.filledTonal(
-                        onPressed: () => PlatformInfos.supportsVideoPlayer
+                        onPressed: () => supportsVideoPlayer
                             ? showDialog(
                                 context: context,
                                 useRootNavigator: false,
@@ -200,7 +201,15 @@ class EventVideoPlayer extends StatelessWidget {
                         style: IconButton.styleFrom(
                           backgroundColor: Colors.black.withValues(alpha: 0.6),
                         ),
-                        icon: const Icon(Icons.play_arrow_outlined),
+                        icon: supportsVideoPlayer
+                            ? const Icon(
+                                Icons.play_arrow_outlined,
+                                color: Colors.white,
+                              )
+                            : const Icon(
+                                Icons.file_download_outlined,
+                                color: Colors.white,
+                              ),
                       ),
                     ),
                   ],
