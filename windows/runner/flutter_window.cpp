@@ -26,7 +26,40 @@ bool FlutterWindow::OnCreate() {
   }
   RegisterPlugins(flutter_controller_->engine());
   SetChildContent(flutter_controller_->view()->GetNativeWindow());
+
+  SetupChannelHandlers();
   return true;
+}
+
+void FlutterWindow::SetupChannelHandlers() {
+  auto channel =
+      std::make_unique<flutter::MethodChannel<flutter::EncodableValue>>(
+          flutter_controller_->engine()->messenger(), "xyz.extera.next/window",
+          &flutter::StandardMethodCodec::GetInstance());
+
+  channel->SetMethodCallHandler(
+      [this](const flutter::MethodCall<flutter::EncodableValue>& call,
+             std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>>
+                 result) {
+        if (call.method_name() == "setTitleBarDarkMode") {
+          const auto* arguments = std::get_if<flutter::EncodableMap>(call.arguments());
+          if (arguments) {
+            auto isDark_variant = arguments->find(flutter::EncodableValue("isDark"));
+            if (isDark_variant != arguments->end()) {
+              if (const auto* isDark = std::get_if<bool>(&isDark_variant->second)) {
+                SetTitleBarColor(*isDark);
+                result->Success();
+                return;
+              }
+            }
+          }
+          result->Error("INVALID_ARGUMENT", "isDark parameter is required");
+        } else {
+          result->NotImplemented();
+        }
+      });
+
+  method_channel_ = std::move(channel);
 }
 
 void FlutterWindow::OnDestroy() {

@@ -51,6 +51,12 @@ class FluffyChatApp extends StatefulWidget {
 
 class _FluffyChatAppState extends State<FluffyChatApp> {
   final _androidSystemFontPlugin = AndroidSystemFont();
+  static const _platform = MethodChannel('xyz.extera.next/window');
+
+  // Keeps track of the last Brightness applied to the native window frame
+  // (title bar) so we don't spam the platform channel with redundant calls
+  // on every rebuild.
+  Brightness? _lastWindowBrightness;
 
   @override
   void initState() {
@@ -88,6 +94,25 @@ class _FluffyChatAppState extends State<FluffyChatApp> {
     });
   }
 
+  void _syncWindowBrightness(BuildContext context, ThemeMode themeMode) {
+    if (!Platform.isWindows) return;
+
+    final resolvedBrightness = switch (themeMode) {
+      ThemeMode.dark => Brightness.dark,
+      ThemeMode.light => Brightness.light,
+      ThemeMode.system => MediaQuery.platformBrightnessOf(context),
+    };
+
+    if (resolvedBrightness == _lastWindowBrightness) return;
+    _lastWindowBrightness = resolvedBrightness;
+
+    _platform.invokeMethod('setTitleBarDarkMode', {
+      'isDark': resolvedBrightness == Brightness.dark,
+    }).catchError((e) {
+      debugPrint('Failed to set title bar color: $e');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return ThemeBuilder(
@@ -99,45 +124,51 @@ class _FluffyChatAppState extends State<FluffyChatApp> {
             schemeVariant,
             pureBlack,
             twemoji,
-          ) => MaterialApp.router(
-            title: AppConfig.applicationName,
-            themeMode: themeMode,
-            theme: FluffyThemes.buildTheme(
-              context,
-              Brightness.light,
-              primaryColor,
-              schemeVariant,
-              pureBlack,
-              twemoji,
-            ),
-            darkTheme: FluffyThemes.buildTheme(
-              context,
-              Brightness.dark,
-              primaryColor,
-              schemeVariant,
-              pureBlack,
-              twemoji,
-            ),
-            scrollBehavior: CustomScrollBehavior(),
-            localizationsDelegates: L10n.localizationsDelegates,
-            supportedLocales: L10n.supportedLocales,
-            routerConfig: FluffyChatApp.router,
-            builder: (context, child) => AppLockWidget(
-              pincode: widget.pincode,
-              clients: widget.clients,
+          ) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              _syncWindowBrightness(context, themeMode);
+            });
+
+            return MaterialApp.router(
+              title: AppConfig.applicationName,
+              themeMode: themeMode,
+              theme: FluffyThemes.buildTheme(
+                context,
+                Brightness.light,
+                primaryColor,
+                schemeVariant,
+                pureBlack,
+                twemoji,
+              ),
+              darkTheme: FluffyThemes.buildTheme(
+                context,
+                Brightness.dark,
+                primaryColor,
+                schemeVariant,
+                pureBlack,
+                twemoji,
+              ),
+              scrollBehavior: CustomScrollBehavior(),
+              localizationsDelegates: L10n.localizationsDelegates,
+              supportedLocales: L10n.supportedLocales,
+              routerConfig: FluffyChatApp.router,
+              builder: (context, child) => AppLockWidget(
+                pincode: widget.pincode,
+                clients: widget.clients,	
               // Need a navigator above the Matrix widget for
               // displaying dialogs
-              child: DownloadManager(
-                child: BackgroundAudioPlayer(
-                  child: Matrix(
-                    clients: widget.clients,
-                    store: widget.store,
-                    child: widget.testWidget ?? child,
+                child: DownloadManager(
+                  child: BackgroundAudioPlayer(
+                    child: Matrix(
+                      clients: widget.clients,
+                      store: widget.store,
+                      child: widget.testWidget ?? child,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ),
+            );
+          },
     );
   }
 }

@@ -54,6 +54,10 @@ class Win32Window {
   // Return a RECT representing the bounds of the current client area.
   RECT GetClientArea();
 
+  // Sets the title bar color based on brightness (dark/light mode).
+  // isDark: true for dark mode (dark title bar), false for light mode (light title bar)
+  void SetTitleBarColor(bool isDark);
+
  protected:
   // Processes and route salient window messages for mouse handling,
   // size change and DPI. Delegates handling of these to member overloads that
