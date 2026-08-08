@@ -207,11 +207,10 @@ class _ZoomableImageState extends State<_ZoomableImage> {
       },
       // When interaction ends, check if we are still zoomed in
       onInteractionEnd: (details) {
-        widget.controller.onInteractionEnds(details);
-
         // Identity matrix means scale is 1.0 and offset is 0,0
         final isZoomed = _transformController.value.row0[0] != 1.0;
         if (!isZoomed) {
+          widget.controller.onInteractionEnds(details);
           widget.onZoomStatusChanged(false);
         }
       },
