@@ -19,6 +19,8 @@ class DialogTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final int? maxLength;
   final bool autocorrect = true;
+  final TextCapitalization textCapitalization;
+  final SpellCheckConfiguration? spellCheckConfiguration;
   final void Function(String)? onSubmitted;
   final TextInputAction? textInputAction;
 
@@ -38,6 +40,8 @@ class DialogTextField extends StatelessWidget {
     this.errorText,
     this.obscureText = false,
     this.readOnly = false,
+    this.textCapitalization = TextCapitalization.none,
+    this.spellCheckConfiguration = const SpellCheckConfiguration.disabled(),
     this.textStyle,
     this.textInputAction,
     this.onSubmitted,
@@ -64,6 +68,8 @@ class DialogTextField extends StatelessWidget {
           maxLength: maxLength,
           keyboardType: keyboardType,
           autocorrect: autocorrect,
+          textCapitalization: textCapitalization,
+          spellCheckConfiguration: spellCheckConfiguration,
           textInputAction: textInputAction,
           onSubmitted: onSubmitted,
           decoration: InputDecoration(
