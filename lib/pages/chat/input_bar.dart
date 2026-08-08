@@ -448,7 +448,10 @@ class InputBar extends StatelessWidget {
         keyboardType: keyboardType,
         textInputAction: textInputAction,
         autofocus: autofocus!,
-        spellCheckConfiguration: const SpellCheckConfiguration(),
+        spellCheckConfiguration: SpellCheckConfiguration(
+          spellCheckSuggestionsToolbarBuilder: (context, state) =>
+              const SizedBox.shrink(),
+        ),
         inputFormatters: [
           LengthLimitingTextInputFormatter((maxPDUSize / 3).floor()),
         ],
