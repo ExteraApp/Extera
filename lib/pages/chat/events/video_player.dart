@@ -47,8 +47,7 @@ class EventVideoPlayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final supportsVideoPlayer = PlatformInfos.supportsVideoPlayer;
-
-    final hardCorner = Radius.circular(2);
+    final hardCorner = const Radius.circular(2);
     final roundedCorner = Radius.circular(AppConfig.borderRadius - 2);
 
     var borderRadius = BorderRadius.all(roundedCorner);
@@ -140,37 +139,54 @@ class EventVideoPlayer extends StatelessWidget {
                 aspectRatio: aspectRatio,
                 child: Stack(
                   children: [
-                    if (event.hasThumbnail && loadThumbnail)
-                      MxcImage(
-                        event: event,
-                        uri: event.thumbnailMxcUrl,
-                        isThumbnail: true,
-                        width: bubbleWidth,
-                        // height: width * aspectRatio,
-                        fit: BoxFit.cover,
-                        placeholder: (context) => LayoutBuilder(
-                          builder: (context, constraints) => BlurHash(
+                    event.hasThumbnail && loadThumbnail
+                        ? MxcImage(
+                            event: event,
+                            isThumbnail: true,
+                            width: bubbleWidth,
+                            fit: BoxFit.cover,
+                            placeholder: (context) => LayoutBuilder(
+                              builder: (context, constraints) => BlurHash(
+                                blurhash: blurHash,
+                                width: constraints.maxWidth,
+                                height: constraints.maxHeight,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          )
+                        : BlurHash(
                             blurhash: blurHash,
-                            width: constraints.maxWidth,
-                            height: constraints.maxHeight,
+                            width: bubbleWidth,
+                            height: bubbleWidth / aspectRatio,
                             fit: BoxFit.cover,
                           ),
+                    if (duration != null || sizeInt != null)
+                      Positioned(
+                        bottom: 3,
+                        left: 4,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: Colors.black.withValues(alpha: 0.35),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Padding(
+                            padding: const .symmetric(
+                              horizontal: 6,
+                              vertical: 2,
+                            ),
+                            child: Text(
+                              '${duration != null ? '${duration.inMinutes.toString().padLeft(2, '0')}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}' : ''}${duration != null && sizeInt != null ? ' • ' : ''}${sizeInt?.sizeString ?? ''}',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 11,
+                                height: 1.0,
+                              ),
+                            ),
+                          ),
                         ),
-                      )
-                    else
-                      BlurHash(
-                        blurhash: blurHash,
-                        width: bubbleWidth,
-                        height: bubbleWidth * aspectRatio,
-                        fit: BoxFit.cover,
                       ),
                     Center(
-                      // child: CircleAvatar(
-                      //   child: supportsVideoPlayer
-                      //       ? const Icon(Icons.play_arrow_outlined)
-                      //       : const Icon(Icons.file_download_outlined),
-                      // ),
-                      child: FilledButton.tonal(
+                      child: IconButton.filledTonal(
                         onPressed: () => supportsVideoPlayer
                             ? showDialog(
                                 context: context,
@@ -182,38 +198,20 @@ class EventVideoPlayer extends StatelessWidget {
                                 ),
                               )
                             : event.saveFile(context),
-                        child: Row(
-                          mainAxisSize: .min,
-                          children: [
-                            supportsVideoPlayer
-                                ? const Icon(Icons.play_arrow_outlined)
-                                : const Icon(Icons.file_download_outlined),
-                            const SizedBox(width: 12),
-                            Text(
-                              supportsVideoPlayer
-                                  ? sizeInt == null
-                                        ? L10n.of(context).playVideoNoSize
-                                        : sizeInt.sizeString
-                                  : sizeInt == null
-                                  ? L10n.of(context).downloadVideoNoSize
-                                  : sizeInt.sizeString,
-                            ),
-                          ],
+                        style: IconButton.styleFrom(
+                          backgroundColor: Colors.black.withValues(alpha: 0.6),
                         ),
+                        icon: supportsVideoPlayer
+                            ? const Icon(
+                                Icons.play_arrow_outlined,
+                                color: Colors.white,
+                              )
+                            : const Icon(
+                                Icons.file_download_outlined,
+                                color: Colors.white,
+                              ),
                       ),
                     ),
-                    if (duration != null)
-                      Positioned(
-                        bottom: 8,
-                        left: 16,
-                        child: Text(
-                          '${duration.inMinutes.toString().padLeft(2, '0')}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}',
-                          style: TextStyle(
-                            color: Colors.white,
-                            backgroundColor: Colors.black.withAlpha(32),
-                          ),
-                        ),
-                      ),
                   ],
                 ),
               ),
