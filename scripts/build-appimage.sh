@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-flutter build linux --release
+flutter build linux --release || exit "$?"
 cp -r build/linux/x64/release/bundle/* appimage/Extera.AppDir
 cd appimage
 
