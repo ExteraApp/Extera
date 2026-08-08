@@ -60,9 +60,6 @@ class SendFileDialogState extends State<SendFileDialog> {
   Future<void> _send() async {
     final scaffoldMessenger = ScaffoldMessenger.of(widget.outerContext);
     final l10n = L10n.of(context);
-    final convertLinebreaks = Matrix.of(
-      context,
-    ).client.convertLinebreaksInFormatting;
 
     try {
       setState(() {
@@ -162,7 +159,6 @@ class SendFileDialogState extends State<SendFileDialog> {
             getEmotePacks: () =>
                 widget.room.getImagePacksFlat(ImagePackUsage.emoticon),
             getMention: widget.room.getMention,
-            convertLinebreaks: convertLinebreaks,
           );
 
           // if the decoded html is the same as the body, there is no need in sending a formatted message
